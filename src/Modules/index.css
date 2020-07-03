@@ -1,0 +1,59 @@
+:root {
+    --main-color: #2386C7;
+    --sec-color: #D8D8D8;
+}
+
+.bg-main {
+    background-color: var(--main-color);
+}
+
+.bg-main-gradient {
+    background: rgb(35, 134, 199);
+    background: linear-gradient(290deg, rgba(35, 134, 199, 1) 0%, rgba(237, 12, 28, 1) 100%);
+}
+
+.text-main {
+    color: var(--main-color)
+}
+
+.text-main:hover {
+    color: #523B5D
+}
+
+.btn-category {
+    border-radius: 10px;
+    background-color: var(--sec-color);
+    color: grey;
+}
+
+.btn-category:hover {
+    color: white;
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.border-main{
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.border-main:hover {
+    border: 2px solid #2386C7;
+}
+
+.shape-wave-top {
+    background-position-y: top;
+    margin-top: -2px;
+    margin-bottom: -100px;
+    height: 500px;
+    background-repeat: no-repeat;
+    background-image: url('./images/wavetop.svg');
+}
+
+.shape-wave-bottom {
+    background-position-y: bottom;
+    margin-bottom: -2px;
+    height: 500px;
+    background-repeat: no-repeat;
+    background-image: url('./images/wavebottom.svg');
+}

@@ -1,0 +1,97 @@
+import React from 'react'
+
+const ProductCard = (props) => {
+    const { title } = props
+    const { img } = props
+    return (
+        <td>
+            {img && <div className='px-5 text-center d-flex flex-column border-main'>
+                <img src={img} width='300px' className='mx-auto' />
+                <h4 className='font-weight-bold'>Belum nemu yang kamu cari?</h4>
+                <h6 className='text-main font-weight-bold'>Cari di search aja !</h6>
+            </div>}
+            {!img && <div className='bg-light p-5 border-main' style={{ borderRadius: '20px' }} data-toggle="modal" data-target="#exampleModal">
+                <div className='d-flex'>
+                    <div className='rounded-circle bg-main' style={{ width: '50px', height: '50px' }}></div>
+                    <h2 className='text-main font-weight-bold my-auto ml-3'>Kemasan Paket</h2>
+                </div>
+                <div className='d-flex align-items-center justify-content-center flex-wrap'>
+                    <div className='btn-category my-3 py-3 text-center font-weight-bold' style={{ width: '120px' }}>
+                        Contest
+                                    </div>
+                    <div className='btn-category my-3 mx-auto py-3 text-center font-weight-bold' style={{ width: '120px' }}>
+                        Project
+                                    </div>
+                    <div className='btn-category my-3 py-3 text-center font-weight-bold' style={{ width: '120px' }}>
+                        Price
+                                    </div>
+                </div>
+                <div className='text-secondary'>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    </div>
+            </div>}
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content d-flex flex-column">
+                        <div class="modal-header d-flex mx-auto" style={{ maxWidth: '700px', border: 'unset' }}>
+                            <i className='fa fa-wine-bottle my-auto mr-4 text-main' style={{ fontSize: '80px' }} />
+                            <div>
+                                <h1 className='text-main font-weight-bold'>Bottle</h1>
+                                <h5 style={{ maxWidth: '500px' }}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</h5>
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <i className='far fa-times-circle text-main' style={{ fontSize: '40px', opacity: '1' }} />
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div className='row'>
+                                <div className='col-md'>
+                                    <div className='bg-light p-5 border-main' style={{ borderRadius: '20px' }} >
+                                        <div className='d-flex'>
+                                            <i className='fa fa-user-tie text-main my-auto' style={{ fontSize: '40px' }} />
+                                            <h2 className='text-main font-weight-bold my-auto ml-3'>Mulai Project dengan Creator</h2>
+                                        </div>
+                                        <div className='text-secondary my-3'>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                        </div>
+                                        <div className='row'>
+                                            <div className='col-md'>
+                                                <button className='btn-primary btn btn-block'>Mulai kontes</button>
+                                            </div>
+                                            <div className='col-md'>
+                                                <button className='btn-light btn btn-block text-main font-weight-bold'>Lainnnya <i className='fa fa-long-arrow-alt-right ml-2' /></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='col-md'>
+                                    <div className='bg-light p-5 border-main' style={{ borderRadius: '20px' }} >
+                                        <div className='d-flex'>
+                                            <i className='fa fa-medal text-main my-auto' style={{ fontSize: '40px' }} />
+                                            <h2 className='text-main font-weight-bold my-auto ml-3'>Mulai Kontes Desain</h2>
+                                        </div>
+                                        <div className='text-secondary my-3'>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                                        </div>
+                                        <div className='row'>
+                                            <div className='col-md'>
+                                                <button className='btn-primary btn btn-block'>Mulai kontes</button>
+                                            </div>
+                                            <div className='col-md'>
+                                                <button className='btn-light btn btn-block text-main font-weight-bold'>Lainnnya <i className='fa fa-long-arrow-alt-right ml-2' /></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    )
+}
+
+export default ProductCard
