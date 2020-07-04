@@ -44,13 +44,56 @@
     cursor: pointer;
 }
 
-.border-main{
+.btn-category-active {
+    border-radius: 10px;
+    color: white;
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.btn-green {
+    background-color: white;
+    color: #20C835;
+    font-weight: bold;
+    border: 4px solid #20C835;
+    border-radius: 10px;
+}
+
+.btn-green:hover {
+    background-color: #20C835;
+    color: white;
+}
+
+.btn-green-active {
+    background-color: #20C835;
+    color: white;
+    font-weight: bold;
+    border: 4px solid #20C835;
+    border-radius: 10px;
+}
+
+.btn-green-active:hover {
+    color: white;
+}
+
+.border-main {
     border: 2px solid transparent;
     cursor: pointer;
 }
 
 .border-main:hover {
     border: 2px solid #2386C7;
+}
+
+.border-main-active {
+    cursor: pointer;
+    border: 2px solid #2386C7;
+}
+
+.border-main-active .btn-category {
+    color: white;
+    background-color: var(--main-color);
+    cursor: pointer;
 }
 
 .shape-wave-top {

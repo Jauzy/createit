@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ProductCard = (props) => {
-    const { title, icon, tags, desc } = props
+    const { title, icon, desc } = props
     const { img } = props
     return (
         <td>
@@ -10,15 +10,17 @@ const ProductCard = (props) => {
                 <h4 className='font-weight-bold'>Belum nemu yang kamu cari?</h4>
                 <h6 className='text-main font-weight-bold'>Cari di search aja !</h6>
             </div>}
-            {!img && <div className='bg-light p-5 border-main' style={{ borderRadius: '20px' }} data-toggle="modal" data-target="#exampleModal">
+            {!img && <div className='bg-light p-5 border-main' style={{ borderRadius: '20px' }} data-toggle="modal" data-target={`#modal${title}`}>
                 <div className='d-flex'>
                     <i className={'fa mr-2 text-main my-auto fa-' + icon} style={{ fontSize: '30px' }} />
                     <h2 className='text-main font-weight-bold my-auto ml-3'>{title}</h2>
                 </div>
-                <div className='d-flex align-items-center justify-content-center flex-wrap'>
-                    {tags?.map(item => (
-                        <div className='btn-category my-3 mx-auto py-3 text-center font-weight-bold' style={{ minWidth: '120px' }}>
-                            {item}
+                <div className='row my-3'>
+                    {['Contest', 'Project'].map(item => (
+                        <div className='col-md'>
+                            <div className='btn-category my-2 mx-auto py-3 text-center font-weight-bold btn-block'>
+                                {item}
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -26,10 +28,13 @@ const ProductCard = (props) => {
                     {desc}
                 </div>
             </div>}
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-centered">
+
+            <div class="modal fade" id={`modal${title}`} key={`modal${title}`} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content d-flex flex-column">
-                        <div class="modal-header d-flex mx-auto" style={{ maxWidth: '700px', border: 'unset' }}>
+                        <div class="modal-header d-flex mx-auto"
+                        style={{ maxWidth: '700px', border: 'unset' }}
+                        >
                             <i className={'fa my-auto mr-4 text-main fa-' + icon} style={{ fontSize: '80px' }} />
                             <div>
                                 <h1 className='text-main font-weight-bold'>{title}</h1>
@@ -53,7 +58,7 @@ const ProductCard = (props) => {
                                         </div>
                                         <div className='row'>
                                             <div className='col-md'>
-                                                <button className='btn-primary btn btn-block'>Mulai kontes</button>
+                                                <button className='btn-primary btn btn-block'>Mulai project</button>
                                             </div>
                                             <div className='col-md'>
                                                 <button className='btn-light btn btn-block text-main font-weight-bold'>Lainnnya <i className='fa fa-long-arrow-alt-right ml-2' /></button>
@@ -86,7 +91,7 @@ const ProductCard = (props) => {
                     </div>
                 </div>
             </div>
-        </td>
+        </td >
     )
 }
 

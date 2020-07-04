@@ -19,11 +19,11 @@ const Brief = (props) => {
                         <div className='col-md d-flex'>
                             <div className='m-auto'>
                                 <img src={require('../Modules/images/logo.png')} width='200px' />
-                                <h3 className='mt-4 font-weight-bold text-main'>Brief Kreatif untuk</h3>
-                                <h1 className='text-main font-weight-bold'>Mulai Kontes Desain</h1>
+                                <h3 className='mt-4 font-weight-bold text-main'>Brief Kreatif</h3>
+                                <h1 className='text-main font-weight-bold'>Create Contest</h1>
                                 <div className='text-secondary'>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                            </div>
+                                    Isi brief kreatif sebaik mungkin supaya Creator bisa memahami keinginanmu dengan mudah. Tenang aja, ini bukan ujian semester kok, take your time!
+                                </div>
                             </div>
                         </div>
                         <div className='col-md d-flex'>
@@ -41,7 +41,7 @@ const Brief = (props) => {
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Nama Project*</label>
                                 <input type="email" class="form-control is-invalid" aria-describedby="emailHelp" />
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                <small id="emailHelp" class="form-text text-muted">Masukan Namamu.</small>
                                 <div class="invalid-feedback">
                                     *Harus diisi.
                                 </div>
@@ -56,7 +56,7 @@ const Brief = (props) => {
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Deskripsi Project*</label>
                                 <textarea class="form-control is-invalid" rows="3"></textarea>
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                <small id="emailHelp" class="form-text text-muted">Deskripsikan seperti apa projek yang ingin kamu buat.</small>
                                 <div class="invalid-feedback">
                                     *Harus diisi.
                                 </div>
@@ -71,7 +71,7 @@ const Brief = (props) => {
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Tujuan Penggunaan Project*</label>
                                 <textarea class="form-control is-invalid" rows="3"></textarea>
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                <small id="emailHelp" class="form-text text-muted">Ceritakan tujuan dari projekmu.</small>
                                 <div class="invalid-feedback">
                                     *Harus diisi.
                                 </div>
@@ -89,10 +89,7 @@ const Brief = (props) => {
                                     <input type="file" class="custom-file-input" id="customFile" />
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                                <div class="invalid-feedback">
-                                    *Harus diisi.
-                                </div>
+                                <small id="emailHelp" class="form-text text-muted">Kirim referensi desain supaya Creator bisa tahu seleramu. Max 1Mb dengan Format Image.</small>
                             </div>
                         </div>
                         <div className='col-md'></div>
@@ -167,12 +164,19 @@ const Brief = (props) => {
 
             <div className='container py-5'>
                 <div className='d-flex flex-wrap pb-3'>
-                    <button className='btn btn-main px-5 py-3 m-2'>Simpan</button> 
+                    <button className='btn btn-main px-5 py-3 m-2'>Simpan</button>
                     <button className='btn btn-main px-5 py-3 m-2'>Lanjut</button>
                 </div>
                 <div>
                     <hr />
                     <div className='d-flex flex-wrap'>
+                        <div className='text-main'>
+                            <h5>@{new Date().getFullYear()} CreateIt!</h5>
+                            <div className='d-flex'>
+                                <i className='fa fa-phone mr-2 my-auto' />
+                                <h6 className='my-auto'>(+62) 123 1234 1234</h6>
+                            </div>
+                        </div>
                         <div className='ml-auto'>
                             <Link className='mx-2 text-decoration-none text-main' to='#'>Syarat & Ketentuan</Link>
                             <Link className='mx-2 text-decoration-none text-main' to='#'>Kebijakan Privasi</Link>

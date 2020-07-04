@@ -59,7 +59,11 @@
 }
 
 td {
-    padding: 20px;
+    padding: 40px;
+}
+
+.table td {
+    padding: 30px 15px;
 }
 
 .toggle-table {
@@ -77,8 +81,8 @@ td {
     border: unset;
 }
 
-.modal {
-    background-color: rgba(255, 255, 255, 0.8);
+.fade {
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .nav-item {

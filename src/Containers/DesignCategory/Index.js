@@ -6,6 +6,7 @@ import CategoryCard from './CategoryCard'
 import ImageCard from './ImageCard'
 
 const METHODS = require('../../Constants/Methods')
+const CATEGORIES = require('../../Constants/Categories').CategoryList
 
 var imageSettings = {
     slidesToShow: 1,
@@ -53,6 +54,7 @@ var categorySettings = {
             breakpoint: 480,
             settings: {
                 slidesToShow: 1,
+                dots:true
             }
         }
     ]
@@ -88,9 +90,11 @@ var productImageSettings = {
 
 const DesignCategory = (props) => {
     const arr = [1, 2, 3, 4, 5, 6]
+
     const [state, setState] = useState({
-        selectedCategory: null
+        selectedCategory: CATEGORIES[0].title
     })
+
     return (
         <div>
 
@@ -98,7 +102,7 @@ const DesignCategory = (props) => {
                 <div className='container py-3 m-auto'>
                     <Slider {...imageSettings}>
                         {arr.map(item => (
-                            <ImageCard />
+                            <ImageCard img={require('../../Modules/images/906560.png')} />
                         ))}
                     </Slider>
                 </div>
@@ -107,8 +111,8 @@ const DesignCategory = (props) => {
             <div className='bg-light'>
                 <div className='container-fluid m-auto pb-5' style={{ paddingLeft: '20%' }}>
                     <Slider {...categorySettings}>
-                        {arr.map(item => (
-                            <CategoryCard title='Logo & Branding' onClick={() => setState({ ...state, selectedCategory: 'Logo & Branding' })} />
+                        {CATEGORIES.map(item => (
+                            <CategoryCard title={item.title} onClick={() => setState({ ...state, selectedCategory: item.title })} selectedCategory={state.selectedCategory} />
                         ))}
                     </Slider>
                 </div>
@@ -118,13 +122,13 @@ const DesignCategory = (props) => {
                 {METHODS.useWindowSize().width > 1200 && <table className='toggle-table' style={{ width: '100%' }}>
                     <tr>
                         <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
+                            title='Bottle' icon='wine-bottle' />
                         <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
+                            title='Bottle' icon='wine-bottle' />
                     </tr>
                     <tr>
                         <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
+                            title='Bottle' icon='wine-bottle' />
                         <td rowSpan='2' className='text-secondary' height={{ width: '500px' }}>
                             <div>
                                 <div className='d-flex'>
@@ -137,19 +141,21 @@ const DesignCategory = (props) => {
                     </tr>
                     <tr>
                         <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
+                            title='Bottle' icon='wine-bottle' />
                     </tr>
                     <tr>
                         <ProductCard img={require('../../Modules/images/download.png')} />
                         <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
+                            title='Bottle' icon='wine-bottle' />
                     </tr>
                 </table>}
+            </div>
+            <div className='pb-5'>
                 {METHODS.useWindowSize().width <= 1200 && <div>
                     <Slider {...productSettings}>
                         {arr.map(item => (
                             <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                                title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
+                                title='Bottle' icon='wine-bottle' />
                         ))}
                     </Slider>
                 </div>}

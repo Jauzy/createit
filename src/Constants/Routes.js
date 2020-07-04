@@ -2,8 +2,6 @@ export const LANDING = '/'
 export const HOME = '/home'
 export const LOGIN = '/login'
 
-export const DESIGNCATEGORY = '/categories'
-
 export const CLIENT = {
     DASHBOARD: '/client/dashboard',
     REGISTER: '/register/client'
@@ -20,4 +18,6 @@ export const ADMIN = {
     REGISTER: '/admin/register'
 }
 
-export const BRIEF = '/category/:category/brief'
+export const DESIGNCATEGORY = '/categories'
+export const BRIEF = '/categories/:product/brief'
+export const PRICING = '/categories/:product/pricing'
