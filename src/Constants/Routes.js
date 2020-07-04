@@ -19,3 +19,5 @@ export const ADMIN = {
     DASHBOARD: '/admin/dashboard',
     REGISTER: '/admin/register'
 }
+
+export const BRIEF = '/category/:category/brief'

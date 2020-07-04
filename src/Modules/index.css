@@ -20,6 +20,18 @@
     color: #523B5D
 }
 
+.btn-main {
+    background-color: var(--main-color);
+    border: 3px solid var(--main-color);
+    color: white;
+    font-weight: bold;
+}
+
+.btn-main:hover {
+    background-color: white;
+    color: var(--main-color);
+}
+
 .btn-category {
     border-radius: 10px;
     background-color: var(--sec-color);

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Slider from 'react-slick'
 
 import ProductCard from './ProductCard'
@@ -88,6 +88,9 @@ var productImageSettings = {
 
 const DesignCategory = (props) => {
     const arr = [1, 2, 3, 4, 5, 6]
+    const [state, setState] = useState({
+        selectedCategory: null
+    })
     return (
         <div>
 
@@ -105,7 +108,7 @@ const DesignCategory = (props) => {
                 <div className='container-fluid m-auto pb-5' style={{ paddingLeft: '20%' }}>
                     <Slider {...categorySettings}>
                         {arr.map(item => (
-                            <CategoryCard />
+                            <CategoryCard title='Logo & Branding' onClick={() => setState({ ...state, selectedCategory: 'Logo & Branding' })} />
                         ))}
                     </Slider>
                 </div>
@@ -114,11 +117,14 @@ const DesignCategory = (props) => {
             <div className='container m-auto py-5'>
                 {METHODS.useWindowSize().width > 1200 && <table className='toggle-table' style={{ width: '100%' }}>
                     <tr>
-                        <ProductCard />
-                        <ProductCard />
+                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
+                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
+                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
+                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
                     </tr>
                     <tr>
-                        <ProductCard />
+                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
+                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
                         <td rowSpan='2' className='text-secondary' height={{ width: '500px' }}>
                             <div>
                                 <div className='d-flex'>
@@ -130,17 +136,20 @@ const DesignCategory = (props) => {
                         </td>
                     </tr>
                     <tr>
-                        <ProductCard />
+                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
+                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
                     </tr>
                     <tr>
                         <ProductCard img={require('../../Modules/images/download.png')} />
-                        <ProductCard />
+                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
+                            title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
                     </tr>
                 </table>}
                 {METHODS.useWindowSize().width <= 1200 && <div>
                     <Slider {...productSettings}>
                         {arr.map(item => (
-                            <ProductCard />
+                            <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
+                                title='Bottle' icon='wine-bottle' tags={['Contest', 'Project', 'Price']} />
                         ))}
                     </Slider>
                 </div>}

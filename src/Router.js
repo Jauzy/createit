@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
-import { Landing, Page404, Homepage, DesignCategory } from './Containers/Index'
+import { Landing, Page404, Homepage, DesignCategory, Brief } from './Containers/Index'
 import { Navbar, Footer } from './Components/Index'
 
 import { Provider as ReduxProvider } from 'react-redux'
@@ -21,6 +21,7 @@ const Router = (props) => {
               <Switch>
                 <Route exact path={ROUTES.HOME} component={Homepage} />
                 <Route exact path={ROUTES.DESIGNCATEGORY} component={DesignCategory} />
+                <Route exact path={ROUTES.BRIEF} component={Brief} />
                 <Route component={Page404} />
               </Switch>
               <Footer />
