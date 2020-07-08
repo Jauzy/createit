@@ -35,7 +35,12 @@ const clientRegister = (userData, history) => {
                 button: "Login now!",
             }).then((value) => history.push('/login'));
         } catch (error) {
-            console.log(error, 'kok error')
+            swal({
+                title: "Error!",
+                text: error.response?.data?.message,
+                icon: "error",
+                button: "Okay!",
+            })
             dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
         }
     }
@@ -54,7 +59,12 @@ const creatorRegister = (userData, history) => {
                 button: "Login now!",
             }).then((value) => history.push('/login'));
         } catch (error) {
-            console.log(error, 'kok error')
+            swal({
+                title: "Error!",
+                text: error.response?.data?.message,
+                icon: "error",
+                button: "Okay!",
+            })
             dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
         }
     }
@@ -74,9 +84,14 @@ const login = (userData, history) => {
                 title: "Login Success!",
                 icon: "success",
                 button: "Continue",
-            }).then((value) => history.push('/'));
+            }).then((value) => history.push('/home'));
         } catch (error) {
-            console.log(error, 'kok error')
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: 'error',
+                button: "Okay!",
+            })
             dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
         }
     }
@@ -87,11 +102,11 @@ const logout = (history) => {
         dispatch({ type: "LOGOUT" })
         cookies.remove('token')
         cookies.remove('user')
-        history.push('/login')
+        history.push('/home')
     }
 }
 
-const getUser = () => {
+const getUserData = () => {
     return async (dispatch) => {
         try {
             dispatch({ type: "FIND_USER_LOADING" })
@@ -119,7 +134,12 @@ const changePassword = (password, newPassword) => {
             })
             dispatch({ type: "FIND_USER_SUCCESS", data: null })
         } catch (error) {
-            console.log(error)
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
             dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
         }
     }
@@ -145,13 +165,42 @@ const userUpdate = (userData) => {
     }
 }
 
+const updateProfilePict = (payload) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_USER_LOADING" })
+            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+            dispatch({ type: "LOGOUT" })
+            const update = await baseUrl.put(`/update/profile_pict`, payload, config)
+            const { data } = await baseUrl.get(`/user`, config)
+            swal({
+                title: "Profile Pict Updated!",
+                text: "Your profile pict successfully updated!",
+                icon: "success",
+                button: "Okay!",
+            })
+            const {profile_pict, ...rest} = data.user
+            dispatch({ type: "FIND_USER_SUCCESS", data: { user: { ...rest, profile_pict: update.data.profile_pict } } })
+        } catch (error) {
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
 export default {
+    updateProfilePict,
     adminRegister,
     creatorRegister,
     clientRegister,
     login,
     logout,
-    getUser,
+    getUserData,
     changePassword,
     userUpdate
 }

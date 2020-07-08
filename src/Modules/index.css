@@ -16,9 +16,9 @@
     color: var(--main-color)
 }
 
-.text-main:hover {
+/* .text-main:hover {
     color: #523B5D
-}
+} */
 
 .btn-main {
     background-color: var(--main-color);
@@ -96,6 +96,12 @@
     cursor: pointer;
 }
 
+.border-main:hover .btn-category {
+    color: white;
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
 .shape-wave-top {
     background-position-y: top;
     margin-top: -2px;
@@ -111,4 +117,34 @@
     height: 500px;
     background-repeat: no-repeat;
     background-image: url('./images/wavebottom.svg');
+}
+
+.payment-method {
+    background-color: white;
+    color: black;
+}
+
+.payment-method:hover {
+    background: #F8F9FA;
+    cursor: pointer;
+}
+
+.profile-btn {
+    background-color: transparent;
+    color: #6C757D;
+}
+
+.profile-btn:hover {
+    background-color: #F6F6F6;
+    color: #6C757D;
+    cursor: pointer;
+}
+
+.profile-btn-active {
+    cursor: pointer;
+    background-color: #F6F6F6;
+}
+
+.react-crop-image img {
+    max-width: 100%;
 }

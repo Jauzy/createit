@@ -63,7 +63,7 @@ td {
 }
 
 .table td {
-    padding: 30px 15px;
+    padding: 20px 15px;
 }
 
 .toggle-table {
@@ -87,4 +87,20 @@ td {
 
 .nav-item {
     margin: 0 10px;
+}
+
+.navs span {
+    color: white;
+    font-weight: bold;
+}
+
+.navs .nav-item {
+    cursor: pointer;
+    margin-top: auto;
+}
+
+.navs .nav-item .active {
+    font-size: larger;
+    padding-bottom: 5px;
+    border-bottom: 5px solid white;
 }

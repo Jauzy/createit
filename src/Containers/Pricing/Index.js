@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom'
 import TableSection from './TableSection';
+import { Subfooter } from '../../Components/Index';
 
 const Pricing = (props) => {
     const [state, setState] = useState({
@@ -104,22 +105,7 @@ const Pricing = (props) => {
                     <button className='btn btn-main px-5 py-3 m-2'>Simpan</button>
                     <button className='btn btn-main px-5 py-3 m-2'>Lanjut</button>
                 </div>
-                <div>
-                    <hr />
-                    <div className='d-flex flex-wrap'>
-                        <div className='text-main'>
-                            <h5>@{new Date().getFullYear()} CreateIt!</h5>
-                            <div className='d-flex'>
-                                <i className='fa fa-phone mr-2 my-auto' />
-                                <h6 className='my-auto'>(+62) 123 1234 1234</h6>
-                            </div>
-                        </div>
-                        <div className='ml-auto'>
-                            <Link className='mx-2 text-decoration-none text-main' to='#'>Syarat & Ketentuan</Link>
-                            <Link className='mx-2 text-decoration-none text-main' to='#'>Kebijakan Privasi</Link>
-                        </div>
-                    </div>
-                </div>
+                <Subfooter />
             </div>
 
         </div>

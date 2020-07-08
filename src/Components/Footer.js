@@ -3,47 +3,64 @@ import { Link } from 'react-router-dom'
 
 const Footer = (props) => {
     return (
-        <div className='bg-main text-white pt-5'>
+        <div className='text-white' style={{ background: 'linear-gradient(117deg, rgba(35,99,197,1) 0%, rgba(35,134,199,1) 100%)' }}>
             <div className='container py-5'>
+
                 <div className='row'>
-                    <div className='col-md-6 mb-5'>
-                        <div className='d-flex flex-row flex-wrap align-items-center mb-3'>
-                            <img src={require('../Modules/images/logo-white.png')} width='200px' />
-                            <i className='fa fa-instagram font-size-36 mx-3' />
-                            <i className='fa fa-twitter font-size-36 mx-3' />
-                            <i className='fa fa-youtube font-size-36 mx-3' />
-                            <i className='fa fa-facebook font-size-36 mx-3' />
+                    <div className='col-md-2'>
+                        <img src={require('../Modules/images/logo-white.png')} width='200px' className='m-auto' />
+                        <h6 className='font-weight-bold mt-3'>Bantuan & Dukungan</h6>
+                        <div className='d-flex flex-wrap'>
+                            {['facebook', 'instagram', 'whatsapp', 'youtube', 'linkedin', 'line'].map(item => (
+                                <Link className=' text-white' to='#'><i className={'fab m-1 fa-' + item} style={{ fontSize: '30px' }} /></Link>
+                            ))}
                         </div>
-                        <small>
-                            <p>
-                                Create It adalah Platform Crowdsourcing Jasa Kreatif Desain Grafis dengan Layanan yang Menghubungkan #Creator untuk kebutuhan bisnis dan kreatif sehari-hari.
-                            </p>
-                            <p>
-                                Misi kami adalah menjadi Creative Ecosystem Builder yang mengintegrasikan pelaku industri kreatif di Indonesia. Dengan membuat komunitas dan jejaring bagi Pekerja Kreatif dan Brand Lokal.
-                            </p>
-                            <p>
-                                Selain itu, kami aktif membuat program-program kreatif baik bagi pemilik brand lokal maupun pekerja kreatif dalam meningkatkan skill dalam bersaing di Industri Digital Kreatif.
-                            </p>
-                        </small>
                     </div>
-                    <div className='col-md mb-5'>
-                        <h5 className='font-weight-bold mb-4'>LAYANAN DESAIN</h5>
-                        <small>Logo & Branding Identity</small><br />
-                        <small>Marketing & Social Media</small><br />
-                        <small>Packaging & Label</small><br />
-                        <small>Motion Graphic</small> <br />
-                        <small>Baju & Merchandise</small><br />
-                        <small>Kebutuhan Personal</small><br />
+                    <div className='col-md d-flex'>
+                        <div className='mx-auto'>
+                            <h5>Seputar CreateIt</h5>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Tentang Kami</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Tim Create It</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Bergabung Menjadi Creator</h6></Link>
+                            <h5 className='mt-3'>Seputar CreateIt</h5>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Events</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Program</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Artikel/Blog</h6></Link>
+                        </div>
                     </div>
-                    <div className='col-md'>
-                        <h5 className='text-white font-weight-bold'>HUBUNGI KAMI</h5>
-                        <small>Email: info.createitapp@gmail.com</small><br />
-                        <small>Whatsapp Bussiness: +62 858-5871-4831</small><br />
-                    </div>
-                    <div className='col-md-12 pt-3'>
-                        <h6 className='m-auto text-center font-montserrat font-weight-bold'>&copy; 2020 Create It Digital Creative Commerce</h6>
+                    <div className='col-md d-flex'>
+                        <div className='mx-auto'>
+                            <h5>Layanan Kami</h5>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Mulai Projek dengan Creator</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Kontes Desain</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Logo & Branding Identify</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Marketing & Social Media</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Packaging & Label</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Motion Graphic</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Baju & Merchandise</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Desain Pakaian & Merchandise</h6></Link>
+                            <Link className=' text-white' to='#'><h6 className='my-3'>Art & Illustration</h6></Link>
+                        </div>
                     </div>
                 </div>
+
+                <div>
+                    <hr style={{ borderWidth: '2px', borderColor: 'white' }} />
+                    <div className='d-flex flex-wrap'>
+                        <div className='text-white d-flex flex-wrap my-3'>
+                            <h5 className='my-auto mr-3'>@{new Date().getFullYear()} CreateIt!</h5>
+                            <div className='d-flex my-auto'>
+                                <i className='fa fa-phone mr-2 my-auto' />
+                                <h6 className='my-auto'>(+62) 123 1234 1234</h6>
+                            </div>
+                        </div>
+                        <div className='ml-auto my-3'>
+                            <Link className='mx-2  text-white' to='#'>Syarat & Ketentuan</Link>
+                            <Link className='mx-2  text-white' to='#'>Kebijakan Privasi</Link>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     )

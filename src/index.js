@@ -6,6 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import './Modules/index.css'
 import './Modules/font.css'
 import './Modules/override.css'
+import './Modules/timeline.css'
+import './Modules/rounded-img.css'
 
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";

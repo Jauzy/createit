@@ -54,7 +54,7 @@ var categorySettings = {
             breakpoint: 480,
             settings: {
                 slidesToShow: 1,
-                dots:true
+                dots: true
             }
         }
     ]
@@ -92,7 +92,7 @@ const DesignCategory = (props) => {
     const arr = [1, 2, 3, 4, 5, 6]
 
     const [state, setState] = useState({
-        selectedCategory: CATEGORIES[0].title
+        selectedCategory: CATEGORIES[0].title, selectedIdx: 0
     })
 
     return (
@@ -111,55 +111,31 @@ const DesignCategory = (props) => {
             <div className='bg-light'>
                 <div className='container-fluid m-auto pb-5' style={{ paddingLeft: '20%' }}>
                     <Slider {...categorySettings}>
-                        {CATEGORIES.map(item => (
-                            <CategoryCard title={item.title} onClick={() => setState({ ...state, selectedCategory: item.title })} selectedCategory={state.selectedCategory} />
+                        {CATEGORIES.map((item, idx) => (
+                            <CategoryCard title={item.title} onClick={() => setState({ ...state, selectedCategory: item.title, selectedIdx: idx })}
+                                selectedCategory={state.selectedCategory} />
                         ))}
                     </Slider>
                 </div>
             </div>
 
             <div className='container m-auto py-5'>
-                {METHODS.useWindowSize().width > 1200 && <table className='toggle-table' style={{ width: '100%' }}>
-                    <tr>
-                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' />
-                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' />
-                    </tr>
-                    <tr>
-                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' />
-                        <td rowSpan='2' className='text-secondary' height={{ width: '500px' }}>
-                            <div>
-                                <div className='d-flex'>
-                                    <img src={require('../../Modules/images/Bitmap.png')} height='600px' className='m-auto' />
-                                </div>
-                                <h5 className=''>Designed by</h5>
-                                <h5 className='font-weight-bold'>Weeb Developer</h5>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' />
-                    </tr>
-                    <tr>
-                        <ProductCard img={require('../../Modules/images/download.png')} />
-                        <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                            title='Bottle' icon='wine-bottle' />
-                    </tr>
-                </table>}
+                <div className='row m-auto' style={{ width: '100%' }}>
+                    {CATEGORIES[state.selectedIdx].products.map((item, idx) => (
+                        <ProductCard contest={item.contest} project={item.project} title={item.title} idx={idx} selectedCategory={state.selectedCategory} icon='circle' />
+                    ))}
+                </div>
             </div>
-            <div className='pb-5'>
+            {/* <div className='pb-5'>
                 {METHODS.useWindowSize().width <= 1200 && <div>
                     <Slider {...productSettings}>
-                        {arr.map(item => (
-                            <ProductCard desc="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard"
-                                title='Bottle' icon='wine-bottle' />
+                        {CATEGORIES[state.selectedIdx].products.map((item, idx) => (
+                            <ProductCard desc={item.contest}
+                                title={item.title} icon='circle' />
                         ))}
                     </Slider>
                 </div>}
-            </div>
+            </div> */}
 
         </div>
     )

@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
+import { Subfooter } from '../Components/Index'
 
 const ROUTES = require('../Constants/Routes')
 
 const Landing = (props) => {
+    
     var settings = {
         slidesToShow: 1,
         arrows: false,
@@ -12,6 +14,7 @@ const Landing = (props) => {
         autoplay: true,
         infinite: true,
     };
+
     return (
         <div className='pb-5'>
             <div className='bg-main'>
@@ -81,13 +84,7 @@ const Landing = (props) => {
                         </div>
                     </div>
                 </div>
-                <hr style={{ borderWidth: '2px', borderColor: 'grey' }} />
-                <div className='d-flex'>
-                    <div className='ml-auto'>
-                        <Link className='mx-2 text-decoration-none text-main' to='#'>Syarat & Ketentuan</Link>
-                        <Link className='mx-2 text-decoration-none text-main' to='#'>Kebijakan Privasi</Link>
-                    </div>
-                </div>
+                <Subfooter />
             </div>
         </div>
     )

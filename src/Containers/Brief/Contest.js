@@ -1,15 +1,52 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import bsCustomFileInput from 'bs-custom-file-input'
 import $ from 'jquery'
-import { Link } from 'react-router-dom'
 import Select from 'react-select';
+import swal from 'sweetalert'
+import { Link, withRouter } from 'react-router-dom'
+import { Subfooter } from '../../Components/Index'
 
-const Brief = (props) => {
+const Contest = (props) => {
+    const [state, setState] = useState({
+        name: null, description: null, objective: null, industryType: null,
+        websiteOrMedia: null, permission: 'Boleh', notes: null, saved: null,
+        files: []
+    })
+
+    const onChange = e => {
+        setState({ ...state, [e.target.id]: e.target.value.toString() })
+    }
+
+    const onSave = () => {
+        setState({ ...state, saved: true })
+    }
+
+    const handleFileInput = (e) => {
+        let file = document.getElementById(e.target.id).files[0]
+        if (file?.type.substring(0, 5) == "image") {
+            setState({ ...state, files: [...state.files, file] })
+        }
+    }
+
+    const onContinue = () => {
+        if (!state.saved) {
+            swal({
+                title: "Error!",
+                text: 'You need to save it first!',
+                icon: "error",
+                button: "Okay!",
+            })
+        } else {
+            props.history.replace('/pricing')
+        }
+    }
+
     useEffect(() => {
         $(document).ready(function () {
             bsCustomFileInput.init()
         })
     }, [])
+
     return (
         <div className=''>
 
@@ -18,8 +55,9 @@ const Brief = (props) => {
                     <div className='row'>
                         <div className='col-md d-flex'>
                             <div className='m-auto'>
-                                <img src={require('../Modules/images/logo.png')} width='200px' />
-                                <h3 className='mt-4 font-weight-bold text-main'>Brief Kreatif</h3>
+                                <img src={require('../../Modules/images/logo.png')} width='200px' />
+                                <h6 className='mt-4 text-secondary'><strong>Brief</strong></h6>
+                                <h3 className='font-weight-bold text-main'>Brief Kreatif</h3>
                                 <h1 className='text-main font-weight-bold'>Create Contest</h1>
                                 <div className='text-secondary'>
                                     Isi brief kreatif sebaik mungkin supaya Creator bisa memahami keinginanmu dengan mudah. Tenang aja, ini bukan ujian semester kok, take your time!
@@ -27,7 +65,7 @@ const Brief = (props) => {
                             </div>
                         </div>
                         <div className='col-md d-flex'>
-                            <img src={require('../Modules/images/brief-mascot.png')} width='60%' className='m-auto' />
+                            <img src={require('../../Modules/images/brief-mascot.png')} width='60%' className='m-auto' />
                         </div>
                     </div>
                 </div>
@@ -40,8 +78,8 @@ const Brief = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Nama Project*</label>
-                                <input type="email" class="form-control is-invalid" aria-describedby="emailHelp" />
-                                <small id="emailHelp" class="form-text text-muted">Masukan Namamu.</small>
+                                <input type="text" class={"form-control " + (!state.name ? 'is-invalid' : '')} id='name' value={state.name} onChange={onChange} />
+                                <small class="form-text text-muted">Masukan Nama projekmu.</small>
                                 <div class="invalid-feedback">
                                     *Harus diisi.
                                 </div>
@@ -55,8 +93,8 @@ const Brief = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Deskripsi Project*</label>
-                                <textarea class="form-control is-invalid" rows="3"></textarea>
-                                <small id="emailHelp" class="form-text text-muted">Deskripsikan seperti apa projek yang ingin kamu buat.</small>
+                                <textarea class={"form-control " + (!state.description ? 'is-invalid' : '')} rows="3" value={state.description} id='description' onChange={onChange}></textarea>
+                                <small class="form-text text-muted">Deskripsikan seperti apa projek yang ingin kamu buat.</small>
                                 <div class="invalid-feedback">
                                     *Harus diisi.
                                 </div>
@@ -70,8 +108,8 @@ const Brief = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Tujuan Penggunaan Project*</label>
-                                <textarea class="form-control is-invalid" rows="3"></textarea>
-                                <small id="emailHelp" class="form-text text-muted">Ceritakan tujuan dari projekmu.</small>
+                                <textarea class={"form-control " + (!state.objective ? 'is-invalid' : '')} rows="3" value={state.objective} id='objective' onChange={onChange}></textarea>
+                                <small class="form-text text-muted">Ceritakan tujuan dari projekmu.</small>
                                 <div class="invalid-feedback">
                                     *Harus diisi.
                                 </div>
@@ -86,7 +124,7 @@ const Brief = (props) => {
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Upload Desain Referensi*</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" />
+                                    <input type="file" class="custom-file-input" id="customFile" onChange={handleFileInput} />
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                                 <small id="emailHelp" class="form-text text-muted">Kirim referensi desain supaya Creator bisa tahu seleramu. Max 1Mb dengan Format Image.</small>
@@ -108,7 +146,9 @@ const Brief = (props) => {
                                     isClearable={false}
                                     isRtl={false}
                                     isSearchable={false}
-                                    name="color"
+                                    name="industryType"
+                                    onChange={(item) => setState({ ...state, industryType: item.value })}
+                                    value={{ value: state.industryType, label: state.industryType }}
                                     options={[{ value: 'Industri Kreatif', label: 'Industri Kreatif' }]}
                                 />
                             </div>
@@ -121,7 +161,7 @@ const Brief = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Website / Media Sosial Perusahaanmu*</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" value={state.websiteOrMedia} id='websiteOrMedia' onChange={onChange} />
                             </div>
                         </div>
                         <div className='col-md'></div>
@@ -141,7 +181,9 @@ const Brief = (props) => {
                                     isRtl={false}
                                     isSearchable={false}
                                     name="permission"
-                                    options={[{ value: false, label: 'Tidak' }, { value: true, label: 'Boleh' }]}
+                                    onChange={(item) => setState({ ...state, permission: item.value })}
+                                    value={{ value: state.permission, label: state.permission }}
+                                    options={[{ value: 'Tidak', label: 'Tidak' }, { value: 'Boleh', label: 'Boleh' }]}
                                 />
                             </div>
                         </div>
@@ -153,7 +195,7 @@ const Brief = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Catatan Tambahan untuk Creator*</label>
-                                <textarea class="form-control" rows="3"></textarea>
+                                <textarea class="form-control" rows="3" value={state.notes} id='notes' onChange={onChange}></textarea>
                             </div>
                         </div>
                         <div className='col-md'></div>
@@ -164,29 +206,14 @@ const Brief = (props) => {
 
             <div className='container py-5'>
                 <div className='d-flex flex-wrap pb-3'>
-                    <button className='btn btn-main px-5 py-3 m-2'>Simpan</button>
-                    <button className='btn btn-main px-5 py-3 m-2'>Lanjut</button>
+                    <button className='btn btn-main px-5 py-3 m-2' onClick={onSave}>Simpan</button>
+                    <button className='btn btn-main px-5 py-3 m-2' onClick={onContinue}>Lanjut</button>
                 </div>
-                <div>
-                    <hr />
-                    <div className='d-flex flex-wrap'>
-                        <div className='text-main'>
-                            <h5>@{new Date().getFullYear()} CreateIt!</h5>
-                            <div className='d-flex'>
-                                <i className='fa fa-phone mr-2 my-auto' />
-                                <h6 className='my-auto'>(+62) 123 1234 1234</h6>
-                            </div>
-                        </div>
-                        <div className='ml-auto'>
-                            <Link className='mx-2 text-decoration-none text-main' to='#'>Syarat & Ketentuan</Link>
-                            <Link className='mx-2 text-decoration-none text-main' to='#'>Kebijakan Privasi</Link>
-                        </div>
-                    </div>
-                </div>
+                <Subfooter />
             </div>
 
         </div>
     )
 }
 
-export default Brief
+export default withRouter(Contest)
