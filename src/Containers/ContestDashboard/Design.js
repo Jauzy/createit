@@ -3,6 +3,7 @@ import StarRatings from 'react-star-ratings';
 import { Link, withRouter } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies()
+
 const Design = props => {
     const [state, setState] = useState({
         mode: 'Grid', filter: 'Active'
@@ -48,7 +49,7 @@ const Design = props => {
                     {[1, 2, 3, 4, 5].map(item => (
                         <div className='m-2' style={{ maxWidth: '250px', cursor: 'pointer' }} data-toggle='modal' data-target='#design'>
                             <h6 className='text-secondary'>#1 oleh Weeb Developer</h6>
-                            <img width='100%' src={require('../../Modules/images/906560.png')} style={{ width: '250px', height: '250px', objectFit: 'cover' }} />
+                            <img width='100%' src={require('../../Modules/images/906560.png')} style={{ width: '250px', height: '250px', objectFit: 'cover' }} className='rounded-lg'/>
                             <div className='mt-2 d-flex justify-content-center'>
                                 <StarRatings
                                     rating={2.403}

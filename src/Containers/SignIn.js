@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom'
 import userAction from '../Modules/Redux/Actions/User'
 
 const SignIn = props => {
-    const { loading, handleModal} = props
+    const { loading, handleModal } = props
     const [state, setState] = useState({
         type: 'client',
         email: null,
@@ -21,11 +21,11 @@ const SignIn = props => {
 
     const onSubmit = async () => {
         await props.login(state, props.history)
-        if(handleModal) handleModal()
+        if (handleModal) handleModal()
     }
 
     return (
-        <div className='row'>
+        <div className='row m-auto'>
             <div className='col-md'>
                 <img src={require('../Modules/images/running.png')} width='100%' />
             </div>
@@ -62,7 +62,7 @@ const SignIn = props => {
                     <div className='d-flex mt-3'>
                         <Link className='ml-auto text-main'>Forgot Your Password?</Link>
                     </div>
-                    <div className='row mt-4'>
+                    <div className='row mt-4 m-auto'>
                         <div className='col-md d-flex'>
                             <button className='btn-main btn-block btn m-auto px-4 py-3 d-flex align-items-center justify-content-center' disabled={!state.email || !state.password}
                                 onClick={onSubmit}>
@@ -71,10 +71,10 @@ const SignIn = props => {
                                 </div>}
                                 Masuk</button>
                         </div>
-                        <div className='col-md d-flex'>
-                            <Link className='btn-light btn m-auto px-4 py-3 text-secondary' to='/register' onClick={
+                        <div className='col-md d-flex' data-dismiss='modal'>
+                            <Link className='btn-light btn m-auto py-3 text-secondary' to='/register' onClick={
                                 () => {
-                                    if(handleModal) handleModal()
+                                    if (handleModal) handleModal()
                                 }
                             }>Belum punya akun ? <strong>Daftar</strong></Link>
                         </div>

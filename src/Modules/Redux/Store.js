@@ -8,9 +8,11 @@ import thunk from 'redux-thunk'
 import userReducer from './Reducers/User'
 import contestReducer from './Reducers/Contest'
 import participationReducer from './Reducers/Participation'
+import paymentReducer from './Reducers/Payment'
 
 const reducer = combineReducers({
     user: userReducer,
+    payment: paymentReducer,
     contest: contestReducer,
     participation : participationReducer
 })

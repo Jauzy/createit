@@ -15,8 +15,20 @@ import ContestList from './ContestList'
 import ProjectList from './ProjectList'
 import CreatorProfile from './Profile/Creator'
 import ContestDashboard from './ContestDashboard/Index'
+import BrowseContest from './Browse/Contest'
+import BrowseProject from './Browse/Project'
+import CreatorPortofolio from './CreatorPortofolio/Index'
+import CreatorContestList from './CreatorContestList'
+import ProjectDashboard from './ProjectDashboard/Index'
+import ContestDashboardCreator from './ContestDashboardCreator/Index'
 
 export {
+    ContestDashboardCreator,
+    ProjectDashboard,
+    CreatorContestList,
+    CreatorPortofolio,
+    BrowseProject,
+    BrowseContest,
     Homepage,
     ContestDashboard,
     ContestReview,

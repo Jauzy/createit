@@ -1,27 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import bsCustomFileInput from 'bs-custom-file-input'
 import $ from 'jquery'
-import { Link, withRouter } from 'react-router-dom'
-import {Subfooter} from '../../Components/Index'
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import contestAction from '../../Modules/Redux/Actions/Contest'
+import { Subfooter } from '../../Components/Index'
 
 const ContestReview = (props) => {
+    const { contestID } = props.match.params
+    const { contest } = props
+
     const [state, setState] = useState({
-        name: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        objective: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        industryType: 'Industri Kreatif',
-        websiteOrMedia: 'dytonadelikrisp.com',
-        permission: 'Boleh',
-        notes: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+        name: null, desc: null, purpose: null, industryType: null,
+        social: null, creatorPermission: false, notes: null, saved: null,
+        reference: []
     })
 
     const onSubmit = () => {
+        props.history.replace(`/pricing/${contestID}`)
     }
+
+    useEffect(() => {
+        setState({ ...state, ...contest })
+    }, [contest])
 
     useEffect(() => {
         $(document).ready(function () {
             bsCustomFileInput.init()
         })
+        props.getContestById(contestID, props.history)
     }, [])
 
     return (
@@ -33,7 +41,7 @@ const ContestReview = (props) => {
                         <div className='col-md d-flex'>
                             <div className='m-auto'>
                                 <img src={require('../../Modules/images/logo.png')} width='200px' />
-                                <h6 className='mt-4 text-secondary'>Brief / Pricing / <strong>Ulasan</strong></h6>
+                                <h6 className='mt-4 text-secondary'>Brief / <strong>Ulasan</strong></h6>
                                 <h3 className='font-weight-bold text-main'>Ulasan Brief Kreatif</h3>
                                 <h1 className='text-main font-weight-bold'>Create Contest</h1>
                                 <div className='text-secondary'>
@@ -66,7 +74,7 @@ const ContestReview = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Deskripsi Project*</label>
-                                <h5 className='text-secondary'>{state.description}</h5>
+                                <h5 className='text-secondary'>{state.desc}</h5>
                             </div>
                         </div>
                         <div className='col-md'></div>
@@ -77,28 +85,30 @@ const ContestReview = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Tujuan Penggunaan Project*</label>
-                                <h5 className='text-secondary'>{state.objective}</h5>
+                                <h5 className='text-secondary'>{state.purpose}</h5>
                             </div>
                         </div>
                         <div className='col-md'></div>
                     </div>
                     <hr />
 
-                    <div className='row pt-3'>
+                    {(state.reference && state.reference?.length > 0) && <div className='row pt-3'>
                         <div className='col-md'>
                             <div class="form-group">
-                                <label className='font-weight-bold text-dark'>Upload Desain Referensi*</label>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" />
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                <label className='font-weight-bold text-dark'>Uploaded Desain Referensi*</label>
+                                <div className='d-flex flex-wrap'>
+                                    {state.reference?.map(item => (
+                                        <div>
+                                            <img src={item} style={{ maxWidth: '300px', height: 'auto' }} className='rounded-lg m-3' />
+                                        </div>
+                                    ))}
                                 </div>
-                                <small id="emailHelp" class="form-text text-muted">Kirim referensi desain supaya Creator bisa tahu seleramu. Max 1Mb dengan Format Image.</small>
                             </div>
                         </div>
-                        <div className='col-md'></div>
                     </div>
+                    }
                     <hr />
-
+                    
                     <div className='row pt-3'>
                         <div className='col-md'>
                             <div class="form-group">
@@ -114,7 +124,7 @@ const ContestReview = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Website / Media Sosial Perusahaanmu*</label>
-                                <h5 className='text-secondary'>{state.websiteOrMedia}</h5>
+                                <h5 className='text-secondary'>{state.social}</h5>
                             </div>
                         </div>
                         <div className='col-md'></div>
@@ -125,7 +135,7 @@ const ContestReview = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Apa Creator diperbolehkan menampilkan hasil Desainmu sebagai portofolio Createit?*</label>
-                                <h5 className='text-secondary'>{state.permission}</h5>
+                                <h5 className='text-secondary'>{state.creatorPermission == false ? 'Tidak' : 'Boleh'}</h5>
                             </div>
                         </div>
                         <div className='col-md'></div>
@@ -147,7 +157,7 @@ const ContestReview = (props) => {
 
             <div className='container py-5'>
                 <div className='d-flex flex-wrap pb-3'>
-                    <button className='btn btn-main px-5 py-3 m-2' onClick={() => props.history.replace('/brief/contest')}>Edit</button>
+                    <button className='btn btn-main px-5 py-3 m-2' onClick={() => props.history.replace(`/brief/contest/${contestID}`)}>Edit</button>
                     <button className='btn btn-main px-5 py-3 m-2' onClick={onSubmit}>Done</button>
                 </div>
                 <Subfooter />
@@ -157,4 +167,19 @@ const ContestReview = (props) => {
     )
 }
 
-export default withRouter(ContestReview)
+const mapStateToProps = state => {
+    return {
+        contest: state.contest.contest,
+        loading: state.contest.loading,
+        error: state.contest.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getContestById: (contestID, history) => dispatch(contestAction.getContestById(contestID, history)),
+        updateContest: (contestID, payload) => dispatch(contestAction.updateContest(contestID, payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ContestReview))

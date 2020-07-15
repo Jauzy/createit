@@ -119,7 +119,7 @@ const TableSection = (props) => {
 
             <tr>
                 <td className=''></td>
-                {[1, 2, 3, 4].map(item => (
+                {[0, 1, 2, 3].map(item => (
                     <td key={item + 'buttonkey'}>
                         <div className='d-flex'>
                             <button className={'m-auto btn px-5 py-3 ' + (choosenPackIdx == item ? 'btn-green-active' : 'btn-green')} onClick={() => onChoose(item)}>Pilih</button>

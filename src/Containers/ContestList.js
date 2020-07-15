@@ -1,25 +1,55 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import contestAction from '../Modules/Redux/Actions/Contest'
 
 const ContestList = (props) => {
+    const { contests } = props
     const [state, setState] = useState({
-        activeSection: 'Semua'
+        activeSection: 'Semua', onWork: null, done: null, paidnt: null, canceled: null
     })
 
     const setActiveSection = (activeSection) => {
         setState({ ...state, activeSection })
     }
 
-    const sections = [
+    const [sections, setSections] = useState([
         { icon: 'circle', name: 'Semua', quantity: 4 },
         { icon: 'circle', name: 'Dalam Pengerjaan', quantity: 4 },
         { icon: 'circle', name: 'Selesai', quantity: 4 },
         { icon: 'circle', name: 'Belum Dibayar', quantity: 4 },
         { icon: 'circle', name: 'Dibatalkan', quantity: 4 },
-    ]
+    ])
+
+    useEffect(() => {
+        if (contests) {
+            setState({
+                ...state,
+                onWork: contests.filter(item => item.status == 'Dalam Pengerjaan'),
+                done: contests.filter(item => item.status == 'Selesai'),
+                paidnt: contests.filter(item => item.status == 'Belum Dibayar'),
+                canceled: contests.filter(item => item.status == 'Dibatalkan'),
+            })
+        }
+    }, [contests])
+
+    useEffect(() => {
+        setSections([
+            { icon: 'circle', name: 'Semua', quantity: contests?.length },
+            { icon: 'circle', name: 'Dalam Pengerjaan', quantity: state.onWork?.length },
+            { icon: 'circle', name: 'Selesai', quantity: state.done?.length },
+            { icon: 'circle', name: 'Belum Dibayar', quantity: state.paidnt?.length },
+            { icon: 'circle', name: 'Dibatalkan', quantity: state.canceled?.length },
+        ])
+    }, [state])
+
+    useEffect(() => {
+        props.getContestByClient()
+    }, [])
 
     return (
-        <div>
+        <LoadingOverlay active={props.loading} spinner text="Loading please wait...">
 
             <div className='bg-main text-white'>
                 <div className='container py-5'>
@@ -39,24 +69,65 @@ const ContestList = (props) => {
                             </div>
                         ))}
                     </div>
-                    <div className='col-md'>
+                    {state.activeSection == 'Semua' && <div className='col-md'>
                         {
-                            [1, 2, 3, 4, 5].map(item => (
-                                <Link className='py-4 px-4 d-flex flex-wrap bg-light rounded-lg m-1 border-main text-decoration-none' to='#'>
-                                    <div className='rounded-circle bg-main mr-4 my-auto' style={{ width: 60, height: 60 }} />
-                                    <h4 className='text-secondary my-auto'>Project X</h4>
-                                    <button className='btn btn-category rounded-lg px-5 ml-auto my-auto'>
-                                        Selengkapnya
-                                    </button>
+                            contests?.map(item => (
+                                <Link className='py-4 px-4 bg-light rounded-lg m-2 border-main text-decoration-none row' to={`/contest/dashboard/${item._id}`}>
+                                    <div className='col-md-auto my-auto'>
+                                        <div className='rounded-circle bg-main mr-4 my-auto' style={{ width: 60, height: 60 }} />
+                                    </div>
+                                    <div className='col-md d-flex flex-column'>
+                                        <h4 className='text-secondary my-auto'>{item.name}</h4>
+                                        <h6 className='text-wrap text-secondary'>by {item.user.name}</h6>
+                                    </div>
+                                    <div className='col-md-auto my-auto'>
+                                        <button className='btn btn-category rounded-lg px-5'>
+                                            Selengkapnya
+                                        </button>
+                                    </div>
                                 </Link>
                             ))
                         }
-                    </div>
+                    </div>}
+                    {state.activeSection != 'Semua' && <div className='col-md'>
+                        {
+                            contests?.filter(item => item.status == state.activeSection).map(item => (
+                                <Link className='py-4 px-4 bg-light rounded-lg m-2 border-main text-decoration-none row' to={`/contest/dashboard/${item._id}`}>
+                                    <div className='col-md-auto my-auto'>
+                                        <div className='rounded-circle bg-main mr-4 my-auto' style={{ width: 60, height: 60 }} />
+                                    </div>
+                                    <div className='col-md d-flex flex-column'>
+                                        <h4 className='text-secondary my-auto'>{item.name}</h4>
+                                        <h6 className='text-wrap text-secondary'>by {item.user.name}</h6>
+                                    </div>
+                                    <div className='col-md-auto my-auto'>
+                                        <button className='btn btn-category rounded-lg px-5'>
+                                            Selengkapnya
+                                        </button>
+                                    </div>
+                                </Link>
+                            ))
+                        }
+                    </div>}
                 </div>
             </div>
 
-        </div>
+        </LoadingOverlay>
     )
 }
 
-export default ContestList
+const mapStateToProps = state => {
+    return {
+        contests: state.contest.contests,
+        loading: state.contest.loading,
+        error: state.contest.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getContestByClient: () => dispatch(contestAction.getContestByClient()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ContestList))

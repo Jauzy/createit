@@ -3,75 +3,89 @@ import Cookies from 'universal-cookie'
 import swal from 'sweetalert'
 const cookies = new Cookies()
 
-const getAllContest = () => {
+const createContest = (category, subCategory, history) => {
     return async (dispatch) => {
         try {
+            if (!cookies.get('token')) {
+                swal({
+                    title: "Login required!",
+                    icon: "error",
+                    button: "Okay!",
+                }).then(() => {
+                    history.replace('/login')
+                })
+            }
             dispatch({ type: "FIND_CONTEST_LOADING" })
-            const { data } = await baseUrl.get(`/contest/get`)
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contests } })
+            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+            const { data } = await baseUrl.post(`/contest/`, { category, subCategory }, config)
+            history.replace(`/brief/contest/${data.contest._id}`)
+            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
         } catch (error) {
-            console.log(error)
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
             dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
         }
     }
 }
 
-const getClientContest = () => {
+const getContestById = (contestID, history) => {
+    return async (dispatch) => {
+        try {
+            if (!cookies.get('token')) {
+                swal({
+                    title: "Login required!",
+                    icon: "error",
+                    button: "Okay!",
+                }).then(() => {
+                    history.replace('/login')
+                })
+            }
+            dispatch({ type: "FIND_CONTEST_LOADING" })
+            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+            const { data } = await baseUrl.get(`/contest/${contestID}`, config)
+            if (cookies.get('user')._id != data.contest.user) {
+                swal({
+                    title: "Not Authorized!",
+                    icon: "error",
+                    button: "Run!",
+                }).then(() => {
+                    dispatch({ type: "FIND_CONTEST_SUCCESS" })
+                    history.replace('/')
+                })
+            } else
+                dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
+        } catch (error) {
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
+const updateContest = (contestID, payload) => {
     return async (dispatch) => {
         try {
             dispatch({ type: "FIND_CONTEST_LOADING" })
             const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.get(`/contest/get/client`, config)
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contests } })
-        } catch (error) {
-            console.log(error)
-            dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
-        }
-    }
-}
-
-const getPublishedContest = () => {
-    return async (dispatch) => {
-        try {
-            dispatch({ type: "FIND_CONTEST_LOADING" })
-            const { data } = await baseUrl.get(`/contest/get/published`)
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contests } })
-        } catch (error) {
-            console.log(error)
-            dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
-        }
-    }
-}
-
-const getContestById = (contestID) => {
-    return async (dispatch) => {
-        try {
-            dispatch({ type: "FIND_CONTEST_LOADING" })
-            const { data } = await baseUrl.get(`/contest/get/${contestID}`)
+            const { data } = await baseUrl.put(`/contest/${contestID}`, payload, config)
             dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
         } catch (error) {
-            console.log(error)
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
             dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
         }
-    }
-}
-
-const getWinner = (contestID) => {
-    return async (dispatch) => {
-        try {
-            dispatch({ type: "FIND_CONTEST_LOADING" })
-            const { data } = await baseUrl.get(`/contest/winner/${contestID}`)
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { winner: data } })
-        } catch (error) {
-            console.log(error)
-            dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
-        }
-    }
-}
-
-const clearContest = () => {
-    return (dispatch) => {
-        dispatch({ type: "CLEAR" })
     }
 }
 
@@ -80,132 +94,70 @@ const cancelContest = (contestID) => {
         try {
             dispatch({ type: "FIND_CONTEST_LOADING" })
             const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.delete(`/contest/delete/${contestID}`, config)
+            const up = await baseUrl.delete(`/contest/${contestID}`, config)
+            const { data } = await baseUrl.get(`/contest/${contestID}`, config)
             swal({
                 title: "Contest Canceled!",
-                text: "Your contest successfully canceled!",
                 icon: "success",
                 button: "Okay!",
             })
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: null })
+            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
         } catch (error) {
-            console.log(error)
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
             dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
         }
     }
 }
 
-const createContest = (contestData) => {
+const getContestByClient = () => {
     return async (dispatch) => {
         try {
             dispatch({ type: "FIND_CONTEST_LOADING" })
             const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.post(`/contest/create`, contestData, config)
+            const { data } = await baseUrl.get(`/contest/user`, config)
+            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contests: data.contests } })
+        } catch (error) {
             swal({
-                title: "Contest Created!",
-                text: "New contest created, please check further details!",
-                icon: "success",
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
                 button: "Okay!",
             })
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: null })
-        } catch (error) {
-            console.log(error)
             dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
         }
     }
 }
 
-const editContest = (contestData, contestID) => {
+const uploadReference = (contestID, payload) => {
     return async (dispatch) => {
         try {
             dispatch({ type: "FIND_CONTEST_LOADING" })
             const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.put(`/contest/edit/${contestID}`, contestData, config)
+            const up = await baseUrl.put(`/contest/${contestID}/reference`, payload, config)
+            const { data } = await baseUrl.get(`/contest/${contestID}`, config)
+            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
+        } catch (error) {
             swal({
-                title: "Contest Updated!",
-                text: "Your contest successfully updated!",
-                icon: "success",
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
                 button: "Okay!",
             })
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: null })
-        } catch (error) {
-            console.log(error)
-            dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
-        }
-    }
-}
-
-const notifyAdmin = (contestID) => {
-    return async (dispatch) => {
-        try {
-            dispatch({ type: "FIND_CONTEST_LOADING" })
-            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.put(`/contest/notify/${contestID}`, config)
-            swal({
-                title: "Notification Sent!",
-                text: "Wait for admin verification!",
-                icon: "success",
-                button: "Okay!",
-            })
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: null })
-        } catch (error) {
-            console.log(error)
-            dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
-        }
-    }
-}
-
-const publishContest = (contestID) => {
-    return async (dispatch) => {
-        try {
-            dispatch({ type: "FIND_CONTEST_LOADING" })
-            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.put(`/contest/publish/${contestID}`, config)
-            swal({
-                title: "Contest Published!",
-                text: "Contest successfully published!",
-                icon: "success",
-                button: "Okay!",
-            })
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: null })
-        } catch (error) {
-            console.log(error)
-            dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
-        }
-    }
-}
-
-const addPaymentInfo = (paymentInfo, contestID) => {
-    return async (dispatch) => {
-        try {
-            dispatch({ type: "FIND_CONTEST_LOADING" })
-            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.put(`/contest/payment/${contestID}`, paymentInfo, config)
-            swal({
-                title: "Payment Info Added!",
-                text: "Your payment info successfully added!",
-                icon: "success",
-                button: "Okay!",
-            })
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: null })
-        } catch (error) {
-            console.log(error)
             dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
         }
     }
 }
 
 export default {
-    getAllContest,
-    getClientContest,
-    getContestById,
-    getPublishedContest,
-    getWinner,
-    clearContest,
-    cancelContest,
+    uploadReference,
     createContest,
-    editContest,
-    notifyAdmin,
-    publishContest,
-    addPaymentInfo
+    getContestById,
+    updateContest,
+    getContestByClient,
+    cancelContest
 }

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import $ from 'jquery'
 import NumberFormat from 'react-number-format'
-import {Link} from 'react-router-dom'
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import contestAction from '../Modules/Redux/Actions/Contest'
 import { Subfooter } from '../Components/Index'
 
 const Payment = props => {
-
+    const { contestID } = props.match.params
+    const { contest, user } = props
     const [state, setState] = useState({
-        paymentMethod: null, idx: null
+        bank: null, idx: null, account_no: null
     })
-
 
     const paymentMethods = [
         {
@@ -43,17 +46,36 @@ const Payment = props => {
         },
     ]
 
-    const setPaymentMethod = (paymentMethod, idx) => {
-        setState({ ...state, paymentMethod, idx })
+    const onChange = e => {
+        setState({ ...state, [e.target.id]: e.target.value })
+    }
+
+    const onUpdate = () => {
+        const payload = {
+            bank: state.bank,
+            account_no: state.account_no
+        }
+        props.updateContest(contestID, payload)
+    }
+
+    const setPaymentMethod = (bank, idx) => {
+        setState({ ...state, bank, idx })
     }
 
     useEffect(() => {
-        setState({ ...state, overflowHeight: $(".tl li").length, paymentMethod: paymentMethods[0].name, idx: 0 })
+        if (contest) {
+            setState({ ...state, bank: contest.bank, account_no: contest.account_no })
+        }
+    }, [contest])
+
+    useEffect(() => {
+        setState({ ...state, overflowHeight: $(".tl li").length, bank: paymentMethods[0].name, idx: 0 })
         document.getElementById('overflow-div').style.height = `${($(".tl li").length - 1) * 100}px`;
+        props.getContestById(contestID, props.history)
     }, [])
 
     return (
-        <div>
+        <LoadingOverlay active={props.loading} spinner text='Loading please wait...'>
 
             <div className='bg-light'>
                 <div className='container py-5'>
@@ -61,14 +83,14 @@ const Payment = props => {
                         <div className='col-md d-flex'>
                             <div className='m-auto' style={{ width: '100%' }}>
                                 <img src={require('../Modules/images/logo.png')} width='200px' />
-                                <h6 className='mt-4 text-secondary'>Brief / Pricing / Ulasan / <strong>Pembayaran</strong></h6>
-                                <h3 className='font-weight-bold text-main'>Pembayaran</h3>
+                                <h6 className='mt-4 text-secondary'>{contest?.name} / Brief / Pricing / Ulasan / <strong>Pembayaran</strong></h6>
+                                <h3 className='font-weight-bold text-main mb-0'>Pembayaran</h3>
                                 <h1 className='text-main font-weight-bold'>Kontes Desain</h1>
                                 <div className='d-flex align-items-center mt-3 flex-wrap'>
-                                    <h4 className='my-auto'>Project X</h4>
-                                    <h6 className='ml-2 my-auto font-weight-bold'>oleh Weeb Developer</h6>
+                                    <h4 className='my-auto'>{contest?.name}</h4>
+                                    <h6 className='ml-2 my-auto font-weight-bold' style={{ maxWidth: '200px' }}>oleh {user?.name}</h6>
                                     <div className=' btn btn-outline-danger my-auto ml-auto'>
-                                        Menunggu Pembayaran
+                                        {contest?.status}
                                     </div>
                                 </div>
                             </div>
@@ -94,12 +116,20 @@ const Payment = props => {
                                 <h6 className='text-secondary'>Pilih Metode Pembayaran</h6>
                                 <div className='bg-white rounded-lg border mt-3' id='overflow-div' style={{ overflow: 'auto' }}>
                                     {paymentMethods.map((item, idx) => (
-                                        <div className={'d-flex border px-4 py-3 payment-method ' + (state.paymentMethod == item.name ? 'bg-light' : '')}
+                                        <div className={'d-flex border px-4 py-3 payment-method ' + (state.bank == item.name ? 'bg-light' : '')}
                                             style={{ width: '100%' }} onClick={() => setPaymentMethod(item.name, idx)}>
                                             <img src={item.img} width='100px' />
                                             <h6 className='ml-4 my-auto font-weight-bold'>{item.name}</h6>
                                         </div>
                                     ))}
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label className='font-weight-bold text-dark'>Nomor Rekening*</label>
+                                    <input type="text" class={"form-control " + (!state.account_no ? 'is-invalid' : '')} id='account_no' value={state.account_no} onChange={onChange} />
+                                    <small class="form-text text-muted">Masukan nomor rekeningmu untuk verifikasi.</small>
+                                    <div class="invalid-feedback">
+                                        *Harus diisi.
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -161,11 +191,11 @@ const Payment = props => {
                 </div>
                 <div className='d-flex flex-wrap align-items-center'>
                     <button className='btn btn-main m-2 px-4 py-3'>Upload Bukti Pembayaran</button>
-                    <button className='btn btn-secondary m-2 px-4 py-3'>Ajukan Revisi</button>
+                    <button className='btn btn-secondary m-2 px-4 py-3' onClick={onUpdate}>Update Payment Info</button>
                     <button className='btn btn-danger m-2 px-4 py-3'>Batalkan pemesanan</button>
                 </div>
                 <h6 className='text-secondary mt-3' style={{ maxWidth: '800px' }}>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                    Payment akan divalidasi setelah bukti pembayaran diupload.
                 </h6>
             </div>
 
@@ -173,8 +203,24 @@ const Payment = props => {
                 <Subfooter />
             </div>
 
-        </div >
+        </LoadingOverlay >
     )
 }
 
-export default Payment
+const mapStateToProps = state => {
+    return {
+        user: state.user.user,
+        contest: state.contest.contest,
+        loading: state.contest.loading,
+        error: state.contest.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getContestById: (contestID, history) => dispatch(contestAction.getContestById(contestID, history)),
+        updateContest: (contestID, payload) => dispatch(contestAction.updateContest(contestID, payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Payment))

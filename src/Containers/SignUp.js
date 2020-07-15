@@ -88,7 +88,7 @@ const SignUp = props => {
                                 </div>}
                                 Daftar</button>
                         </div>
-                        <div className='col-md d-flex'>
+                        <div className='col-md d-flex' data-dismiss='modal'>
                             <Link className='btn-light btn m-auto px-4 py-3 text-secondary' to='/login' onClick={
                                 () => {
                                     if (handleModal) handleModal()

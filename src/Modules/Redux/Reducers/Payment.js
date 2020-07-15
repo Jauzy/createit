@@ -1,27 +1,26 @@
 const defaultState = {
-    contest: null,
-    contests: null,
+    payment: null,
     loading: false,
     error: null,
 }
 
-const contestReducer = (state = defaultState, action) => {
+const paymentReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case "FIND_CONTEST_LOADING": {
+        case "FIND_PAYMENT_LOADING": {
             return {
                 ...state,
                 loading: true,
                 error: null
             }
         }
-        case "FIND_CONTEST_ERROR": {
+        case "FIND_PAYMENT_ERROR": {
             return {
                 ...state,
                 ...action.data,
                 loading: false
             }
         }
-        case "FIND_CONTEST_SUCCESS": {
+        case "FIND_PAYMENT_SUCCESS": {
             return {
                 ...state,
                 ...action.data,
@@ -29,11 +28,10 @@ const contestReducer = (state = defaultState, action) => {
                 error: null,
             }
         }
-        case "CLEAR": {
+        case "PAYMENT_RESET": {
             return {
                 ...state,
-                contest: null,
-                winner: null
+                payment: null,
             }
         }
         default:
@@ -41,4 +39,4 @@ const contestReducer = (state = defaultState, action) => {
     }
 }
 
-export default contestReducer
+export default paymentReducer

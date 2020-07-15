@@ -104,3 +104,66 @@ td {
     padding-bottom: 5px;
     border-bottom: 5px solid white;
 }
+
+.navs-main span {
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+.navs-main .nav-item {
+    cursor: pointer;
+    margin-top: auto;
+}
+
+.navs-main .nav-item .active {
+    font-size: larger;
+    padding-bottom: 5px;
+    border-bottom: 5px solid var(--main-color);
+}
+
+.pagination {
+    border-bottom: 2px solid white;
+    padding: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+.pagination .previous {
+    width: auto;
+    width: auto;
+    border-radius: 5px;
+    padding: 0px 10px;
+}
+
+.pagination .next {
+    width: auto;
+    border-radius: 5px;
+    padding: 0px 10px;
+}
+
+.pagination li {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.pagination li:hover {
+    background-color: var(--main-color);
+    color: white;
+}
+
+.pagination li a:focus{
+    outline: none;
+}
+
+.pagination li a{
+    margin: auto;
+}
+
+.pagination .active {
+    background-color: var(--main-color);
+    color: white;
+}

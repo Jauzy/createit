@@ -1,8 +1,15 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import contestAction from '../../Modules/Redux/Actions/Contest'
 
 const ProductCard = (props) => {
-    const { title, icon, contest, idx, project, selectedCategory} = props
+    const { title, icon, contest, idx, project, selectedCategory } = props
+
+    const onCreateContest = () => {
+        props.createContest(selectedCategory, title, props.history )
+    }
+
     return (
         <div className='col-md-6 my-3'>
             <div className='bg-light p-5 border-main' style={{ borderRadius: '20px' }} data-toggle="modal" data-target={`#modal${idx}`}>
@@ -70,7 +77,7 @@ const ProductCard = (props) => {
                                         </div>
                                         <div className='row'>
                                             <div className='col-md'>
-                                                <button className='btn-primary btn btn-block' data-dismiss='modal' onClick={() => props.history.replace(`/brief/contest/${selectedCategory}/${title}`)}>Mulai kontes</button>
+                                                <button className='btn-primary btn btn-block' data-dismiss='modal' onClick={onCreateContest}>Mulai kontes</button>
                                             </div>
                                             <div className='col-md'>
                                                 <button className='btn-light btn btn-block text-main font-weight-bold' data-dismiss='modal'>Lainnnya <i className='fa fa-long-arrow-alt-right ml-2' /></button>
@@ -88,4 +95,15 @@ const ProductCard = (props) => {
     )
 }
 
-export default withRouter(ProductCard)
+const mapStateToProps = state => {
+    return {
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        createContest: (category, subCategory, history) => dispatch(contestAction.createContest(category, subCategory, history))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProductCard))

@@ -32,6 +32,18 @@
     color: var(--main-color);
 }
 
+.btn-outline-main {
+    background-color: white;
+    border: 3px solid var(--main-color);
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+.btn-outline-main:hover {
+    background-color: var(--main-color);
+    color: white;
+}
+
 .btn-category {
     border-radius: 10px;
     background-color: var(--sec-color);

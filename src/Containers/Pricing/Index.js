@@ -1,19 +1,54 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NumberFormat from 'react-number-format';
-import { Link } from 'react-router-dom'
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import contestAction from '../../Modules/Redux/Actions/Contest'
 import TableSection from './TableSection';
 import { Subfooter } from '../../Components/Index';
 
 const Pricing = (props) => {
+    const { contestID } = props.match.params
+    const { contest } = props
     const [state, setState] = useState({
-        choosenPackIdx: null, contestType: null
+        choosenPackIdx: null, contestType: null, saved: false
     })
+
 
     const contestTypes = [
         { title: 'Public', price: 'Free', desc: 'Kontes tampil secara umum di website Creat It.', options: ['Siapapun bisa melihat progres kontes kamu; Creator maupun bukan', 'Lebih banyak creator yang dapat tertarik mengikuti kontes kamu'] },
         { title: 'Stealth', price: '200k', desc: 'Progress kontes kamu tidak kasat mata dan akan tampil hanya setelah kontes selesai', options: ['Hanya kamu sebagai pembuat kontes yang dapat melihat progress kontes', 'Hasil kontes akan tampil lebih unik'] },
         { title: 'Ninja', price: '500k', desc: 'Tidak akan ada yang tahu keberadaan kontes kamu. Apakah ini nyata atau hanya sebuah ilusi?', options: ['Hanya kamu sebagai pembuat kontes yang dapat melihat progress dan hasil kontes yang rahasia ini', 'Pengerjaan kontes dilakukan secara rahasia, sehingga para Creator yang mendaftar harus menandatangani perjanjian rahasia.'] }
     ]
+
+    const pack = [
+        { pricingPack: 'Paket A', price: 2000000 },
+        { pricingPack: 'Paket B', price: 2000000 },
+        { pricingPack: 'Paket C', price: 2000000 },
+        { pricingPack: 'Paket D', price: 2000000 },
+    ]
+
+    const onSave = () => {
+        setState({ ...state, saved: true })
+        const payload = {
+            contestType: state.contestType,
+            ...pack[state.choosenPackIdx]
+        }
+        props.updateContest(contestID, payload)
+    }
+
+    const onContinue = () => {
+        if (!state.saved) {
+            const payload = {
+                contestType: state.contestType,
+                ...pack[state.choosenPackIdx]
+            }
+            props.updateContest(contestID, payload)
+            props.history.replace(`/contest/dashboard/${contestID}`)
+        } else {
+            props.history.replace(`/contest/dashboard/${contestID}`)
+        }
+    }
 
     const onChoose = (index) => {
         setState({ ...state, choosenPackIdx: index })
@@ -23,8 +58,19 @@ const Pricing = (props) => {
         setState({ ...state, contestType: type })
     }
 
+    useEffect(() => {
+        if (contest) {
+            const index = pack.findIndex(item => item.pricingPack == contest.pricingPack)
+            setState({ contestType: contest.contestType, choosenPackIdx: index != -1 ? index : null })
+        }
+    }, [contest])
+
+    useEffect(() => {
+        props.getContestById(contestID, props.history)
+    }, [])
+
     return (
-        <div>
+        <LoadingOverlay active={props.loading} spinner text="Loading please wait...">
 
             <div className='bg-light'>
                 <div className='container py-5'>
@@ -32,8 +78,8 @@ const Pricing = (props) => {
                         <div className='col-md d-flex'>
                             <div className='m-auto'>
                                 <img src={require('../../Modules/images/logo.png')} width='200px' />
-                                <h6 className='mt-4 text-secondary'>Brief / <strong>Pricing</strong></h6>
-                                <h3 className='font-weight-bold text-main'>Pricing</h3>
+                                <h6 className='mt-4 text-secondary'>{contest?.name} / Brief / Ulasan / <strong>Pricing</strong></h6>
+                                <h3 className='font-weight-bold text-main mb-0'>Pricing</h3>
                                 <h1 className='text-main font-weight-bold'>Create Contest</h1>
                                 <div className='text-secondary'>
                                     Pilih paket harga sesuai kebutuhanmu dan kantongmu. Hasil desain nanti akan seutuhnya menjadi hak milik kamu.
@@ -102,14 +148,29 @@ const Pricing = (props) => {
 
             <div className='container py-5'>
                 <div className='d-flex flex-wrap pb-3'>
-                    <button className='btn btn-main px-5 py-3 m-2'>Simpan</button>
-                    <button className='btn btn-main px-5 py-3 m-2'>Lanjut</button>
+                    <button className='btn btn-main px-5 py-3 m-2' onClick={onSave} disabled={!state.choosenPackIdx || !state.contestType}>Simpan</button>
+                    <button className='btn btn-main px-5 py-3 m-2' onClick={onContinue} disabled={!state.choosenPackIdx || !state.contestType}>Lanjut</button>
                 </div>
                 <Subfooter />
             </div>
 
-        </div>
+        </LoadingOverlay>
     )
 }
 
-export default Pricing
+const mapStateToProps = state => {
+    return {
+        contest: state.contest.contest,
+        loading: state.contest.loading,
+        error: state.contest.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getContestById: (contestID, history) => dispatch(contestAction.getContestById(contestID, history)),
+        updateContest: (contestID, payload) => dispatch(contestAction.updateContest(contestID, payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Pricing))

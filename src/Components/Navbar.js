@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import $, { map } from 'jquery'
+import $ from 'jquery'
 import userAction from '../Modules/Redux/Actions/User'
 import { connect } from 'react-redux'
 
@@ -47,7 +47,7 @@ const Navbar = (props) => {
                         {(!props.user && !cookies.get('user')) && <li class="nav-item">
                             <a class="nav-link" href='#' data-toggle="modal" data-target='#signUpModal'>Sign Up</a>
                         </li>}
-                        {props.user && <li class="nav-item">
+                        {props.user?.type == 'client' && <li class="nav-item">
                             <ul class="navbar-nav">
                                 <li class="nav-item dropdown d-flex">
                                     <h6 className='my-auto mr-2 font-weight-bold text-secondary'>Hello, {props.user?.name}</h6>
@@ -62,12 +62,13 @@ const Navbar = (props) => {
                                                 <h6 className='text-secondary'>{cookies.get('user').email}</h6>
                                             </div>
                                         </a>
-                                        <Link class="text-decoration-none dropdown-item d-flex py-3 px-5 bg-light text-secondary" to={
-                                            cookies.get('user').type == 'client' ? ROUTES.CLIENT.DASHBOARD : cookies.get('user').type == 'creator' ? ROUTES.CREATOR.DASHBOARD :
-                                                cookies.get('user').type == 'admin' ? ROUTES.ADMIN.DASHBOARD : null
-                                        }>
+                                        <Link class="text-decoration-none dropdown-item d-flex py-3 px-5 bg-light text-secondary" to={ROUTES.CLIENT.DASHBOARD}>
                                             <i className='fa fa-user text-main my-auto' style={{ fontSize: '20px' }} />
                                             <h6 className='font-weight-bold ml-4 my-auto'>Profile</h6>
+                                        </Link>
+                                        <Link class="text-decoration-none dropdown-item d-flex py-3 px-5 bg-light text-secondary" to={ROUTES.CLIENT.CONTESTLIST}>
+                                            <i className='fa fa-cog text-main my-auto' style={{ fontSize: '20px' }} />
+                                            <h6 className='font-weight-bold ml-4 my-auto'>Your Contests</h6>
                                         </Link>
                                         <Link class="text-decoration-none dropdown-item d-flex py-3 px-5 bg-light text-secondary" href="#">
                                             <i className='fa fa-cog text-main my-auto' style={{ fontSize: '20px' }} />

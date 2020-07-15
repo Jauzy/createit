@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 import Slider from 'react-slick'
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import contestAction from '../../Modules/Redux/Actions/Contest'
 
 import ProductCard from './ProductCard'
 import CategoryCard from './CategoryCard'
@@ -96,7 +100,7 @@ const DesignCategory = (props) => {
     })
 
     return (
-        <div>
+        <LoadingOverlay active={props.loading} spinner text='Loading please wait...'>
 
             <div className='bg-light'>
                 <div className='container py-3 m-auto'>
@@ -137,8 +141,20 @@ const DesignCategory = (props) => {
                 </div>}
             </div> */}
 
-        </div>
+        </LoadingOverlay>
     )
 }
 
-export default DesignCategory
+const mapStateToProps = state => {
+    return {
+        loading: state.contest.loading,
+        error: state.contest.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DesignCategory))
