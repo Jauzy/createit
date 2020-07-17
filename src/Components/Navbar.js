@@ -66,6 +66,10 @@ const Navbar = (props) => {
                                             <i className='fa fa-user text-main my-auto' style={{ fontSize: '20px' }} />
                                             <h6 className='font-weight-bold ml-4 my-auto'>Profile</h6>
                                         </Link>
+                                        <Link class="text-decoration-none dropdown-item d-flex py-3 px-5 bg-light text-secondary" to={ROUTES.CLIENT.PROJECTLIST}>
+                                            <i className='fa fa-cog text-main my-auto' style={{ fontSize: '20px' }} />
+                                            <h6 className='font-weight-bold ml-4 my-auto'>Your Project</h6>
+                                        </Link>
                                         <Link class="text-decoration-none dropdown-item d-flex py-3 px-5 bg-light text-secondary" to={ROUTES.CLIENT.CONTESTLIST}>
                                             <i className='fa fa-cog text-main my-auto' style={{ fontSize: '20px' }} />
                                             <h6 className='font-weight-bold ml-4 my-auto'>Your Contests</h6>

@@ -20,18 +20,19 @@ export const ADMIN = {
     REGISTER: '/admin/register'
 }
 
+export const DESIGNCATEGORY = '/categories'
+
 export const BRIEFCONTEST = '/brief/contest/:contestID'
 export const BRIEFCONTESTREVIEW = '/brief/contest/:contestID/review'
 export const PRICING = '/pricing/:contestID'
 export const PAYMENT = '/payment/:contestID'
 export const CONTESTDASHBOARD = '/contest/dashboard/:contestID'
 
-export const DESIGNCATEGORY = '/categories'
-export const BRIEFPROJECT = '/brief/project/:category/:subcategory'
-export const BRIEFPROJECTREVIEW = '/brief/project/review'
+export const BRIEFPROJECT = '/brief/project/:projectID'
+export const BRIEFPROJECTREVIEW = '/brief/project/:projectID/review'
+export const PROJECTDASHBOARD = '/project/dashboard/:projectID'
 
 export const CONTESTDASHBOARDCREATOR = '/contest/dashboard/creator/:contestID'
-export const PROJECTDASHBOARD = '/project/dashboard'
 
 export const BROWSE = {
     CONTEST : '/contests/',

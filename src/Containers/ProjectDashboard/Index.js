@@ -1,52 +1,79 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Countdown from 'react-countdown';
 import Brief from './Brief'
 import Chatroom from './Chatroom'
 import File from './File'
 import Tagihan from './Tagihan'
 
-const Completionist = () => <span><h1 className='text-white'>Contest Timeout!</h1></span>;
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import projectAction from '../../Modules/Redux/Actions/Project'
+
+const Completionist = () => <span><h1 className='text-white'>Project Timeout!</h1></span>;
 
 const ProjectDashboard = props => {
+    const { project, user } = props
+    const { projectID } = props.match.params
     const [state, setState] = useState({
-        activeSection: 'Tagihan'
+        activeSection: 'Brief', dateDiffInMillis: 0
     })
 
     const sections = ['Brief', 'Chatroom', 'File', 'Tagihan']
 
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
-        if (completed) {
-            // Render a completed state
-            return <Completionist />;
+        if (project?.start_date) {
+            if (completed) {
+                // Render a completed state
+                return <Completionist />;
+            } else {
+                // Render a countdown
+                return (
+                    <span>
+                        <h1 className='text-right text-white'>
+                            {days} : {hours} : {minutes} : {seconds}
+                        </h1>
+                        <h6 className='text-right'>{days} Days Remaining</h6>
+                    </span>
+                )
+            }
         } else {
-            // Render a countdown
             return (
-                <span>
-                    <h1 className='text-right text-white'>
-                        {days} : {hours} : {minutes} : {seconds}
-                    </h1>
-                    <h6 className='text-right'>{days} Days Remaining</h6>
-                </span>
+                <span><h1 className='text-white'>Project Not Yet Started!</h1></span>
             )
         }
     };
 
+    useEffect(() => {
+        if (project && project.start_date) {
+            const start_date = new Date(project.start_date)
+            setState({ ...state, dateDiffInMillis: start_date.setDate(start_date.getDate() + project.duration).getTime() - new Date().getTime() })
+        }
+    }, [project])
+
+    useEffect(() => {
+        props.getProjectById(projectID, props.history)
+    }, [])
+
     return (
-        <div>
+        <LoadingOverlay spinner text='Loading please wait...' active={props.loading}>
 
             <div className='pt-5 bg-main text-white'>
                 <div className='container py-5'>
                     <div className='d-flex flex-wrap'>
                         <div className='mr-auto my-auto'>
                             <h1>Project X</h1>
-                            <h6 className='mb-0'>oleh Weeb Developer</h6>
-                            <small>Designer : Weeb Developer</small>
+                            <h6 className='mb-0'>oleh {user?.name}</h6>
+                            <small>Designer : {project?.designer.map(item => (item + ','))}</small>
                         </div>
                         <div className='ml-auto my-auto'>
-                            <Countdown
-                                date={Date.now() + 100000000}
-                                renderer={renderer}
-                            />
+                            {project?.status == 'Dibatalkan' ?
+                                <h1 className='text-white'>Project Dibatalkan</h1>
+                                :
+                                <Countdown
+                                    date={Date.now() + state.dateDiffInMillis}
+                                    renderer={renderer}
+                                />}
                         </div>
                     </div>
                 </div>
@@ -64,13 +91,30 @@ const ProjectDashboard = props => {
                 </div>
             </div>
 
-            {state.activeSection == 'Brief' && <Brief />}
+            {state.activeSection == 'Brief' && <Brief project={project} />}
             {state.activeSection == 'Chatroom' && <Chatroom />}
             {state.activeSection == 'File' && <File />}
             {state.activeSection == 'Tagihan' && <Tagihan />}
 
-        </div>
+        </LoadingOverlay>
     )
 }
 
-export default ProjectDashboard
+const mapStateToProps = state => {
+    return {
+        user: state.user.user,
+        project: state.project.project,
+        loading: state.project.loading,
+        error: state.project.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getProjectById: (projectID, history) => dispatch(projectAction.getProjectById(projectID, history)),
+        updateProject: (projectID, payload) => dispatch(projectAction.updateProject(projectID, payload)),
+        uploadReference: (projectID, payload) => dispatch(projectAction.uploadReference(projectID, payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProjectDashboard))

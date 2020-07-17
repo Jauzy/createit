@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import bsCustomFileInput from 'bs-custom-file-input'
 import $ from 'jquery'
-import { Link, withRouter } from 'react-router-dom'
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import projectAction from '../../Modules/Redux/Actions/Project'
 import Select from 'react-select';
-import swal from 'sweetalert'
 import { Subfooter } from '../../Components/Index';
 
 const CATEGORIES = require('../../Constants/Categories').CategoryList
 
 const Project = (props) => {
-
+    const { project } = props
+    const { projectID } = props.match.params
     const [state, setState] = useState({
-        category: null, subcategory: null, duration: null, budget: null,
+        category: null, subCategory: null, duration: null, budget: null,
 
-        name: null, description: null, objective: null, industryType: null,
-        websiteOrMedia: null, permission: 'Boleh', notes: null, saved: null
+        name: null, desc: null, purpose: null, industryType: null,
+        social: null, creatorPermission: false, notes: null, saved: null,
+        reference: null
     })
 
     const onChange = e => {
@@ -25,8 +29,8 @@ const Project = (props) => {
         setState({ ...state, category })
     }
 
-    const setSubcategory = (subcategory) => {
-        setState({ ...state, subcategory })
+    const setSubcategory = (subCategory) => {
+        setState({ ...state, subCategory })
     }
 
     const setDuration = (duration) => {
@@ -35,29 +39,42 @@ const Project = (props) => {
 
     const onSave = () => {
         setState({ ...state, saved: true })
+        const { reference, category, subCategory, saved, ...approved } = state
+        props.updateProject(projectID, approved)
     }
 
     const onContinue = () => {
         if (!state.saved) {
-            swal({
-                title: "Error!",
-                text: 'You need to save it first!',
-                icon: "error",
-                button: "Okay!",
-            })
+            const { reference, category, subCategory, saved, ...approved } = state
+            props.updateProject(projectID, approved)
+            props.history.replace(`/brief/project/${projectID}/review`)
         } else {
-            props.history.replace('/pricing')
+            props.history.replace(`/brief/project/${projectID}/review`)
         }
     }
+
+    const handleFileInput = (e) => {
+        let file = document.getElementById(e.target.id).files[0]
+        if (file?.type.substring(0, 5) == "image") {
+            const payload = new FormData()
+            payload.append('image', file)
+            props.uploadReference(projectID, payload)
+        }
+    }
+
+    useEffect(() => {
+        setState({ ...state, ...project })
+    }, [project])
 
     useEffect(() => {
         $(document).ready(function () {
             bsCustomFileInput.init()
         })
+        props.getProjectById(projectID, props.history)
     }, [])
 
     return (
-        <div className=''>
+        <LoadingOverlay spinner active={props.loading} text='Loading please wait...' className=''>
 
             <div className='bg-'>
                 <div className='container py-5'>
@@ -65,7 +82,7 @@ const Project = (props) => {
                         <div className='col-md d-flex'>
                             <div className='m-auto'>
                                 <img src={require('../../Modules/images/logo.png')} width='200px' />
-                                <h6 className='mt-4 text-secondary'><strong>Brief</strong></h6>
+                                <h6 className='mt-4 text-secondary'>{state.name} / <strong>Brief</strong></h6>
                                 <h3 className='font-weight-bold text-main'>Brief Kreatif</h3>
                                 <h1 className='text-main font-weight-bold'>Create Project</h1>
                                 <div className='text-secondary'>
@@ -76,6 +93,9 @@ const Project = (props) => {
                         <div className='col-md d-flex'>
                             <img src={require('../../Modules/images/brief-mascot.png')} width='60%' className='m-auto' />
                         </div>
+                    </div>
+                    <div>
+                        {state.category} / <strong>{state.subCategory}</strong>
                     </div>
                 </div>
             </div>
@@ -102,13 +122,13 @@ const Project = (props) => {
                         <label className='font-weight-bold text-dark'>Kategori Desain*</label>
                         <div className='d-flex flex-wrap justify-content-center' style={{ color: '#2386C7' }}>
                             {CATEGORIES.map((item, idx) => (
-                                <div style={{ borderRadius: '10px', width: '200px' }} className={'p-4 m-2 shadow-sm bg-white border-main' + (state.category == item.title && state.subcategory ? '-active' : '')}>
+                                <div style={{ borderRadius: '10px', width: '200px' }} className={'p-4 m-2 shadow-sm bg-white border-main' + (state.category == item.title && state.subCategory ? '-active' : '')}>
                                     <div className={'d-flex flex-column'}
                                         data-toggle="modal" data-target={"#modalChoose" + idx}
                                         onClick={() => setCategory(item.title)}>
 
                                         <i className='text-center fa fa-wine-bottle mx-auto mt-auto mb-3' style={{ fontSize: '80px' }} />
-                                        {(state.subcategory && state.category == item.title) && <h5 className='mx-auto text-center'>{state.subcategory}</h5>}
+                                        {(state.subCategory && state.category == item.title) && <h5 className='mx-auto text-center'>{state.subCategory}</h5>}
                                         <h6 className='mx-auto text-center mb-auto font-weight-bold'>{item.title}</h6>
                                     </div>
                                     <div class="modal fade" id={"modalChoose" + idx} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -132,7 +152,7 @@ const Project = (props) => {
                                                     <h2 className='text-center text-dark mt-5'>Pilih Sub Kategori</h2>
                                                     <div className='d-flex flex-wrap justify-content-center'>
                                                         {['Kemasan Botol', 'Tube', 'Botol', 'Box', 'Kaleng'].map(sub => (
-                                                            <div className={'px-4 py-3 bg-light shadow-sm mx-3 my-2 d-flex border-main' + (state.subcategory == sub ? '-active' : '')} style={{ borderRadius: '10px' }}
+                                                            <div className={'px-4 py-3 bg-light shadow-sm mx-3 my-2 d-flex border-main' + (state.subCategory == sub ? '-active' : '')} style={{ borderRadius: '10px' }}
                                                                 onClick={() => setSubcategory(sub)} data-dismiss='modal'>
                                                                 <i className='fa fa-wine-bottle mr-2 my-auto' style={{ fontSize: '30px' }} />
                                                                 <h5 className='my-auto'>{sub}</h5>
@@ -146,7 +166,7 @@ const Project = (props) => {
                                 </div>
                             ))}
                         </div>
-                        {!state.subcategory && <small class="text-danger">
+                        {!state.subCategory && <small class="text-danger">
                             *Harus diisi.
                         </small>}
                     </div>
@@ -157,7 +177,7 @@ const Project = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Deskripsi Project*</label>
-                                <textarea class={"form-control " + (!state.description ? 'is-invalid' : '')} rows="3" value={state.description} id='description' onChange={onChange}></textarea>
+                                <textarea class={"form-control " + (!state.desc ? 'is-invalid' : '')} rows="3" value={state.desc} id='desc' onChange={onChange}></textarea>
                                 <small class="form-text text-muted">Deskripsikan seperti apa projek yang ingin kamu buat.</small>
                                 <div class="invalid-feedback">
                                     *Harus diisi.
@@ -172,7 +192,7 @@ const Project = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Tujuan Penggunaan Project*</label>
-                                <textarea class={"form-control " + (!state.objective ? 'is-invalid' : '')} rows="3" value={state.objective} id='objective' onChange={onChange}></textarea>
+                                <textarea class={"form-control " + (!state.purpose ? 'is-invalid' : '')} rows="3" value={state.purpose} id='purpose' onChange={onChange}></textarea>
                                 <small class="form-text text-muted">Ceritakan tujuan dari projekmu.</small>
                                 <div class="invalid-feedback">
                                     *Harus diisi.
@@ -183,15 +203,32 @@ const Project = (props) => {
                     </div>
                     <hr />
 
+                    {(state.reference && state.reference?.length > 0) && <div className='row pt-3'>
+                        <div className='col-md'>
+                            <div class="form-group">
+                                <label className='font-weight-bold text-dark'>Uploaded Desain Referensi*</label>
+                                <div className='d-flex flex-wrap'>
+                                    {state.reference?.map(item => (
+                                        <div>
+                                            <img src={item} style={{ maxWidth: '300px', height: 'auto' }} className='rounded-lg m-3' />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    <hr />
+
                     <div className='row pt-3'>
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Upload Desain Referensi*</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" />
+                                    <input type="file" class="custom-file-input" id="customFile" onChange={handleFileInput} />
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
-                                <small id="emailHelp" class="form-text text-muted">Kirim referensi desain supaya Creator bisa tahu seleramu. Max 1Mb dengan Format Image.</small>
+                                <small id="emailHelp" class="form-text text-muted">Kirim referensi desain supaya Creator bisa tahu seleramu. Max 10Mb dengan Format Image.</small>
                             </div>
                         </div>
                         <div className='col-md'></div>
@@ -212,6 +249,28 @@ const Project = (props) => {
                         {!state.duration && <small class="text-danger">
                             *Harus diisi.
                         </small>}
+                        {state.duration == 'Tentukan tanggal pengerjaan' &&
+                            <div className='row mt-3'>
+                                <div className='col-md'>
+                                    <div class="form-group">
+                                        <label className='font-weight-bold text-dark'>Tentukan Tanggal Mulai*</label>
+                                        <input type="date" class={"form-control " + (!state.start_date ? 'is-invalid' : '')} id='start_date' value={state.start_date} onChange={onChange} />
+                                        <div class="invalid-feedback">
+                                            *Harus diisi.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='col-md'>
+                                    <div class="form-group">
+                                        <label className='font-weight-bold text-dark'>Tentukan Tanggal Selesai*</label>
+                                        <input type="date" class={"form-control " + (!state.end_date ? 'is-invalid' : '')} id='end_date' value={state.end_date} onChange={onChange} />
+                                        <div class="invalid-feedback">
+                                            *Harus diisi.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                     <hr />
 
@@ -242,7 +301,7 @@ const Project = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Website / Media Sosial Perusahaanmu*</label>
-                                <input type="text" class="form-control" value={state.websiteOrMedia} id='websiteOrMedia' onChange={onChange} />
+                                <input type="text" class="form-control" value={state.social} id='social' onChange={onChange} />
                             </div>
                         </div>
                         <div className='col-md'></div>
@@ -261,10 +320,10 @@ const Project = (props) => {
                                     isClearable={false}
                                     isRtl={false}
                                     isSearchable={false}
-                                    name="permission"
-                                    onChange={(item) => setState({ ...state, permission: item.value })}
-                                    value={{ value: state.permission, label: state.permission }}
-                                    options={[{ value: 'Tidak', label: 'Tidak' }, { value: 'Boleh', label: 'Boleh' }]}
+                                    name="creatorPermission"
+                                    onChange={(item) => setState({ ...state, creatorPermission: item.value })}
+                                    value={{ value: state.creatorPermission, label: state.creatorPermission == false ? 'Tidak' : 'Boleh' }}
+                                    options={[{ value: false, label: 'Tidak' }, { value: true, label: 'Boleh' }]}
                                 />
                             </div>
                         </div>
@@ -293,8 +352,24 @@ const Project = (props) => {
                 <Subfooter />
             </div>
 
-        </div>
+        </LoadingOverlay>
     )
 }
 
-export default withRouter(Project)
+const mapStateToProps = state => {
+    return {
+        project: state.project.project,
+        loading: state.project.loading,
+        error: state.project.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getProjectById: (projectID, history) => dispatch(projectAction.getProjectById(projectID, history)),
+        updateProject: (projectID, payload) => dispatch(projectAction.updateProject(projectID, payload)),
+        uploadReference: (projectID, payload) => dispatch(projectAction.uploadReference(projectID, payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Project))
