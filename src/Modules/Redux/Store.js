@@ -10,8 +10,10 @@ import contestReducer from './Reducers/Contest'
 import participationReducer from './Reducers/Participation'
 import paymentReducer from './Reducers/Payment'
 import projectReducer from './Reducers/Project'
+import utilsReducer from './Reducers/Utils'
 
 const reducer = combineReducers({
+    utils: utilsReducer,
     user: userReducer,
     project: projectReducer,
     payment: paymentReducer,

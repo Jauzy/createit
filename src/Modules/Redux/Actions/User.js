@@ -33,7 +33,7 @@ const clientRegister = (userData, history) => {
                 text: "You need to login to continue!",
                 icon: "success",
                 button: "Login now!",
-            }).then((value) => history.push('/login'));
+            })
         } catch (error) {
             swal({
                 title: "Error!",
@@ -57,7 +57,7 @@ const creatorRegister = (userData, history) => {
                 text: "You need to login to continue!",
                 icon: "success",
                 button: "Login now!",
-            }).then((value) => history.push('/login'));
+            })
         } catch (error) {
             swal({
                 title: "Error!",
@@ -80,11 +80,7 @@ const login = (userData, history) => {
             cookies.set("user", data.user, { path: '/' })
 
             dispatch({ type: "FIND_USER_SUCCESS", data: { user: data.user } })
-            swal({
-                title: "Login Success!",
-                icon: "success",
-                button: "Continue",
-            }).then((value) => history.push('/home'));
+            history.push('/home')
         } catch (error) {
             swal({
                 title: "Error!",

@@ -134,10 +134,30 @@ const cancelProject = (projectID) => {
     }
 }
 
+const getProjectByClient = () => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_PROJECT_LOADING" })
+            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+            const { data } = await baseUrl.get(`/project/user`, config)
+            dispatch({ type: "FIND_PROJECT_SUCCESS", data: { projects: data.project } })
+        } catch (error) {
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_PROJECT_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
 export default {
     createProject,
     getProjectById,
     updateProject,
     uploadReference,
-    cancelProject
+    cancelProject,
+    getProjectByClient
 }
