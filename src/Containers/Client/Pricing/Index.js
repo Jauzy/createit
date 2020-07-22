@@ -148,8 +148,8 @@ const Pricing = (props) => {
 
             <div className='container py-5'>
                 <div className='d-flex flex-wrap pb-3'>
-                    <button className='btn btn-main px-5 py-3 m-2' onClick={onSave} disabled={!state.choosenPackIdx || !state.contestType}>Simpan</button>
-                    <button className='btn btn-main px-5 py-3 m-2' onClick={onContinue} disabled={!state.choosenPackIdx || !state.contestType}>Lanjut</button>
+                    <button className='btn btn-main px-5 py-3 m-2' onClick={onSave} disabled={state.choosenPackIdx == null || !state.contestType}>Simpan</button>
+                    <button className='btn btn-main px-5 py-3 m-2' onClick={onContinue} disabled={state.choosenPackIdx == null|| !state.contestType}>Lanjut</button>
                 </div>
                 <Subfooter />
             </div>

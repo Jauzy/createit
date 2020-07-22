@@ -32,6 +32,9 @@ const BriefSec = props => {
                     <h3 className='font-weight-bold text-dark'>Catatan Tambahan untuk Creator</h3>
                     <h6 className='text-secondary font-weight-bold'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</h6>
                 </div>
+                <div className='mt-5'>
+                    <button className='btn btn-main px-5 py-3'>Ikuti Contest</button>
+                </div>
             </div>
         </div>
     )

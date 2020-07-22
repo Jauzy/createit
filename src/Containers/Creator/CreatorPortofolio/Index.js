@@ -48,10 +48,10 @@ const CreatorPortofolio = props => {
                         ))}
                     </ul>
                     <ul className='nav pb-2'>
-                        <li className='nav-item'>
+                        <li className='nav-item mx-2'>
                             <button className='btn btn-outline-main px-5'>Chat</button>
                         </li>
-                        <li className='nav-item'>
+                        <li className='nav-item mx-2'>
                             <button className='btn btn-main'>Invite to work</button>
                         </li>
                     </ul>

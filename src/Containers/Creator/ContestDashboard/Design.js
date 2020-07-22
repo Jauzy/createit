@@ -67,6 +67,11 @@ const Design = props => {
                         </div>
                     </div>
                 </div>
+
+                <div className='mt-5'>
+                    <button className='btn btn-main px-5 py-3'>Ikuti Contest</button>
+                </div>
+
             </div>
 
             <div class="modal fade" id="design" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,6 +114,7 @@ const Design = props => {
                     </div>
                 </div>
             </div>
+
 
         </div>
     )

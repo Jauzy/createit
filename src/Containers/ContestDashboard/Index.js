@@ -6,7 +6,8 @@ import Countdown from 'react-countdown';
 import LoadingOverlay from 'react-loading-overlay'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import contestAction from '../../../Modules/Redux/Actions/Contest'
+import contestAction from '../../Modules/Redux/Actions/Contest'
+import participationAction from '../../Modules/Redux/Actions/Participation'
 
 const Completionist = () => <span><h1 className='text-white'>Contest Timeout!</h1></span>;
 
@@ -43,14 +44,15 @@ const ContestDashboard = props => {
     };
 
     useEffect(() => {
-        if(contest && contest.start_date){
+        if (contest && contest.start_date) {
             const start_date = new Date(contest.start_date)
-            setState({...state, dateDiffInMillis: start_date.setDate(start_date.getDate() + contest.duration).getTime() - new Date().getTime()})
+            setState({ ...state, dateDiffInMillis: start_date.setDate(start_date.getDate() + contest.duration).getTime() - new Date().getTime() })
         }
-    },[contest])
+    }, [contest])
 
     useEffect(() => {
         props.getContestById(contestID, props.history)
+        props.getContestParticipation(contestID)
     }, [])
 
     return (
@@ -60,17 +62,18 @@ const ContestDashboard = props => {
                 <div className='container py-5'>
                     <div className='d-flex flex-wrap'>
                         <div className='mr-auto my-auto'>
-                            <h1>{contest?.name}</h1>
-                            <h6>oleh {user?.name} | <NumberFormat value={contest?.price} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h6>
+                            <h1 className='mb-0'>{contest?.name}</h1>
+                            <h3 className='font-weight-normal'><strong>{contest?.contestType}</strong> Contest</h3>
+                            <h6>oleh {contest?.user.name} | <NumberFormat value={contest?.price} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h6>
                         </div>
                         <div className='ml-auto my-auto'>
-                            {contest?.status == 'Dibatalkan' ? 
-                            <h1 className='text-white'>Contest Dibatalkan</h1>
-                            :
-                            <Countdown
-                                date={Date.now() + state.dateDiffInMillis}
-                                renderer={renderer}
-                            />}
+                            {contest?.status == 'Dibatalkan' ?
+                                <h1 className='text-white'>Contest Dibatalkan</h1>
+                                :
+                                <Countdown
+                                    date={Date.now() + state.dateDiffInMillis}
+                                    renderer={renderer}
+                                />}
                         </div>
                     </div>
                 </div>
@@ -105,6 +108,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        getContestParticipation: (contestID) => dispatch(participationAction.getContestParticipation(contestID)),
         getContestById: (contestID, history) => dispatch(contestAction.getContestById(contestID, history)),
         updateContest: (contestID, payload) => dispatch(contestAction.updateContest(contestID, payload))
     }

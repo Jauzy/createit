@@ -160,3 +160,11 @@
 .react-crop-image img {
     max-width: 100%;
 }
+
+.contest-card {
+    background-color: white;
+}
+
+.contest-card:hover {
+    background-color: #F8F9FA;
+}

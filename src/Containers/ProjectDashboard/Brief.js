@@ -7,7 +7,7 @@ import projectAction from '../../Modules/Redux/Actions/Project'
 
 const Brief = props => {
     const { project } = props
-    const {projectID} = props.match.params
+    const { projectID } = props.match.params
     const [state, setState] = useState({
         activeSection: 'Brief'
     })
@@ -95,6 +95,12 @@ const Brief = props => {
                                 <h6 className='text-secondary font-weight-bold'>{project?.social ? project?.social : 'Belum diatur'}</h6>
                             </div>
                             <div className='mt-5'>
+                                <h3 className='font-weight-bold text-dark'>Referensi</h3>
+                                <div className='d-flex flex-wrap'>{project?.reference ? project?.reference?.map(item => (
+                                    <img src={item} style={{ maxWidth: '200px' }} />
+                                )) : <h6 className='text-secondary font-weight-bold'>Belum diatur</h6>}</div>
+                            </div>
+                            <div className='mt-5'>
                                 <h5 className='font-weight-bold text-dark'>Apa Creator diperbolehkan menampilkan hasil Desainmu sebagai portofolio Createit?</h5>
                                 <h6 className='text-secondary font-weight-bold'>{project?.creatorPermission == false ? 'Tidak' : 'Boleh'}</h6>
                             </div>
@@ -113,6 +119,9 @@ const Brief = props => {
                             <div className='mt-5'>
                                 <h3 className='font-weight-bold text-dark'>Tanggal Mulai</h3>
                                 <h6 className='text-secondary font-weight-bold'>{project?.start_date ? project?.start_date : 'Belum diatur'}</h6>
+                            </div>
+                            <div className='mt-5'>
+                                <button className='btn btn-main px-5 py-3'>Ikuti Project</button>
                             </div>
                         </div>
                     </div>

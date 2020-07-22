@@ -11,15 +11,14 @@ const createContest = (category, subCategory, history) => {
                     title: "Login required!",
                     icon: "error",
                     button: "Okay!",
-                }).then(() => {
-                    history.replace('/login')
                 })
+            } else {
+                dispatch({ type: "FIND_CONTEST_LOADING" })
+                const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+                const { data } = await baseUrl.post(`/contest/`, { category, subCategory }, config)
+                history.replace(`/brief/contest/${data.contest._id}`)
+                dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
             }
-            dispatch({ type: "FIND_CONTEST_LOADING" })
-            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.post(`/contest/`, { category, subCategory }, config)
-            history.replace(`/brief/contest/${data.contest._id}`)
-            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
         } catch (error) {
             swal({
                 title: "Error!",
@@ -35,29 +34,27 @@ const createContest = (category, subCategory, history) => {
 const getContestById = (contestID, history) => {
     return async (dispatch) => {
         try {
-            if (!cookies.get('token')) {
-                swal({
-                    title: "Login required!",
-                    icon: "error",
-                    button: "Okay!",
-                }).then(() => {
-                    history.replace('/login')
-                })
-            }
             dispatch({ type: "FIND_CONTEST_LOADING" })
-            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
-            const { data } = await baseUrl.get(`/contest/${contestID}`, config)
-            if (cookies.get('user')._id != data.contest.user) {
-                swal({
-                    title: "Not Authorized!",
-                    icon: "error",
-                    button: "Run!",
-                }).then(() => {
-                    dispatch({ type: "FIND_CONTEST_SUCCESS" })
-                    history.replace('/')
-                })
-            } else
-                dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
+            const { data } = await baseUrl.get(`/contest/${contestID}`)
+            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contest: data.contest } })
+        } catch (error) {
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_CONTEST_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
+const getContests = () => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_CONTEST_LOADING" })
+            const { data } = await baseUrl.get(`/contest/`)
+            dispatch({ type: "FIND_CONTEST_SUCCESS", data: { contests: data.contests } })
         } catch (error) {
             swal({
                 title: "Error!",
@@ -154,6 +151,7 @@ const uploadReference = (contestID, payload) => {
 }
 
 export default {
+    getContests,
     uploadReference,
     createContest,
     getContestById,

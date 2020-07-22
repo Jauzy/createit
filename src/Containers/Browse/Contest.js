@@ -2,12 +2,35 @@ import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 import ListCard from './ListCard'
 
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import contestAction from '../../Modules/Redux/Actions/Contest'
+
 const Contest = props => {
+    const { user } = props
     const [state, setState] = useState({
         industryType: 'Pilih industri', category: 'Pilih kategori', filter: 'Terbaru'
     })
+
+    useEffect(() => {
+        props.getContests()
+    }, [])
+
+    const checkPermission = (contestType) => {
+        if (contestType == 'Public') return true
+        else if (contestType == 'Stealth') {
+            return true
+        } else if(contestType == 'Ninja'){
+            return user?.type == 'creator'
+        }
+        else {
+            return false
+        }
+    }
+
     return (
-        <div>
+        <LoadingOverlay spinner active={props.loading} text='Loading please wait..'>
 
             <div className='bg-main text-white'>
                 <div className='container py-5'>
@@ -49,18 +72,31 @@ const Contest = props => {
                 </div>
 
                 <div className='mt-4'>
-                    <ListCard />
-                    <ListCard />
-                    <ListCard />
-                    <ListCard />
-                    <ListCard />
+                    {props.contests?.map(item => (
+                        checkPermission(item.contestType) && <ListCard item={item} key={item.name} />
+                    ))}
                     <button className='btn btn-main btn-block'>Tampilkan lebih banyak</button>
                 </div>
 
             </div>
 
-        </div>
+        </LoadingOverlay>
     )
 }
 
-export default Contest
+const mapStateToProps = state => {
+    return {
+        user: state.user.user,
+        contests: state.contest.contests,
+        loading: state.contest.loading,
+        error: state.contest.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getContests: () => dispatch(contestAction.getContests()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Contest))

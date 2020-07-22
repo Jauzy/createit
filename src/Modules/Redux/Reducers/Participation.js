@@ -1,5 +1,6 @@
 const defaultState = {
     participation: null,
+    participations: null,
     loading: false,
     error: null,
 }
@@ -30,8 +31,7 @@ const participationReducer = (state = defaultState, action) => {
         }
         case "CLEAR": {
             return {
-                ...state,
-                participation: null,
+                ...defaultState
             }
         }
         default:

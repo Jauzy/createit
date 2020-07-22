@@ -5,6 +5,7 @@ import DesignCategory from './DesignCategory/Index'
 import BrowseContest from './Browse/Contest'
 import BrowseProject from './Browse/Project'
 import ProjectDashboard from './ProjectDashboard/Index'
+import ContestDashboard from './ContestDashboard/Index'
 
 import {
     CreatorProfile, CreatorContestList, CreatorContestDashboard, CreatorPortofolio
@@ -13,18 +14,16 @@ import {
 import {
     BriefContest, BriefProject, ContestReview, ProjectReview,
     Payment, Pricing, ProjectList, ContestList, ClientProfile,
-    ClientContestDashboard
 } from './Client/Index'
 
 export {
-    CreatorContestDashboard,
+    ContestDashboard,
     ProjectDashboard,
     CreatorContestList,
     CreatorPortofolio,
     BrowseProject,
     BrowseContest,
     Homepage,
-    ClientContestDashboard,
     ContestReview,
     ContestList,
     ProjectReview,

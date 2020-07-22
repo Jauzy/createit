@@ -10,8 +10,16 @@ import './Modules/timeline.css'
 import './Modules/rounded-img.css'
 import './Modules/cardhover.css'
 
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+import JavascriptTimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en'
+import ru from 'javascript-time-ago/locale/ru'
+
+JavascriptTimeAgo.addLocale(en)
+JavascriptTimeAgo.addLocale(ru)
 
 ReactDOM.render(
   <React.StrictMode>
