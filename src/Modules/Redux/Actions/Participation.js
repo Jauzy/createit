@@ -103,13 +103,13 @@ const giveRating = (participationID, type, id, rate) => {
     }
 }
 
-const updateParticipation = (participationID, contestID, desc) => {
+const updateParticipation = (participationID, type, id, desc) => {
     return async (dispatch) => {
         try {
             dispatch({ type: "FIND_PARTICIPATION_LOADING" })
             const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
             const up = await baseUrl.put(`/participation/${participationID}/update`, { desc }, config)
-            const { data } = await baseUrl.get(`/participation/contest/${contestID}`)
+            const { data } = await baseUrl.get(`/participation/${type}/${id}`)
             dispatch({ type: "FIND_PARTICIPATION_SUCCESS", data: { participations: data.participations } })
         } catch (error) {
             swal({

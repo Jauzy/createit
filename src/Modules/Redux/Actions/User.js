@@ -116,6 +116,21 @@ const getUserData = () => {
     }
 }
 
+const getPublicProfile = (creatorID) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_USER_LOADING" })
+            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+            console.log(creatorID)
+            const { data } = await baseUrl.get(`/public/${creatorID}`, config)
+            dispatch({ type: "FIND_USER_SUCCESS", data: { public_user: { data: data.user, participations: data.participations } } })
+        } catch (error) {
+            console.log(error)
+            dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
 const changePassword = (password, newPassword) => {
     return async (dispatch) => {
         try {
@@ -175,7 +190,7 @@ const updateProfilePict = (payload) => {
                 icon: "success",
                 button: "Okay!",
             })
-            const {profile_pict, ...rest} = data.user
+            const { profile_pict, ...rest } = data.user
             dispatch({ type: "FIND_USER_SUCCESS", data: { user: { ...rest, profile_pict: update.data.profile_pict } } })
         } catch (error) {
             swal({
@@ -190,6 +205,7 @@ const updateProfilePict = (payload) => {
 }
 
 export default {
+    getPublicProfile,
     updateProfilePict,
     adminRegister,
     creatorRegister,

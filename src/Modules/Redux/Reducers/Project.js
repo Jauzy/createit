@@ -1,6 +1,7 @@
 const defaultState = {
     project: null,
     projects: null,
+    participations: null,
     loading: false,
     error: null,
 }

@@ -1,6 +1,7 @@
 const defaultState = {
     user: null,
     loading: false,
+    public_user: {},
     error: null,
 }
 

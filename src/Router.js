@@ -15,7 +15,7 @@ const ROUTES = require('./Constants/Routes')
 
 const Router = (props) => {
   return (
-    <div className='font-roboto'>
+    <div className='font-roboto w-100'>
       <ReduxProvider store={reduxStore}>
         <BrowserRouter>
           <Switch>

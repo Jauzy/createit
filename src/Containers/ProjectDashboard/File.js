@@ -1,35 +1,121 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
+import ReactTimeAgo from 'react-time-ago'
+import { connect } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
+import participationAction from '../../Modules/Redux/Actions/Participation'
+import swal from 'sweetalert'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import StarRatings from 'react-star-ratings';
 
 const File = props => {
+    const { project, user, participations } = props
+    const { projectID } = props.match.params
     const [state, setState] = useState({
-        filter: 'Active', valid: false, dropped: false
+        filter: 'Semua', valid: false, dropped: false,
+        modalData: null, activeParticipation: null,
+        full_list: null, list: null
     })
 
-    const filterBtn = [
+    const [filterBtn, setFilterBtn] = useState([
         { title: 'Semua', quantity: 0 },
         { title: 'Referensi', quantity: 0 },
         { title: 'In Progress', quantity: 0 },
         { title: 'Revisi', quantity: 0 },
         { title: 'File Akhir', quantity: 0 },
-    ]
+    ])
+
+    const setModalData = ({ img, date, user, type, desc }) => {
+        let modalData = {
+            img, desc,
+            date, user, type,
+        }
+        setState({ ...state, modalData })
+    }
+
+    const calcRate = (rate) => {
+        let score = 0
+        if (rate.length < 1) return 0
+        rate.map(rate => score += rate.rate)
+        return score / rate.length
+    }
+
+    const editDescToggle = () => {
+        setState({ ...state, isEditDesc: !state.isEditDesc })
+    }
+
+    const onChange = (e) => {
+        setState({ ...state, [e.target.id]: e.target.value })
+    }
+
+    const toggleModal = () => {
+        setState({ ...state, activeParticipation: null, isModalOpen: !state.isModalOpen, index: null })
+    }
 
     const onDrop = useCallback(async acceptedFiles => {
         try {
-            if (acceptedFiles[0].type.search('image') !== -1) {
-                const { project_id } = props.match.params
-                const payload = new FormData()
-                payload.append('banner', acceptedFiles[0])
-                setState({ ...state, valid: true })
-            } else
-                setState({
-                    ...state, valid: false, dropped: true
+            const file = acceptedFiles[0]
+            if (file.type.search('image') !== -1) {
+                if (file.size / 1024 / 1024 <= 5) {
+                    const payload = new FormData()
+                    payload.append('image', file)
+                    props.uploadDesign('project', projectID, payload)
+                } else {
+                    swal({
+                        title: "Error!",
+                        text: 'Image size max 5mb',
+                        icon: "error",
+                        button: "Okay!",
+                    })
+                }
+            } else {
+                swal({
+                    title: "Error!",
+                    text: 'File must be image',
+                    icon: "error",
+                    button: "Okay!",
                 })
+                setState({
+                    ...state, dropped: true
+                })
+            }
         } catch (error) {
             console.log(error)
         }
     }, [])
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+    const checkPermission = () => {
+        let found = project?.approvedDesigner.filter(item => item._id == user._id)[0]
+        return found != null
+    }
+
+    useEffect(() => {
+        if (state.activeParticipation) {
+            let index = props.participations.findIndex(item => item._id == state.activeParticipation._id)
+            let found = participations[index]
+            if (props.participations) {
+                setState({ ...state, full_list: props.participations, list: props.participations, activeParticipation: found })
+                setFilterBtn([
+                    { title: 'Semua', quantity: props.participations.length + project?.reference.length },
+                    { title: 'Referensi', quantity: project?.reference.length },
+                ])
+            }
+        }
+        else if (props.participations) {
+            setState({ ...state, full_list: props.participations, list: props.participations })
+            setFilterBtn([
+                { title: 'Semua', quantity: props.participations.length + project?.reference.length },
+                { title: 'Referensi', quantity: project?.reference.length },
+            ])
+        }
+    }, [participations])
+
+    useEffect(() => {
+        if (state.filter == 'Semua') {
+            setState({ ...state, list: state.full_list })
+        }
+    }, [state.filter])
 
     return (
         <div>
@@ -50,13 +136,46 @@ const File = props => {
 
             <div className='container pb-5'>
                 <div className='d-flex flex-wrap justify-content-center mt-4'>
-                    {[1, 2, 3, 4, 5].map(item => (
-                        <div className='m-2' style={{ maxWidth: '250px', cursor: 'pointer' }} data-toggle='modal' data-target='#design'>
-                            <img width='100%' src={require('../../Modules/images/906560.png')} style={{ width: '250px', height: '250px', objectFit: 'cover' }} className='rounded-lg' />
+                    {(state.filter == 'Semua' || state.filter == 'Referensi') && project?.reference.map((item, index) => (
+                        <div className='mb-auto'>
+                            <div className='m-2'>
+                                <h6 className='text-secondary'>#{index + 1} Reference oleh Owner</h6>
+                                <div className='m-2 border shadow-sm rounded-lg' style={{ maxWidth: '250px', cursor: 'pointer' }} onClick={() => setModalData({ img: item, user: project?.user.name, type: "Referensi" })} data-toggle='modal' data-target='#design'>
+                                    <img width='100%' src={item} style={{ width: '250px', height: '250px', objectFit: 'cover' }} className='rounded-lg' />
+                                </div>
+                            </div>
                         </div>
                     ))}
 
-                    <div {...getRootProps()} className="rounded-lg d-flex align-items-center justify-content-center m-2" style={{ border: '2px dashed #110B17', height: '250px', width: '250px' }}>
+                    {state.filter != 'Referensi' && participations?.map((item, index) => (
+                        item.image_url && <div className='m-2' style={{ maxWidth: '250px', cursor: 'pointer' }}>
+                            <div onClick={() => setState({ ...state, activeParticipation: item, isModalOpen: true, index, desc: item.desc })}>
+                                <h6 className='text-secondary'>#{index + 1} oleh {item.user.name}</h6>
+                                <img width='100%' src={item.image_url} style={{ width: '250px', height: '250px', objectFit: 'cover' }} className='rounded-lg border shadow-sm' />
+                            </div>
+                            <div className='mt-2 d-flex justify-content-center'>
+                                <StarRatings
+                                    rating={calcRate(item.rate)}
+                                    starDimension="30px"
+                                    starSpacing="5px"
+                                    starRatedColor='#F8B00E'
+                                    changeRating={(newRating, name) => {
+                                        if (user)
+                                            props.giveRating(item._id, projectID, newRating)
+                                        else
+                                            swal({
+                                                title: "Error!",
+                                                text: 'Login untuk melakukan rating pada item',
+                                                icon: "error",
+                                                button: "Okay!",
+                                            })
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    ))}
+
+                    {checkPermission() && <div {...getRootProps()} className="rounded-lg d-flex align-items-center justify-content-center m-2 my-auto" style={{ border: '2px dashed #110B17', height: '250px', width: '250px' }}>
                         <input {...getInputProps()} />
                         {props.banner ?
                             <div style={{ width: '100%', height: '50%' }}>
@@ -83,7 +202,7 @@ const File = props => {
                                 }
                             </div>
                         }
-                    </div>
+                    </div>}
 
                 </div>
 
@@ -100,16 +219,16 @@ const File = props => {
                         <div class="modal-body p-0 pr-3 rounded-lg bg-white border shadow">
                             <div className='row'>
                                 <div className='col-md bg-light rounded-lg p-4 d-flex border'>
-                                    <img className='rounded-lg m-auto' src={require('../../Modules/images/brief-mascot.png')} style={{ maxWidth: '100%', maxHeight: '600px', objectFit: 'cover' }} />
+                                    <img className='rounded-lg m-auto' src={state.modalData?.img} style={{ maxWidth: '100%', maxHeight: '600px', objectFit: 'cover' }} />
                                 </div>
                                 <div className='col-md-4 px-4 py-4 rounded-lg'>
-                                    <h4>Referensi</h4>
-                                    <h6 className='font-weight-bold text-secondary mb-0'>oleh <strong className='text-main'>Weeb Developer</strong></h6>
-                                    <small className='text-secondary font-weight-bold'>kemarin</small>
+                                    <h4>{state.modalData?.type}</h4>
+                                    <h6 className='font-weight-bold text-secondary mb-0'>oleh <strong className='text-main'>{state.modalData?.user}</strong></h6>
+                                    {state.modalData?.date && <small className='text-secondary font-weight-bold'><ReactTimeAgo date={new Date(state.modalData.date)} /></small>}
                                     <hr style={{ borderWidth: '2px' }} />
-                                    <div>
-                                        <h6 className='text-wrap font-weight-bold'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
-                                    </div>
+                                    {state.modalData?.type != 'Referensi' && <div>
+                                        <h6 className='text-wrap font-weight-bold'>{state.modalData?.desc || 'Edit to set!'}</h6>
+                                    </div>}
                                     <hr style={{ borderWidth: '2px' }} />
                                 </div>
                             </div>
@@ -118,8 +237,99 @@ const File = props => {
                 </div>
             </div>
 
+            <Modal isOpen={state.isModalOpen} toggle={toggleModal} size='xl' centered={true} scrollable={true}>
+                <ModalHeader toggle={toggleModal}></ModalHeader>
+                <ModalBody>
+                    <div className='py-0 px-3 rounded-lg bg-white border shadow'>
+                        <div className='row'>
+                            <div className='col-md bg-light rounded-lg p-4 d-flex border'>
+                                <img className='rounded-lg m-auto' src={state.activeParticipation?.image_url}
+                                    style={{ maxWidth: '100%', maxHeight: '600px', objectFit: 'cover' }} />
+                            </div>
+                            <div className='col-md-4 px-4 py-4 rounded-lg'>
+                                <h2 className='mb-1'>#{state.index + 1}</h2>
+                                <div className='d-flex flex-wrap'>
+                                    <h6 className='font-weight-bold text-secondary mx-1'>bersama</h6>
+                                    <h6 className='text-main mx-1'>{state.activeParticipation?.user.name}</h6>
+                                    <small className='text-secondary font-weight-bold mx-1'>{state.activeParticipation?.date_uploaded ? <ReactTimeAgo date={state.activeParticipation?.date_uploaded} /> : '--:--:--'}</small>
+                                </div>
+                                <hr style={{ borderWidth: '2px' }} />
+                                <div>
+                                    {!state.isEditDesc ? <h6 className='text-wrap'>{state.desc}
+                                        {state.activeParticipation?.user?._id == user?._id && <i className='fa fa-pen text-main ml-2' onClick={editDescToggle} />}
+                                    </h6> : <div className='d-flex flex-column'>
+                                            <textarea rows='2' onChange={onChange} id='desc' value={state.desc}></textarea>
+                                            <button className='btn btn-primary' onClick={() => {
+                                                props.updateParticipation(state.activeParticipation?._id, projectID, state.desc)
+                                                editDescToggle()
+                                            }}>Save</button>
+                                        </div>}
+                                </div>
+                                <hr style={{ borderWidth: '2px' }} />
+                                <div className='d-flex flex-wrap justify-content-center align-items-center'>
+                                    <Link className='d-flex m-1 text-secondary text-decoration-none' to='#'>
+                                        <i className='fa fa-star mr-1' />
+                                        <small className='font-weight-bold'>{state.activeParticipation ? calcRate(state.activeParticipation?.rate) : '0'} Star</small>
+                                    </Link>
+                                    <Link className='d-flex m-1 text-secondary text-decoration-none' to='#'>
+                                        <i className='fa fa-comment mr-1' />
+                                        <small className='font-weight-bold'>{state.activeParticipation?.comment.length} Komentar</small>
+                                    </Link>
+                                </div>
+                                <hr />
+                                
+                                <div className='d-flex flex-column'>
+                                    <div className='mb-3' id='comment-sec'>
+                                        <div className='' style={{ height: '400px', overflowY: 'scroll' }} >
+                                            {state.activeParticipation?.comment.length > 0 ?
+                                                state.activeParticipation?.comment.map(comment => (
+                                                    <div style={{ borderLeft: '3px solid #0069D9' }} className='pl-2 my-2'>
+                                                        <h6 className='font-weight-bold mb-0'>{comment.user_client ? comment.user_client.name : comment.user_creator.name}
+                                                            <small className='text-secondary mb-0 ml-1'><ReactTimeAgo date={comment.date} /></small></h6>
+                                                        <small className='w-100'>{comment.text}</small>
+                                                    </div>
+                                                ))
+                                                : <h5 className='text-center text-secondary mt-2'>No comment yet</h5>}
+                                        </div>
+                                    </div>
+                                    {user && <div className='d-flex align-items-center mt-auto'>
+                                        <textarea class="form-control" placeholder='Tuliskan komentar...' rows="1"
+                                            value={state.comment} id='comment' onChange={onChange}></textarea>
+                                        <button className='btn btn-primary' onClick={() => {
+                                            props.comment(state.activeParticipation?._id, projectID, state.comment)
+                                            setState({ ...state, comment: '' })
+                                        }}><i className='fa fa-paper-plane' /></button>
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
+
+
         </div>
     )
 }
 
-export default File
+const mapStateToProps = state => {
+    return {
+        project: state.project.project,
+        participations: state.participation.participations,
+        user: state.user.user,
+        loading: state.project.loading,
+        error: state.project.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        uploadDesign: (type, id, payload) => dispatch(participationAction.uploadDesign(type, id, payload)),
+        comment: (participationID, projectID, text) => dispatch(participationAction.comment(participationID, 'project', projectID, text)),
+        giveRating: (participationID, projectID, rate) => dispatch(participationAction.giveRating(participationID, 'project', projectID, rate)),
+        updateParticipation: (participationID, contestID, text) => dispatch(participationAction.updateParticipation(participationID, 'project', contestID, text)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(File))

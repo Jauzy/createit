@@ -4,6 +4,10 @@ import swal from 'sweetalert'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import projectAction from '../../Modules/Redux/Actions/Project'
+import utilsAction from '../../Modules/Redux/Actions/Utils'
+
+import Cookies from 'universal-cookie'
+const cookies = new Cookies()
 
 const Brief = props => {
     const { project } = props
@@ -43,6 +47,12 @@ const Brief = props => {
         },
     ]
 
+    const checkPermission = () => {
+        if (cookies.get('user')?._id != project?.user._id) {
+            return false
+        } else return true
+    }
+
     return (
         <div className='container py-5'>
             <div className='row'>
@@ -55,7 +65,7 @@ const Brief = props => {
                         </div>
                     ))}
                     {sections2.map(item => (
-                        <Link className={'p-4 d-flex align-items-center rounded-lg profile-btn text-decoration-none ' + (state.activeSection == item.name ? '-active ' : '')}
+                        checkPermission() && <Link className={'p-4 d-flex align-items-center rounded-lg profile-btn text-decoration-none ' + (state.activeSection == item.name ? '-active ' : '')}
                             to={project?.status == 'Dibatalkan' ? '#' : item.link}
                             onClick={() => project?.status == 'Dibatalkan' ? null : setActiveSection(item.name)}>
                             <i className={`text-${project?.status == 'Dibatalkan' ? 'danger' : 'main'} fa my-auto fa-${item.icon}`} style={{ fontSize: '30px' }} />
@@ -63,7 +73,7 @@ const Brief = props => {
                         </Link>
                     ))}
                     {sections3.map(item => (
-                        <Link className={'p-4 d-flex align-items-center rounded-lg profile-btn text-decoration-none ' + (state.activeSection == item.name ? '-active ' : '')}
+                        checkPermission() && <Link className={'p-4 d-flex align-items-center rounded-lg profile-btn text-decoration-none ' + (state.activeSection == item.name ? '-active ' : '')}
                             to={'#'}
                             onClick={item.onClick}>
                             <i className={`text-${project?.status == 'Dibatalkan' ? 'danger' : 'main'} fa my-auto fa-${item.icon}`} style={{ fontSize: '30px' }} />
@@ -120,9 +130,15 @@ const Brief = props => {
                                 <h3 className='font-weight-bold text-dark'>Tanggal Mulai</h3>
                                 <h6 className='text-secondary font-weight-bold'>{project?.start_date ? project?.start_date : 'Belum diatur'}</h6>
                             </div>
-                            <div className='mt-5'>
-                                <button className='btn btn-main px-5 py-3'>Ikuti Project</button>
-                            </div>
+
+                            {(project?.designer?.findIndex(item => item._id == cookies.get('user')?._id) == -1 && project?.approvedDesigner.length < 5 && cookies.get('user')?._id != project?.user._id) && <div className='mt-5'>
+                                <button className='btn btn-main px-5 py-3' onClick={() => {
+                                    if(!cookies.get('token')){
+                                        props.toggleSignInModal()
+                                    } else props.joinProject(projectID)
+                                }}>Ikuti Project</button>
+                            </div>}
+
                         </div>
                     </div>
                 </div>
@@ -140,7 +156,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        toggleSignInModal: () => dispatch(utilsAction.toggleSignInModal()),
         cancelProject: (projectID) => dispatch(projectAction.cancelProject(projectID)),
+        joinProject: (projectID) => dispatch(projectAction.joinProject(projectID))
     }
 }
 

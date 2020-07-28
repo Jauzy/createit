@@ -115,6 +115,10 @@ const Navbar = (props) => {
                                             <i className='fa fa-user text-main my-auto' style={{ fontSize: '20px' }} />
                                             <h6 className='font-weight-bold ml-4 my-auto'>Profile</h6>
                                         </Link>
+                                        <Link class="text-decoration-none dropdown-item d-flex py-3 px-5 bg-light text-secondary" to={'/creator/'+props.user?._id}>
+                                            <i className='fa fa-user text-main my-auto' style={{ fontSize: '20px' }} />
+                                            <h6 className='font-weight-bold ml-4 my-auto'>Public Profile</h6>
+                                        </Link>
                                         <Link class="text-decoration-none dropdown-item d-flex py-3 px-5 bg-light text-secondary" href="#">
                                             <i className='fa fa-cog text-main my-auto' style={{ fontSize: '20px' }} />
                                             <h6 className='font-weight-bold ml-4 my-auto'>Pengaturan</h6>
@@ -135,14 +139,14 @@ const Navbar = (props) => {
 
             <Modal isOpen={isSignInModalOpen} toggle={toggleSignInModal} size='xl' centered={true}>
                 <ModalHeader toggle={toggleSignInModal}></ModalHeader>
-                <ModalBody>
+                <ModalBody className='d-flex justify-content-center'>
                     <SignIn />
                 </ModalBody>
             </Modal>
 
             <Modal isOpen={isSignUpModalOpen} toggle={toggleSignUpModal} size='xl' centered={true}>
                 <ModalHeader toggle={toggleSignUpModal}></ModalHeader>
-                <ModalBody>
+                <ModalBody className='d-flex justify-content-center'>
                     <SignUp />
                 </ModalBody>
             </Modal>

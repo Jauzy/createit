@@ -120,9 +120,18 @@ const Design = props => {
     useEffect(() => {
         if (state.activeParticipation) {
             let index = props.participations?.findIndex(item => item._id == state.activeParticipation._id)
-            setState({ ...state, activeParticipation: props.participations[index] })
+            if (props.participations) {
+                setState({ ...state, full_list: props.participations, list: props.participations, activeParticipation: props.participations[index] })
+                setFilterBtn([
+                    { title: 'Semua', quantity: props.participations.length },
+                    { title: 'Unrated', quantity: props.participations.filter(item => calcRate(item.rate) == 0).length },
+                    { title: '1-2 Stars', quantity: props.participations.filter(item => calcRate(item.rate) > 0 && calcRate(item.rate) < 3).length },
+                    { title: '3-5 Stars', quantity: props.participations.filter(item => calcRate(item.rate) >= 3 && calcRate(item.rate) < 5).length },
+                ])
+                setParindex(props.participations?.findIndex(item => item.user._id == user?._id))
+            }
         }
-        if (props.participations) {
+        else if (props.participations) {
             setState({ ...state, full_list: props.participations, list: props.participations })
             setFilterBtn([
                 { title: 'Semua', quantity: props.participations.length },
@@ -269,45 +278,35 @@ const Design = props => {
                                     </Link>
                                 </div>
                                 <hr />
-                                <div style={{ height: '100px', overflowY: 'scroll' }} id='comment-sec'>
-                                    {state.activeParticipation?.comment.length > 0 ?
-                                        state.activeParticipation?.comment.sort((a, b) => a.date < b.date).map(comment => (
-                                            <div style={{ borderLeft: '3px solid #0069D9' }} className='pl-2 my-2'>
-                                                <h6 className='font-weight-bold mb-0'>{comment.name} <small className='text-secondary mb-0'><ReactTimeAgo date={comment.date} /></small></h6>
-                                                <small className='w-100'>{comment.text}</small>
-                                            </div>
-                                        ))
-                                        : <h5 className='text-center text-secondary mt-2'>No comment yet</h5>}
+                                <div className='d-flex flex-column'>
+                                    <div className='mb-3' id='comment-sec'>
+                                        <div className='' style={{ height: '400px', overflowY: 'scroll' }} >
+                                            {state.activeParticipation?.comment.length > 0 ?
+                                                state.activeParticipation?.comment.map(comment => (
+                                                    <div style={{ borderLeft: '3px solid #0069D9' }} className='pl-2 my-2'>
+                                                        <h6 className='font-weight-bold mb-0'>{comment.user_client ? comment.user_client.name : comment.user_creator.name}
+                                                            <small className='text-secondary mb-0 ml-1'><ReactTimeAgo date={comment.date} /></small></h6>
+                                                        <small className='w-100'>{comment.text}</small>
+                                                    </div>
+                                                ))
+                                                : <h5 className='text-center text-secondary mt-2'>No comment yet</h5>}
+                                        </div>
+                                    </div>
+                                    {user && <div className='d-flex align-items-center mt-auto'>
+                                        <textarea class="form-control" placeholder='Tuliskan komentar...' rows="1"
+                                            value={state.comment} id='comment' onChange={onChange}></textarea>
+                                        <button className='btn btn-primary' onClick={() => {
+                                            props.comment(state.activeParticipation?._id, contestID, state.comment)
+                                            setState({ ...state, comment: '' })
+                                        }}><i className='fa fa-paper-plane' /></button>
+                                    </div>
+                                    }
                                 </div>
-                                {user && <div className='d-flex align-items-center mt-2'>
-                                    <textarea class="form-control" placeholder='Tuliskan komentar...' rows="1"
-                                        value={state.comment} id='comment' onChange={onChange}></textarea>
-                                    <button className='btn btn-primary' onClick={() => {
-                                        props.comment(state.activeParticipation?._id, contestID, state.comment)
-                                        setState({ ...state, comment: '' })
-                                    }}><i className='fa fa-paper-plane' /></button>
-                                </div>
-                                }
                             </div>
                         </div>
                     </div>
                 </ModalBody>
             </Modal>
-
-            <div class="modal fade" id="design" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header" style={{ border: 'unset' }}>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <i className='far fa-times-circle text-main' style={{ fontSize: '40px', opacity: '1' }} />
-                            </button>
-                        </div>
-                        <div class="modal-body ">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {(user && user?._id != contest?.user._id && parindex == -1) && <div className='mb-5'>
                 <button className='btn btn-main px-5 py-3' onClick={() => props.joinContest(contestID)}>Ikuti Contest</button>
@@ -332,7 +331,7 @@ const mapDispatchToProps = dispatch => {
         joinContest: (contestID) => dispatch(participationAction.joinContest(contestID)),
         comment: (participationID, contestID, text) => dispatch(participationAction.comment(participationID, 'contest', contestID, text)),
         giveRating: (participationID, contestID, rate) => dispatch(participationAction.giveRating(participationID, 'contest', contestID, rate)),
-        updateParticipation: (participationID, contestID, text) => dispatch(participationAction.updateParticipation(participationID, contestID, text)),
+        updateParticipation: (participationID, contestID, text) => dispatch(participationAction.updateParticipation(participationID, 'contest', contestID, text)),
         uploadDesign: (type, contestID, payload) => dispatch(participationAction.uploadDesign(type, contestID, payload))
     }
 }

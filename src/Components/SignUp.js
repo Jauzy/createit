@@ -32,7 +32,7 @@ const SignUp = props => {
     }
 
     return (
-        <div className='row'>
+        <div className='row mx-auto w-100'>
             <div className='col-md'>
                 <img src={require('../Modules/images/waving.png')} width='100%' style={{ marginBottom: '-200px' }} />
                 <div className='d-flex justify-content-center'>

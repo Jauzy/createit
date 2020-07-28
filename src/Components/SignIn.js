@@ -26,7 +26,7 @@ const SignIn = props => {
     }
 
     return (
-        <div className='row m-auto'>
+        <div className='row m-auto w-100'>
             <div className='col-md'>
                 <img src={require('../Modules/images/running.png')} width='100%' />
             </div>

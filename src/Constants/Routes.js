@@ -40,4 +40,4 @@ export const BROWSE = {
     CREATOR : '/creators/'
 }
 
-export const CREATORPORTOFOLIO = '/creator'
+export const CREATORPORTOFOLIO = '/creator/:creatorID'
