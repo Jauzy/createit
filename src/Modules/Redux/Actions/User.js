@@ -176,6 +176,83 @@ const userUpdate = (userData) => {
     }
 }
 
+const sendVerificationEmail = () => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_USER_LOADING" })
+            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+            const { data } = await baseUrl.put(`/verify/send`, null, config)
+            swal({
+                title: "Email Sent!",
+                text: "Check your email now!",
+                icon: "success",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_USER_SUCCESS", data: null })
+        } catch (error) {
+            console.log(error)
+            dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
+const verifyEmail = (token) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_USER_LOADING" })
+            const { data } = await baseUrl.put(`/verify/${token}`, null)
+            swal({
+                title: "Email Verified!",
+                text: "Your Email has been verified now!",
+                icon: "success",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_USER_SUCCESS", data: null })
+        } catch (error) {
+            console.log(error)
+            dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
+const sendResetPasswordEmail = (email, type) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_USER_LOADING" })
+            const { data } = await baseUrl.put(`/reset/${email}/${type}`, null)
+            swal({
+                title: "Email Sent!",
+                text: "Check your email now!",
+                icon: "success",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_USER_SUCCESS", data: null })
+        } catch (error) {
+            console.log(error)
+            dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
+const resetPassword = (token, newPassword) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_USER_LOADING" })
+            const { data } = await baseUrl.put(`/reset/${token}`, { newPassword })
+            swal({
+                title: "Password Reset Success!",
+                text: "You can now login to continue!",
+                icon: "success",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_USER_SUCCESS", data: null })
+        } catch (error) {
+            console.log(error)
+            dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
 const updateProfilePict = (payload) => {
     return async (dispatch) => {
         try {
@@ -214,5 +291,9 @@ export default {
     logout,
     getUserData,
     changePassword,
-    userUpdate
+    userUpdate,
+    verifyEmail,
+    sendVerificationEmail,
+    sendResetPasswordEmail,
+    resetPassword,
 }

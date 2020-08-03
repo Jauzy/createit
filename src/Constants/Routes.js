@@ -6,12 +6,12 @@ export const REGISTER = '/register'
 export const CLIENT = {
     DASHBOARD: '/client/dashboard',
     CONTESTLIST: '/list/contest',
-    PROJECTLIST:'/list/project'
+    PROJECTLIST: '/list/project'
 }
 
 export const CREATOR = {
     DASHBOARD: '/creator/dashboard',
-    CONTESTLIST : '/list/contest/creator'
+    CONTESTLIST: '/list/contest/creator'
 }
 
 export const ADMIN = {
@@ -35,9 +35,11 @@ export const PROJECTDASHBOARD = '/project/dashboard/:projectID'
 export const CONTESTDASHBOARDCREATOR = '/contest/dashboard/creator/:contestID'
 
 export const BROWSE = {
-    CONTEST : '/contests/',
-    PROJECT : '/projects/',
-    CREATOR : '/creators/'
+    CONTEST: '/contests/',
+    PROJECT: '/projects/',
+    CREATOR: '/creators/'
 }
 
 export const CREATORPORTOFOLIO = '/creator/:creatorID'
+export const VERIFYEMAIl = '/email'
+export const FORGOTPASSWORD = '/forgot-password'

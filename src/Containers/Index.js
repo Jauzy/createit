@@ -6,6 +6,8 @@ import BrowseContest from './Browse/Contest'
 import BrowseProject from './Browse/Project'
 import ProjectDashboard from './ProjectDashboard/Index'
 import ContestDashboard from './ContestDashboard/Index'
+import VerifyEmail from './VerifyEmail'
+import ForgotPassword from './ForgotPassword'
 
 import {
     CreatorProfile, CreatorContestList, CreatorContestDashboard, CreatorPortofolio
@@ -17,6 +19,8 @@ import {
 } from './Client/Index'
 
 export {
+    ForgotPassword,
+    VerifyEmail,
     ContestDashboard,
     ProjectDashboard,
     CreatorContestList,

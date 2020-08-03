@@ -4,6 +4,8 @@ import { withRouter, Link } from 'react-router-dom'
 import userAction from '../Modules/Redux/Actions/User'
 import utilsAction from '../Modules/Redux/Actions/Utils'
 
+const ROUTES = require('../Constants/Routes')
+
 const SignIn = props => {
     const { loading, handleModal } = props
     const [state, setState] = useState({
@@ -61,7 +63,10 @@ const SignIn = props => {
                         </div>
                     </div>
                     <div className='d-flex mt-3'>
-                        <Link className='ml-auto text-main'>Forgot Your Password?</Link>
+                        <Link className='ml-auto text-main' onClick={() => {
+                            props.toggleSignInModal()
+                            props.history.push(ROUTES.FORGOTPASSWORD)
+                        }}>Forgot Your Password?</Link>
                     </div>
                     <div className='row mt-4 m-auto'>
                         <div className='col-md d-flex'>
