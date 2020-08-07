@@ -48,12 +48,12 @@ var settings2 = {
 };
 
 const Card = (props) => {
-    const { btn_label, subtitle, Title } = props
+    const { btn_label, subtitle, Title, img } = props
     return (
         <div className='row'>
             <div className='col-md-4 d-flex'>
                 <div className='m-auto'>
-                    <img src={require('../Modules/images/download.png')} width='100%' />
+                    <img src={require('../Modules/images/' + img)} width='100%' />
                 </div>
             </div>
             <div className='col-md d-flex text-white'>
@@ -149,14 +149,16 @@ const Homepage = (props) => {
             title: () => (
                 <h2 className=''>Kamu butuh desain?<br /> CreateIt punya promo loh cuma untuk kamu!<br />Diskon 30% <h className='font-weight-normal'>untuk setiap kontes!</h></h2>
             ),
-            subtitle: `*Berlaku s.d 31 Agustus 2020`
+            subtitle: `*Berlaku s.d 31 Agustus 2020`,
+            img: 'rebahan-1.png'
         },
         {
             btn_label: 'Let\'s CreateIt!',
             title: () => (
                 <h1 style={{ maxWidth: '600px' }}>Cari solusi desain kamu hanya dengan satu klik!</h1>
             ),
-            subtitle: `Segala kebutuhan digital-kreatifmu bisa diselesaikan oleh para creator terbaik sesuai <strong><em>budget</em></strong> dan <strong><em>keinginanmu, kapanpun</em></strong> dan <strong><em>di manapun!</em></strong>`
+            subtitle: `Segala kebutuhan digital-kreatifmu bisa diselesaikan oleh para creator terbaik sesuai <strong><em>budget</em></strong> dan <strong><em>keinginanmu, kapanpun</em></strong> dan <strong><em>di manapun!</em></strong>`,
+            img: 'rebahan.png'
         }
     ]
 
@@ -167,7 +169,7 @@ const Homepage = (props) => {
                 <div className='container py-5 m-auto'>
                     <Slider {...settings}>
                         {carousel.map(item => (
-                            <Card btn_label={item.btn_label} subtitle={item.subtitle} Title={item.title} />
+                            <Card btn_label={item.btn_label} subtitle={item.subtitle} Title={item.title} img={item.img} />
                         ))}
                     </Slider>
                 </div>
@@ -237,14 +239,16 @@ const Homepage = (props) => {
 
             <div className='bg-main text-white'>
                 <div className='container p-5 m-auto'>
-                    <div className='row d-flex align-items-center'>
-                        <div className='col-lg'>
-                            <h4 className='font-weight-bold'>#BuatKeren Bisnis mu dengan Layanan Digital Kreatif dari Create It</h4>
+                    <div className='row d-flex mt-5'>
+                        <div className='col-lg mt-3'>
+                            <h4 className='font-weight-bold'>Buat project mu lebih impactful dengan layanan crowdsourcing digital-kreatif</h4>
                             <h6 className=''>Segala kebutuhan projectmu solusinya ada di Create It!</h6>
                             <div className='d-flex flex-wrap'>
                                 {CATEGORIES.map((item, index) => (
                                     <div className='m-3 d-flex flex-column justify-content-center' style={{ maxWidth: '60px', cursor: 'pointer' }} onClick={() => ref.current.slickGoTo(index)}>
-                                        <div style={{ width: '60px', height: '60px' }} className='btn-light rounded-circle' />
+                                        <div style={{ width: '50px', height: '50px' }}>
+                                            <img src={require(`../Modules/Icon/${item.icon}`)} width='100%'/>
+                                        </div>
                                         <h6 className='text-center mt-2 font-weight-bold text-light mb-auto'>{item.title}</h6>
                                     </div>
                                 ))}
@@ -264,19 +268,17 @@ const Homepage = (props) => {
                                                 </div>
                                             </div>
                                             <div className='text-secondary mt-3'>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at pellentesque ante. Etiam convallis, sapien imperdiet dictum vestibulum, nibh ipsum.
+                                                {item.subtitle}
                                             </div>
                                             <div className='d-flex flex-wrap'>
-                                                {item.products.slice(0, 3).map(item => (
-                                                    <div className='m-3 d-flex flex-column justify-content-center' style={{ maxWidth: '60px', cursor: 'pointer' }}>
-                                                        <div style={{ width: '60px', height: '60px' }} className='btn-primary rounded-circle' />
+                                                {item.products.slice(0, 7).map(item => (
+                                                    <Link className='m-3 d-flex flex-column justify-content-center' style={{ maxWidth: '60px', cursor: 'pointer' }} to={ROUTES.DESIGNCATEGORY}>
+                                                        <div style={{ width: '40px', height: '40px'}}>
+                                                            <img src={require(`../Modules/Icon/${item.icon}`)} width='100%' style={{ color:"#2386C7"}}/>
+                                                        </div>
                                                         <h6 className='text-center mt-2 font-weight-bold text-main mb-auto'>{item.title}</h6>
-                                                    </div>
+                                                    </Link>
                                                 ))}
-                                                <Link className='m-3 d-flex flex-column justify-content-center' style={{ maxWidth: '60px', cursor: 'pointer' }} to={ROUTES.DESIGNCATEGORY}>
-                                                    <div style={{ width: '60px', height: '60px' }} className='btn-primary rounded-circle' />
-                                                    <h6 className='text-center mt-2 font-weight-bold text-main mb-auto'>more ..</h6>
-                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -289,8 +291,9 @@ const Homepage = (props) => {
 
             <div className='container p-5 m-auto'>
                 <div className='row'>
-                    <div className='col-md-4'>
-                        <img src={require('../Modules/images/brief-mascot.png')} width='100%' />
+                    <div className='col-md-4 my-5'>
+                        {/* <img src={require('../Modules/images/brief-mascot.png')} width='100%' /> */}
+                        <img src={require('../Modules/images/207.jpg')} width='100%' />
                     </div>
                     <div className='col-md d-flex'>
                         <div className='m-auto'>

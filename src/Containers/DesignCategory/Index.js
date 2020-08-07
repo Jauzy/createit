@@ -126,7 +126,7 @@ const DesignCategory = (props) => {
             <div className='container m-auto py-5'>
                 <div className='row m-auto' style={{ width: '100%' }}>
                     {CATEGORIES[state.selectedIdx].products.map((item, idx) => (
-                        <ProductCard contest={item.contest} project={item.project} title={item.title} idx={idx} selectedCategory={state.selectedCategory} icon='circle' />
+                        <ProductCard contest={item.contest} project={item.project} title={item.title} idx={idx} selectedCategory={state.selectedCategory} icon={item.icon} />
                     ))}
                 </div>
             </div>

@@ -19,7 +19,10 @@ const ProductCard = (props) => {
         <div className='col-lg-6 my-3'>
             <div className='bg-light p-5 border-main' style={{ borderRadius: '20px' }} data-toggle="modal" data-target={`#modal${idx}`}>
                 <div className='d-flex'>
-                    <i className={'fa mr-2 text-main my-auto fa-' + icon} style={{ fontSize: '30px' }} />
+                    {/* <i className={'fa mr-2 text-main my-auto fa-' + icon} style={{ fontSize: '30px' }} /> */}
+                    <div style={{ width: '50px', height: '50px' }}>
+                        <img src={require(`../../Modules/Icon/${icon}`)} width='100%'/>
+                    </div>
                     <h2 className='text-main font-weight-bold my-auto ml-3'>{title}</h2>
                 </div>
                 <div className='row my-3'>
@@ -46,7 +49,10 @@ const ProductCard = (props) => {
                         </div>
                         <div class="modal-body">
                             <div className='d-flex justify-content-center align-items-center mb-4'>
-                                <i className={'fa my-auto mr-4 text-main fa-' + icon} style={{ fontSize: '80px' }} />
+                                {/* <i className={'fa my-auto mr-4 text-main fa-' + icon} style={{ fontSize: '80px' }} /> */}
+                                <div style={{ width: '50px', height: '50px' }} className='mr-4'>
+                                    <img src={require(`../../Modules/Icon/${icon}`)} width='100%'/>
+                                </div>
                                 <div>
                                     <h1 className='text-main font-weight-bold'>{title}</h1>
                                 </div>
