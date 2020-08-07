@@ -1,6 +1,7 @@
 export const LOGO = {
     id:'logo',
     title: 'Logo & Branding Kit',
+    subtitle: 'Mulai bisnismu dengan membuat logo yang mengesankan. Buat kesan pertama dengan logo yang menakjubkan dan tutup kesepakatan dengan Brand t yang tak terlupakan.',
     products: [
         {
             title: 'Logo',
@@ -34,6 +35,7 @@ export const LOGO = {
 export const CLOTH = {
     id:'cloth',
     title: 'Cloth & Merch',
+    subtitle: 'Pastikan klien dan tim mu memakai dan mempromosikan brand mu. Buatlah seunik mungkin hingga tak terlupakan.',
     products: [
         {
             title: 'T-Shirt',
@@ -56,6 +58,7 @@ export const CLOTH = {
 export const BUSINESS = {
     id:'bussiness',
     title: 'Business & Marketing',
+    subtitle: 'Promosikan brand mu dengan materi marketing yang berkualitas tinggi. Kamu bisa dapatkan yang terbaik disini.',
     products: [
         {
             title: 'Social Media Feeds',
@@ -63,7 +66,7 @@ export const BUSINESS = {
             contest: `Pastikan media sosial mu menjelaskan dengan tepat. Temukan creator profesional akan mewujudkan nya untuk mu. Adakan kontes desain dan dapatkan ribuan ide dari creator di seluruh dunia.`,
         },
         {
-            title: 'Booklet, Leaflet, Flyer, Pamphlet & Brochure',
+            title: 'Brochure',
             project: `Promosikan brand mu dengan materi marketing yang berkualitas tinggi. Untuk iklan, kartu promo untuk semua Industri. Kamu bisa dapatkan yang terbaik dan cepat disini.`,
             contest: `Ribuan ide hanya untuk mu. Desainer di seluruh dunia menunggu terpilih untuk menang. Promosikan brand mu dengan materi marketing yang berkualitas tinggi.`,
         },
@@ -98,6 +101,7 @@ export const BUSINESS = {
 export const BOOK = {
     id:'book',
     title: 'Book & Magazine',
+    subtitle: 'Berikan kesan indah pada tampilan dan setiap halaman. Selaraskan isi dengan tampilan agar lebih menarik dan buku mu akan tampak hebat.',
     products: [
         {
             title: 'Book Cover',
@@ -130,6 +134,7 @@ export const BOOK = {
 export const WEB = {
     id:'web',
     title: 'Web & App Design',
+    subtitle: 'Setiap bisnis harus online. Dengan aplikasi yang didesain khusus, bisnis mu indah kemana pun pelanggan pergi. Dengan desain web terbaikbisnis mu akan lebih menakjubkan. Dapatkan desain yang bijaksana dan efektif yang dibuat oleh para profesional.',
     products: [
         {
             title: 'Halaman Web',
@@ -162,6 +167,7 @@ export const WEB = {
 export const PACKAGING = {
     id:'packaging',
     title: 'Packaging & Label',
+    subtitle: 'Kemasan yang bagus akan membuat produk mu menonjol. Desain label yang bagus, informatif, unik akan menarik hati pelanggan untuk produk mu.',
     products: [
         {
             title: 'Kemasan Packet',
@@ -194,6 +200,7 @@ export const PACKAGING = {
 export const MOTION = {
     id:'motion',
     title: 'Motion Graphic',
+    subtitle: 'Ilustrasi yang menakjubkan menceritakan kisah lebih indah. Mural untuk dinding ruangan, gambar untuk buku,dan seni yang unik sangat menarik perhatian. Dapatkan ilustrasi grafis khusus dan desainer kami akan menciptakan sesuatu sesuai keinginan mu.',
     products: [
         {
             title: 'Company Profile Video',
@@ -221,6 +228,7 @@ export const MOTION = {
 export const ART = {
     id:'art',
     title: 'Art & Illustration',
+    subtitle: 'Ilustrasi terbaik atau desainer grafis ada disini. Desainer yang tepat hanya dengan sekali klik. Beri tahu kami apa yang kamu cari dan kami akan mencocokkan dengan mitra desain yang sempurna.',
     products: [
         {
             title: 'Graphic Illustration',
