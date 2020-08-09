@@ -25,7 +25,8 @@ const CreatorProfile = props => {
         phone_no: null,
         address: null,
         profile_pict: null,
-        isEditModeOn: false
+        isEditModeOn: false,
+        verified: false
     })
 
     const onChange = e => {
@@ -147,7 +148,22 @@ const CreatorProfile = props => {
                                 <h6 className='font-weight-bold'>Atur Password</h6>
                             </Link>
                         </td>
-                        <td className='py-2 px-4'></td>
+                    </tr>
+                    <tr>
+                        <td className='py-2 px-4'>
+                            <Link to='#' className='text-secondary text-decoration-none'>
+                                {!state.verified && <div onClick={() => {props.sendVerification()}}>
+                                    <h6 className='font-weight-bold text-danger mb-1'><i className='fa fa-times mr-2' />Akunmu belum terverifikasi</h6>
+                                    <small>Akunmu belum terverifikasi, segera lakukan verifikasi.</small>
+                                </div>}
+                                {
+                                    state.verified && <div>
+                                        <h6 className='font-weight-bold text-success mb-1'><i className='fa fa-check mr-2' />Akunmu sudah terverifikasi</h6>
+                                        <small>Akunmu sudah terverifikasi, terimakasih atas kerjasamanya.</small>
+                                    </div>
+                                }
+                            </Link>
+                        </td>
                     </tr>
                 </table>
 
@@ -197,7 +213,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getUserData: () => dispatch(userAction.getUserData()),
-        userUpdate: (payload) => dispatch(userAction.userUpdate(payload))
+        userUpdate: (payload) => dispatch(userAction.userUpdate(payload)),
+        sendVerification : () => dispatch(userAction.sendVerificationEmail())
     }
 }
 

@@ -93,11 +93,36 @@ var productImageSettings = {
 };
 
 const DesignCategory = (props) => {
-    const arr = [1, 2, 3, 4, 5, 6]
+    // const arr = [1, 2, 3, 4, 5, 6]
 
     const [state, setState] = useState({
         selectedCategory: CATEGORIES[0].title, selectedIdx: 0
     })
+
+    const imgcard = [
+        {
+            btn_label: 'Yuk tingkatkan',
+            title: 'Tingkatkan awareness bisnimu dengan make over feeds instagram!',
+            // img: 'rebahan-1.png'
+        },
+        {
+            btn_label: 'Let\'s CreateIt!',
+            title: 'New normal wedding dengan digital invitation yang tak terlupakan.',
+            // img: 'rebahan.png'
+        },
+        {
+            btn_label: 'Let\'s CreateIt!',
+            title: 'Era ekonomi digital? Siapa takut!',
+            subtitle: 'Sudah saatnya bisnismu punya website dengan desain kece!',
+            // img: 'rebahan.png'
+        },
+        {
+            btn_label: 'Mulai bikin logomu!',
+            title: '\"Duh, bisnis makin banyak saingan!\"',
+            subtitle: 'Tenang, dengan brand identity yang kuat dimulai dengan logo yang solid',
+            // img: 'rebahan.png'
+        }
+    ]
 
     return (
         <LoadingOverlay active={props.loading} spinner text='Loading please wait...'>
@@ -105,8 +130,9 @@ const DesignCategory = (props) => {
             <div className='bg-light'>
                 <div className='container py-3 m-auto'>
                     <Slider {...imageSettings}>
-                        {arr.map(item => (
-                            <ImageCard img={require('../../Modules/images/906560.png')} />
+                        {/* {arr.map(item => ( */}
+                        {imgcard.map(item => (
+                            <ImageCard img={require('../../Modules/images/906560.png')} title={item.title} subtitle={item.subtitle} btn_label={item.btn_label}/>
                         ))}
                     </Slider>
                 </div>
