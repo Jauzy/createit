@@ -23,6 +23,26 @@ const updatePaymentContest = (contestID, payload) => {
     }
 }
 
+const uploadContestPaymentProof = (contestID, payload) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: "FIND_PAYMENT_LOADING" })
+            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+            await baseUrl.put(`/payment/${contestID}/proof`, payload, config)
+            const { data } = await baseUrl.get(`/payment/${contestID}`, config)
+            dispatch({ type: "FIND_PAYMENT_SUCCESS", data: { payment: data.payment } })
+        } catch (error) {
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_PAYMENT_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
 const getContestPayment = (contestID) => {
     return async (dispatch) => {
         try {
@@ -37,6 +57,7 @@ const getContestPayment = (contestID) => {
 }
 
 export default {
+    uploadContestPaymentProof,
     getContestPayment,
     updatePaymentContest
 }

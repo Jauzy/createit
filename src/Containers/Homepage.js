@@ -119,7 +119,8 @@ const Homepage = (props) => {
     const howItWorks = [
         {
             title: 'Cari Kategori',
-            subtitle: () => (<h6>Cari kebutuhan kamu di daftar kategori Create It!</h6>)
+            subtitle: () => (<h6>Cari kebutuhan kamu di daftar kategori Create It!</h6>),
+            img: 'Cari Kategori.svg'
         },
         {
             title: 'Pilih Layanan',
@@ -127,19 +128,23 @@ const Homepage = (props) => {
                 <div>
                     Butuh pilihan bervariasi? Mulai sayembara dengan <strong>Create Contest!</strong><br /><br /> Atau diskusikan projectmu dengan creator terpilih melalui <strong>Create Project!</strong>
                 </div>
-            )
+            ),
+            img: 'Pilih Layanan.svg'
         },
         {
             title: 'Isi Brief Kreatif',
-            subtitle: () => (<h6>Tuang semua ide kreatifmu dalam brief supaya creator paham keinginanmu!</h6>)
+            subtitle: () => (<h6>Tuang semua ide kreatifmu dalam brief supaya creator paham keinginanmu!</h6>),
+            img: 'Isi Brief Kreatif.svg'
         },
         {
             title: 'Bayar dan Tunggu',
-            subtitle: () => (<h6>Ikuti panduan pembayaran dan amati proses pengerjaan pesanan kamu sesuai waktu yang kamu inginkan!</h6>)
+            subtitle: () => (<h6>Ikuti panduan pembayaran dan amati proses pengerjaan pesanan kamu sesuai waktu yang kamu inginkan!</h6>),
+            img: 'Bayar dan Tunggu.svg'
         },
         {
             title: 'Desainmu Selesai!',
-            subtitle: () => (<h6>Kamu bisa langsung unduh dan pakai hasil karya dari creator untuk kebutuhanmu!</h6>)
+            subtitle: () => (<h6>Kamu bisa langsung unduh dan pakai hasil karya dari creator untuk kebutuhanmu!</h6>),
+            img: 'Desainmu Selesai.svg'
         },
     ]
 
@@ -219,6 +224,9 @@ const Homepage = (props) => {
                         <div className='row'>
                             {howItWorks.map((item, index) => (
                                 <div className='col-md-6 my-4'>
+                                    <div className='col-md mb-5 d-flex'>
+                                        <img src={require('../Modules/images/Step/' + item.img)} width='35%' className='m-auto' />
+                                    </div>
                                     <div className='d-flex mb-3'>
                                         <div className='rounded-circle bg-main text-white d-flex' style={{ width: '50px', height: '50px' }}><h3 className='m-auto'>{index + 1}</h3></div>
                                         <h4 className='font-weight-bold my-auto ml-3'>{item.title}</h4>
@@ -261,7 +269,9 @@ const Homepage = (props) => {
                                         <div className='px-5 py-3 bg-light m-auto' style={{ borderRadius: '20px' }}>
                                             <div className='row d-flex align-items-center'>
                                                 <div className='col-md-5'>
-                                                    <img src={require('../Modules/images/brief-mascot.png')} width='100%' />
+                                                    {/* <img src={require('../Modules/images/brief-mascot.png')} width='100%' /> */}
+                                                    {/* <svg src={require(`../Modules/Icon/${item.icon}`)} className='icon' width='100%' /> */}
+                                                    <object type="image/svg+xml" data={require(`../Modules/Icon/${item.icon}`)} className="icon"></object>
                                                 </div>
                                                 <div className='col-md text-main'>
                                                     <h2>{item.title}</h2>

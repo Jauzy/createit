@@ -21,7 +21,7 @@ const ContestDashboard = props => {
     const sections = ['Brief', 'Design']
 
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
-        if (contest?.start_date) {
+        if (contest?.startDate) {
             if (completed) {
                 // Render a completed state
                 return <Completionist />;
@@ -44,9 +44,10 @@ const ContestDashboard = props => {
     };
 
     useEffect(() => {
-        if (contest && contest.start_date) {
-            const start_date = new Date(contest.start_date)
-            setState({ ...state, dateDiffInMillis: start_date.setDate(start_date.getDate() + contest.duration).getTime() - new Date().getTime() })
+        if (contest && contest?.startDate) {
+            const start_date = new Date(contest.startDate)
+            start_date.setHours(start_date.getHours() + contest.durationHours)
+            setState({ ...state, dateDiffInMillis: new Date(start_date).getTime() - new Date().getTime() })
         }
     }, [contest])
 
