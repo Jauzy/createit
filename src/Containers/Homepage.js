@@ -50,17 +50,19 @@ var settings2 = {
 const Card = (props) => {
     const { btn_label, subtitle, Title, img } = props
     return (
-        <div className='row'>
-            <div className='col-md-4 d-flex'>
-                <div className='m-auto'>
-                    <img src={require('../Modules/images/' + img)} width='100%' />
+        <div className='container py-5 m-auto'>
+            <div className='row'>
+                <div className='col-md-4 d-flex'>
+                    <div className='m-auto pt-5'>
+                        <img src={require('../Modules/images/' + img)} width='100%' />
+                    </div>
                 </div>
-            </div>
-            <div className='col-md d-flex text-white'>
-                <div className='m-auto'>
-                    <h1 className='font-weight-'><Title /></h1>
-                    <h6 className='my-3' dangerouslySetInnerHTML={{ __html: subtitle }}></h6>
-                    <Link className='btn btn-success px-5 py-3' to={ROUTES.DESIGNCATEGORY} style={{ background: '#20C835' }}>{btn_label}</Link>
+                <div className='col-md d-flex text-white'>
+                    <div className='m-auto pt-5'>
+                        <h1 className='font-weight-'><Title /></h1>
+                        <h6 className='my-3' dangerouslySetInnerHTML={{ __html: subtitle }}></h6>
+                        <Link className='btn btn-success px-5 py-3' to={ROUTES.DESIGNCATEGORY} style={{ background: '#20C835' }}>{btn_label}</Link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -171,13 +173,14 @@ const Homepage = (props) => {
         <div>
 
             <div className='bg-main'>
-                <div className='container py-5 m-auto'>
-                    <Slider {...settings}>
-                        {carousel.map(item => (
-                            <Card btn_label={item.btn_label} subtitle={item.subtitle} Title={item.title} img={item.img} />
-                        ))}
-                    </Slider>
-                </div>
+                <Slider {...settings}>
+                    <div>
+                        <img src={require('../Modules/images/MerdekaBerkaryaa_GRAPHIC ONLY-03.jpg')} width='100%' style={{ backgroundSize: 'cover'}} />
+                    </div>
+                    {carousel.map(item => (
+                        <Card btn_label={item.btn_label} subtitle={item.subtitle} Title={item.title} img={item.img} />
+                    ))}
+                </Slider>
             </div>
 
             <div className='bg-light'>
@@ -270,8 +273,8 @@ const Homepage = (props) => {
                                             <div className='row d-flex align-items-center'>
                                                 <div className='col-md-5'>
                                                     {/* <img src={require('../Modules/images/brief-mascot.png')} width='100%' /> */}
-                                                    {/* <svg src={require(`../Modules/Icon/${item.icon}`)} className='icon' width='100%' /> */}
-                                                    <object type="image/svg+xml" data={require(`../Modules/Icon/${item.icon}`)} className="icon"></object>
+                                                    {/* <img src={require(`../Modules/Icon/${item.icon}`)} className='icon_kategori1' width='100%' /> */}
+                                                    <object type="image/svg+xml" data={require(`../Modules/Icon/${item.icon}`)} ></object>
                                                 </div>
                                                 <div className='col-md text-main'>
                                                     <h2>{item.title}</h2>
@@ -284,7 +287,7 @@ const Homepage = (props) => {
                                                 {item.products.slice(0, 7).map(item => (
                                                     <Link className='m-3 d-flex flex-column justify-content-center' style={{ maxWidth: '60px', cursor: 'pointer' }} to={ROUTES.DESIGNCATEGORY}>
                                                         <div style={{ width: '40px', height: '40px'}}>
-                                                            <img src={require(`../Modules/Icon/${item.icon}`)} width='100%' style={{ color:"#2386C7"}}/>
+                                                            <img src={require(`../Modules/Icon/${item.icon}`)} width='100%'/>
                                                         </div>
                                                         <h6 className='text-center mt-2 font-weight-bold text-main mb-auto'>{item.title}</h6>
                                                     </Link>
