@@ -5,19 +5,21 @@ import LoadingOverlay from 'react-loading-overlay'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import contestAction from '../../Modules/Redux/Actions/Contest'
+import paymentAction from '../../Modules/Redux/Actions/Payment'
 import { Subfooter } from '../../Components/Index'
 
 const Payment = props => {
     const { contestID } = props.match.params
-    const { contest, user } = props
+    const { contest, user, payment } = props
     const [state, setState] = useState({
-        bank: null, idx: null, account_no: null
+        bank: null, idx: null, account_no: null, amount: 0
     })
 
     const paymentMethods = [
         {
             name: 'Mandiri Virtual Account',
             img: 'https://logos-download.com/wp-content/uploads/2016/06/Mandiri_logo.png',
+            fee: 5000,
             step: [
                 { title: 'Lorem Ipsum det Sir!', desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
                 { title: 'Lorem Ipsum det Sir!', desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
@@ -28,6 +30,7 @@ const Payment = props => {
         {
             name: 'BCA Virtual Account',
             img: 'https://1.bp.blogspot.com/-cnqbyNUAhE8/Xcodaak_3PI/AAAAAAAABJ4/pWOFZNTwReEyBUt6XIjy5Sk_yWrh76ytACLcBGAsYHQ/s1600/Logo%2BBank%2BBCA.png',
+            fee: 6500,
             step: [
                 { title: 'Lorem Ipsum det Sir!', desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
                 { title: 'Lorem Ipsum det Sir!', desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
@@ -38,6 +41,7 @@ const Payment = props => {
         {
             name: 'Jenius Virtual Account',
             img: 'https://1.bp.blogspot.com/-3S4np2NQzMs/XempMacPrqI/AAAAAAAABRY/_twVjrZqHCkXDcc8JbH8j7unBKICoxhbwCLcBGAsYHQ/w1200-h630-p-k-no-nu/Logo%2BJenius%2Bpng.png',
+            fee: 7200,
             step: [
                 { title: 'Lorem Ipsum det Sir!', desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
                 { title: 'Lorem Ipsum det Sir!', desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" },
@@ -51,11 +55,7 @@ const Payment = props => {
     }
 
     const onUpdate = () => {
-        const payload = {
-            bank: state.bank,
-            account_no: state.account_no
-        }
-        props.updateContest(contestID, payload)
+        props.updatePaymentContest(contestID, state)
     }
 
     const setPaymentMethod = (bank, idx) => {
@@ -64,14 +64,24 @@ const Payment = props => {
 
     useEffect(() => {
         if (contest) {
-            setState({ ...state, bank: contest.bank, account_no: contest.account_no })
+            let price = contest.contestType == 'Free' ? 0 : contest.contestType == 'Stealth' ? 100000 : 200000
+            setState({
+                ...state,
+                amount: price
+            })
         }
     }, [contest])
+
+    useEffect(() => {
+        if (payment) setState({ ...payment, idx: paymentMethods.findIndex(item => item.name == payment.bank) })
+        else setState(payment)
+    }, [payment])
 
     useEffect(() => {
         setState({ ...state, overflowHeight: $(".tl li").length, bank: paymentMethods[0].name, idx: 0 })
         document.getElementById('overflow-div').style.height = `${($(".tl li").length - 1) * 100}px`;
         props.getContestById(contestID, props.history)
+        props.getContestPayment(contestID)
     }, [])
 
     return (
@@ -125,7 +135,7 @@ const Payment = props => {
                                 </div>
                                 <div class="form-group mt-3">
                                     <label className='font-weight-bold text-dark'>Nomor Rekening*</label>
-                                    <input type="text" class={"form-control " + (!state.account_no ? 'is-invalid' : '')} id='account_no' value={state.account_no} onChange={onChange} />
+                                    <input type="number" class={"form-control " + (!state.account_no ? 'is-invalid' : '')} id='account_no' value={state.account_no} onChange={onChange} />
                                     <small class="form-text text-muted">Masukan nomor rekeningmu untuk verifikasi.</small>
                                     <div class="invalid-feedback">
                                         *Harus diisi.
@@ -167,7 +177,7 @@ const Payment = props => {
                                     <h6>Design Project X</h6>
                                 </td>
                                 <td className='text-right'>
-                                    <h6 className='font-weight-bold'><NumberFormat value={2456981} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h6>
+                                    <h6 className='font-weight-bold'><NumberFormat value={state.amount} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h6>
                                 </td>
                             </tr>
                             <tr>
@@ -175,7 +185,7 @@ const Payment = props => {
                                     <h6>Platform Fee</h6>
                                 </td>
                                 <td className='text-right' style={{ border: 'unset', paddingTop: 0 }}>
-                                    <h6 className='font-weight-bold'><NumberFormat value={2456981} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h6>
+                                    <h6 className='font-weight-bold'><NumberFormat value={paymentMethods[state.idx]?.fee || 0} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h6>
                                 </td>
                             </tr>
                             <tr>
@@ -183,7 +193,7 @@ const Payment = props => {
                                     <h2>Total</h2>
                                 </td>
                                 <td className='text-right'>
-                                    <h2 className='font-weight-bold'><NumberFormat value={2456981} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h2>
+                                    <h2 className='font-weight-bold'><NumberFormat value={state.amount + paymentMethods[state.idx]?.fee || 0} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h2>
                                 </td>
                             </tr>
                         </table>
@@ -192,7 +202,6 @@ const Payment = props => {
                 <div className='d-flex flex-wrap align-items-center'>
                     <button className='btn btn-main m-2 px-4 py-3'>Upload Bukti Pembayaran</button>
                     <button className='btn btn-secondary m-2 px-4 py-3' onClick={onUpdate}>Update Payment Info</button>
-                    <button className='btn btn-danger m-2 px-4 py-3'>Batalkan pemesanan</button>
                 </div>
                 <h6 className='text-secondary mt-3' style={{ maxWidth: '800px' }}>
                     Payment akan divalidasi setelah bukti pembayaran diupload.
@@ -211,7 +220,8 @@ const mapStateToProps = state => {
     return {
         user: state.user.user,
         contest: state.contest.contest,
-        loading: state.contest.loading,
+        payment: state.payment.payment,
+        loading: state.payment.loading,
         error: state.contest.error,
     }
 }
@@ -219,7 +229,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getContestById: (contestID, history) => dispatch(contestAction.getContestById(contestID, history)),
-        updateContest: (contestID, payload) => dispatch(contestAction.updateContest(contestID, payload))
+        updateContest: (contestID, payload) => dispatch(contestAction.updateContest(contestID, payload)),
+        getContestPayment: (contestID) => dispatch(paymentAction.getContestPayment(contestID)),
+        updatePaymentContest: (contestID, payload) => dispatch(paymentAction.updatePaymentContest(contestID, payload))
     }
 }
 
