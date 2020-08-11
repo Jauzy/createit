@@ -174,8 +174,16 @@ const Homepage = (props) => {
 
             <div className='bg-main'>
                 <Slider {...settings}>
-                    <div>
-                        <img src={require('../Modules/images/MerdekaBerkaryaa_GRAPHIC ONLY-03.jpg')} width='100%' style={{ backgroundSize: 'cover'}} />
+                    <div className='custom-slick-paginate-parent'>
+                        <div className='custom-slick-paginate-image' style={{ width: '100%' }}>
+                            <img src={require('../Modules/images/MerdekaBerkaryaa_GRAPHIC ONLY-03.jpg')} width='100%' style={{ objectFit: 'cover' }} />
+                        </div>
+                        <div className='custom-slick-paginate-text-2'>
+                            <h6 style={{ maxWidth: '500px' }}>Pantau terus media sosial kami untuk mendapatkan promo  hingga program-program menarik yang menemani kalian selama bulan agustus. Klik link dibawah ini biar gak nyesel!</h6>
+                            <div className='custom-slick-paginate-button' to={ROUTES.DESIGNCATEGORY}>
+                                <Link to={ROUTES.DESIGNCATEGORY}><img src={require('../Modules/images/Button CTA instagram.com (slash) createit_id.png')} width='30%'/></Link>
+                            </div>
+                        </div>
                     </div>
                     {carousel.map(item => (
                         <Card btn_label={item.btn_label} subtitle={item.subtitle} Title={item.title} img={item.img} />
