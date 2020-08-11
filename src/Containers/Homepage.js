@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import Slider from 'react-slick'
 import { Link } from 'react-router-dom'
-import '../Modules/svg.css'
 
 const ROUTES = require('../Constants/Routes')
 
@@ -256,7 +255,7 @@ const Homepage = (props) => {
                                 {CATEGORIES.map((item, index) => (
                                     <div className='m-3 d-flex flex-column justify-content-center' style={{ maxWidth: '60px', cursor: 'pointer' }} onClick={() => ref.current.slickGoTo(index)}>
                                         <div style={{ width: '50px', height: '50px' }}>
-                                            <img src={require(`../Modules/Icon/${item.icon}`)} width='100%'/>
+                                            <img src={require(`../Modules/Icon/${item.icon}`)} className="icon_kategori2" width='100%'/>
                                         </div>
                                         <h6 className='text-center mt-2 font-weight-bold text-light mb-auto'>{item.title}</h6>
                                     </div>
@@ -271,8 +270,8 @@ const Homepage = (props) => {
                                             <div className='row d-flex align-items-center'>
                                                 <div className='col-md-5'>
                                                     {/* <img src={require('../Modules/images/brief-mascot.png')} width='100%' /> */}
-                                                    {/* <svg src={require(`../Modules/Icon/${item.icon}`)} className='icon' width='100%' /> */}
-                                                    <object type="image/svg+xml" data={require(`../Modules/Icon/${item.icon}`)} className="icon"></object>
+                                                    {/* <img src={require(`../Modules/Icon/${item.icon}`)} className='icon_kategori1' width='100%' /> */}
+                                                    <object type="image/svg+xml" data={require(`../Modules/Icon/${item.icon}`)} className="icon_kategori1"></object>
                                                 </div>
                                                 <div className='col-md text-main'>
                                                     <h2>{item.title}</h2>
@@ -285,7 +284,7 @@ const Homepage = (props) => {
                                                 {item.products.slice(0, 7).map(item => (
                                                     <Link className='m-3 d-flex flex-column justify-content-center' style={{ maxWidth: '60px', cursor: 'pointer' }} to={ROUTES.DESIGNCATEGORY}>
                                                         <div style={{ width: '40px', height: '40px'}}>
-                                                            <img src={require(`../Modules/Icon/${item.icon}`)} width='100%' style={{ color:"#2386C7"}}/>
+                                                            <img src={require(`../Modules/Icon/${item.icon}`)} width='100%'/>
                                                         </div>
                                                         <h6 className='text-center mt-2 font-weight-bold text-main mb-auto'>{item.title}</h6>
                                                     </Link>
