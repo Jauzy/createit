@@ -84,9 +84,9 @@ const Project = (props) => {
                                 <img src={require('../../../Modules/images/logo.png')} width='200px' />
                                 <h6 className='mt-4 text-secondary'>{state.name} / <strong>Brief</strong></h6>
                                 <h3 className='font-weight-bold text-main'>Brief Kreatif</h3>
-                                <h1 className='text-main font-weight-bold'>Create Project</h1>
+                                <h1 className='text-main font-weight-bold'>CreateProject</h1>
                                 <div className='text-secondary'>
-                                    Isi brief kreatif sebaik mungkin supaya Creator bisa memahami keinginanmu dengan mudah. Tenang aja, ini bukan ujian semester kok, take your time!
+                                    Jelaskan project kamu dalam brief kreatif ini dengan baik, lalu diskusikan lebih lanjut dengan creator terpilih nanti.
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,10 @@ const Project = (props) => {
                                         data-toggle="modal" data-target={"#modalChoose" + idx}
                                         onClick={() => setCategory(item.title)}>
 
-                                        <i className='text-center fa fa-wine-bottle mx-auto mt-auto mb-3' style={{ fontSize: '80px' }} />
+                                        {/* <i className='text-center fa fa-wine-bottle mx-auto mt-auto mb-3' style={{ fontSize: '80px' }} /> */}
+                                        <div className='mx-auto mt-auto mb-3' style={{ width: '50px', height: '50px'}}>
+                                            <img src={require(`../../../Modules/Icon/${item.iconBlue}`)} width='100%'/>
+                                        </div>
                                         {(state.subCategory && state.category == item.title) && <h5 className='mx-auto text-center'>{state.subCategory}</h5>}
                                         <h6 className='mx-auto text-center mb-auto font-weight-bold'>{item.title}</h6>
                                     </div>
@@ -142,20 +145,27 @@ const Project = (props) => {
                                                 <div class="modal-body">
                                                     <div className='d-flex'>
                                                         <div className='d-flex m-auto flex-wrap align-items-center justify-content-center row' style={{ maxWidth: '600px' }}>\
-                                                    <i className='fa fa-wine-bottle mr-4' style={{ fontSize: '150px' }} />
-                                                            <div className='col-md d-flex flex-column'>
-                                                                <h1 className='text-main mt-4'>Kemasan dan Label</h1>
-                                                                <h6 className='mt-2 text-dark'>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h6>
+                                                            {/* <i className='fa fa-wine-bottle mr-4' style={{ fontSize: '150px' }} /> */}
+                                                            <div style={{ width: '100px', height: '100px'}}>
+                                                                <img src={require(`../../../Modules/Icon/${item.iconBlue}`)} width='100%'/>
+                                                            </div>
+                                                            <div className='col-md d-flex flex-column mx-5'>
+                                                                <h1 className='text-main mt-4'>{item.title}</h1>
+                                                                <h6 className='mt-2 text-dark'>{item.subtitle}</h6>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <h2 className='text-center text-dark mt-5'>Pilih Sub Kategori</h2>
                                                     <div className='d-flex flex-wrap justify-content-center'>
-                                                        {['Kemasan Botol', 'Tube', 'Botol', 'Box', 'Kaleng'].map(sub => (
+                                                        {/* {['Kemasan Botol', 'Tube', 'Botol', 'Box', 'Kaleng'].map(sub => ( */}
+                                                        {item.products.map(sub => (
                                                             <div className={'px-4 py-3 bg-light shadow-sm mx-3 my-2 d-flex border-main' + (state.subCategory == sub ? '-active' : '')} style={{ borderRadius: '10px' }}
                                                                 onClick={() => setSubcategory(sub)} data-dismiss='modal'>
-                                                                <i className='fa fa-wine-bottle mr-2 my-auto' style={{ fontSize: '30px' }} />
-                                                                <h5 className='my-auto'>{sub}</h5>
+                                                                {/* <i className='fa fa-wine-bottle mr-2 my-auto' style={{ fontSize: '30px' }} /> */}
+                                                                <div style={{ width: '30px', height: '30px'}}>
+                                                                    <img src={require(`../../../Modules/Icon/${sub.icon}`)} width='100%'/>
+                                                                </div>
+                                                                <h5 className='my-auto mx-3'>{sub.title}</h5>
                                                             </div>
                                                         ))}
                                                     </div>

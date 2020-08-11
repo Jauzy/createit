@@ -282,7 +282,7 @@ const Homepage = (props) => {
                                                 <div className='col-md-5'>
                                                     {/* <img src={require('../Modules/images/brief-mascot.png')} width='100%' /> */}
                                                     {/* <img src={require(`../Modules/Icon/${item.icon}`)} className='icon_kategori1' width='100%' /> */}
-                                                    <object type="image/svg+xml" data={require(`../Modules/Icon/${item.icon}`)} ></object>
+                                                    <object type="image/svg+xml" data={require(`../Modules/Icon/${item.iconBlue}`)} ></object>
                                                 </div>
                                                 <div className='col-md text-main'>
                                                     <h2>{item.title}</h2>

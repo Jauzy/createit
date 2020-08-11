@@ -38,6 +38,9 @@ const SignUp = props => {
                 <div className='d-flex justify-content-center'>
                     <img src={require('../Modules/images/logo.png')} width='200px' />
                 </div>
+                <div className='d-flex justify-content-center my-3'>
+                    <h6 className='text-center font-weight-bold' style={{ maxWidth: '450px' }}>An Integrated Creative Marketplace that allows Creative Talents to Connect with Clients, Projects, and Learning Ecosystem to Upgrade Their Skills.</h6>
+                </div>
             </div>
             <div className='col-md d-flex'>
                 <div className='m-auto'>

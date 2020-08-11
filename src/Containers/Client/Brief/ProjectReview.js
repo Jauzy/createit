@@ -42,11 +42,11 @@ const ProjectReview = (props) => {
                         <div className='col-md d-flex'>
                             <div className='m-auto'>
                                 <img src={require('../../../Modules/images/logo.png')} width='200px' />
-                                <h6 className='mt-4 text-secondary'>{state.name} / Brief / <strong>Ulasan</strong></h6>
-                                <h3 className='font-weight-bold text-main'>Ulasan Brief Kreatif</h3>
-                                <h1 className='text-main font-weight-bold'>Create Project</h1>
+                                <h6 className='mt-4 text-secondary'>{state.name} / Brief / <strong>Review</strong></h6>
+                                <h3 className='font-weight-bold text-main'>Review</h3>
+                                <h1 className='text-main font-weight-bold'>Brief CreateProject</h1>
                                 <div className='text-secondary'>
-                                    Isi brief kreatif sebaik mungkin supaya Creator bisa memahami keinginanmu dengan mudah. Tenang aja, ini bukan ujian semester kok, take your time!
+                                    Sebelum melanjutkan, cek dulu brief kamu sudah selesai atau belum, yuk!
                                 </div>
                             </div>
                         </div>

@@ -3,6 +3,7 @@ export const LOGO = {
     title: 'Logo & Branding Kit',
     subtitle: 'Mulai bisnismu dengan membuat logo yang mengesankan. Buat kesan pertama dengan logo yang menakjubkan dan tutup kesepakatan dengan Brand t yang tak terlupakan.',
     icon: 'Logo & branding kit.svg',
+    iconBlue: 'Logo & branding kit-blue.svg',
     products: [
         {
             title: 'Logo',
@@ -43,6 +44,7 @@ export const CLOTH = {
     title: 'Cloth & Merch',
     subtitle: 'Pastikan klien dan tim mu memakai dan mempromosikan brand mu. Buatlah seunik mungkin hingga tak terlupakan.',
     icon: 'Clothing & Merch.svg',
+    iconBlue: 'Clothing & Merch-blue.svg',
     products: [
         {
             title: 'T-Shirt',
@@ -70,6 +72,7 @@ export const BUSINESS = {
     title: 'Business & Marketing',
     subtitle: 'Promosikan brand mu dengan materi marketing yang berkualitas tinggi. Kamu bisa dapatkan yang terbaik disini.',
     icon: 'Business & Marketing.svg',
+    iconBlue: 'Business & Marketing-blue.svg',
     products: [
         {
             title: 'Social Media Feeds',
@@ -121,6 +124,7 @@ export const BOOK = {
     title: 'Book & Magazine',
     subtitle: 'Berikan kesan indah pada tampilan dan setiap halaman. Selaraskan isi dengan tampilan agar lebih menarik dan buku mu akan tampak hebat.',
     icon: 'Book & Magazine.svg',
+    iconBlue: 'Book & Magazine-blue.svg',
     products: [
         {
             title: 'Book Cover',
@@ -160,6 +164,7 @@ export const WEB = {
     title: 'Web & App Design',
     subtitle: 'Setiap bisnis harus online. Dengan aplikasi yang didesain khusus, bisnis mu indah kemana pun pelanggan pergi. Dengan desain web terbaikbisnis mu akan lebih menakjubkan. Dapatkan desain yang bijaksana dan efektif yang dibuat oleh para profesional.',
     icon: 'Web & App Design.svg',
+    iconBlue: 'Web & App Design-blue.svg',
     products: [
         {
             title: 'Halaman Web',
@@ -209,6 +214,7 @@ export const PACKAGING = {
     title: 'Packaging & Label',
     subtitle: 'Kemasan yang bagus akan membuat produk mu menonjol. Desain label yang bagus, informatif, unik akan menarik hati pelanggan untuk produk mu.',
     icon: 'Packaging & Label.svg',
+    iconBlue: 'Packaging & Label-blue.svg',
     products: [
         {
             title: 'Kemasan Packet',
@@ -248,6 +254,7 @@ export const MOTION = {
     title: 'Motion Graphic',
     subtitle: 'Ilustrasi yang menakjubkan menceritakan kisah lebih indah. Mural untuk dinding ruangan, gambar untuk buku,dan seni yang unik sangat menarik perhatian. Dapatkan ilustrasi grafis khusus dan desainer kami akan menciptakan sesuatu sesuai keinginan mu.',
     icon: 'Motion Graphic.svg',
+    iconBlue: 'Motion Graphic-blue.svg',
     products: [
         {
             title: 'Company Profile Video',
@@ -281,6 +288,7 @@ export const ART = {
     title: 'Art & Illustration',
     subtitle: 'Ilustrasi terbaik atau desainer grafis ada disini. Desainer yang tepat hanya dengan sekali klik. Beri tahu kami apa yang kamu cari dan kami akan mencocokkan dengan mitra desain yang sempurna.',
     icon: 'Art & Illustration.svg',
+    iconBlue: 'Art & Illustration-blue.svg',
     products: [
         {
             title: 'Graphic Illustration',
