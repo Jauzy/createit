@@ -9,7 +9,6 @@ import './Modules/override.css'
 import './Modules/timeline.css'
 import './Modules/rounded-img.css'
 import './Modules/cardhover.css'
-import './Modules/svg.css'
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
