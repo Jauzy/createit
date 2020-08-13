@@ -5,7 +5,7 @@ import LoadingOverlay from 'react-loading-overlay'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import projectAction from '../../../Modules/Redux/Actions/Project'
-import { Subfooter } from '../../../Components/Index'
+import { Navbar, Subfooter } from '../../../Components/Index'
 
 const ProjectReview = (props) => {
     const { project } = props
@@ -35,7 +35,7 @@ const ProjectReview = (props) => {
 
     return (
         <LoadingOverlay spinner active={props.loading} text='Loading please wait...' className=''>
-
+            <Navbar />
             <div className='bg-'>
                 <div className='container py-5'>
                     <div className='row'>

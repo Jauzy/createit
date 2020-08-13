@@ -20,17 +20,23 @@ const Router = (props) => {
         <BrowserRouter>
           <Switch>
             <Route exact path={ROUTES.LANDING} component={Landing} />
+            <Route exact path={ROUTES.BRIEFCONTEST} component={BriefContest} />
+            <Route exact path={ROUTES.BRIEFCONTESTREVIEW} component={ContestReview} />
+            <Route exact path={ROUTES.BRIEFPROJECT} component={BriefProject} />
+            <Route exact path={ROUTES.BRIEFPROJECTREVIEW} component={ProjectReview} />
+            <Route exact path={ROUTES.PRICING} component={Pricing} />
+            <Route exact path={ROUTES.PAYMENT} component={Payment} />
             <div>
               <Navbar />
               <Switch>
                 <Route exact path={ROUTES.HOME} component={Homepage} />
                 <Route exact path={ROUTES.DESIGNCATEGORY} component={DesignCategory} />
-                <Route exact path={ROUTES.BRIEFCONTEST} component={BriefContest} />
+                {/* <Route exact path={ROUTES.BRIEFCONTEST} component={BriefContest} />
                 <Route exact path={ROUTES.BRIEFCONTESTREVIEW} component={ContestReview} />
                 <Route exact path={ROUTES.BRIEFPROJECT} component={BriefProject} />
                 <Route exact path={ROUTES.BRIEFPROJECTREVIEW} component={ProjectReview} />
                 <Route exact path={ROUTES.PRICING} component={Pricing} />
-                <Route exact path={ROUTES.PAYMENT} component={Payment} />
+                <Route exact path={ROUTES.PAYMENT} component={Payment} /> */}
                 <Route exact path={ROUTES.CLIENT.DASHBOARD} component={ClientProfile} />
                 <Route exact path={ROUTES.CLIENT.CONTESTLIST} component={ContestList} />
                 <Route exact path={ROUTES.CLIENT.PROJECTLIST} component={ProjectList} />

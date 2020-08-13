@@ -5,7 +5,7 @@ import LoadingOverlay from 'react-loading-overlay'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import contestAction from '../../../Modules/Redux/Actions/Contest'
-import { Subfooter } from '../../../Components/Index'
+import { Navbar, Subfooter } from '../../../Components/Index'
 
 const ContestReview = (props) => {
     const { contestID } = props.match.params
@@ -34,7 +34,7 @@ const ContestReview = (props) => {
 
     return (
         <div className=''>
-
+            <Navbar />
             <div className='bg-'>
                 <div className='container py-5'>
                     <div className='row'>

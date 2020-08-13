@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import contestAction from '../../Modules/Redux/Actions/Contest'
 import paymentAction from '../../Modules/Redux/Actions/Payment'
-import { Subfooter } from '../../Components/Index'
+import { Navbar, Subfooter } from '../../Components/Index'
 import swal from 'sweetalert'
 
 const Payment = props => {
@@ -105,16 +105,16 @@ const Payment = props => {
 
     return (
         <LoadingOverlay active={props.loading} spinner text='Loading please wait...'>
-
+            <Navbar />
             <div className='bg-light'>
                 <div className='container py-5'>
                     <div className='row'>
                         <div className='col-md d-flex'>
                             <div className='m-auto' style={{ width: '100%' }}>
                                 <img src={require('../../Modules/images/logo.png')} width='200px' />
-                                <h6 className='mt-4 text-secondary'>{contest?.name} / Brief / Pricing / Ulasan / <strong>Pembayaran</strong></h6>
+                                <h6 className='mt-4 text-secondary'>{contest?.name} / Brief / Pricing / Review / <strong>Pembayaran</strong></h6>
                                 <h3 className='font-weight-bold text-main mb-0'>Pembayaran</h3>
-                                <h1 className='text-main font-weight-bold'>Kontes Desain</h1>
+                                <h1 className='text-main font-weight-bold'>CreateContest</h1>
                                 <div className='d-flex align-items-center mt-3 flex-wrap'>
                                     <h4 className='my-auto'>{contest?.name}</h4>
                                     <h6 className='ml-2 my-auto font-weight-bold' style={{ maxWidth: '200px' }}>oleh {user?.name}</h6>
@@ -134,7 +134,7 @@ const Payment = props => {
             <div className='container py-5'>
                 <h5>Detil Pembayaran</h5>
                 <h6 className='text-secondary'>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                    Ikuti panduan pembayaran dengan baik dan perhatikan nominal pembayaran yang tertera.
                 </h6>
 
                 <div className='bg-light rounded-lg border my-4 px-3 pt-5'>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import contestAction from '../../../Modules/Redux/Actions/Contest'
 import TableSection from './TableSection';
-import { Subfooter } from '../../../Components/Index';
+import { Navbar, Subfooter } from '../../../Components/Index';
 
 const Pricing = (props) => {
     const { contestID } = props.match.params
@@ -71,7 +71,7 @@ const Pricing = (props) => {
 
     return (
         <LoadingOverlay active={props.loading} spinner text="Loading please wait...">
-
+            <Navbar />
             <div className='bg-light'>
                 <div className='container py-5'>
                     <div className='row'>
