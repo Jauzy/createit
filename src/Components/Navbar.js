@@ -37,12 +37,18 @@ const Navbar = (props) => {
                         <li class="nav-item">
                             <Link class="nav-link" to={ROUTES.BROWSE.CREATOR}>Cari Creator</Link>
                         </li>
-                        <li class="nav-item">
+                        {props.user?.type != 'client' && <li class="nav-item">
                             <Link class="nav-link" to={ROUTES.BROWSE.PROJECT}>Cari Projek</Link>
-                        </li>
-                        <li class="nav-item">
+                        </li>}
+                        {props.user?.type != 'client' && <li class="nav-item">
                             <Link class="nav-link" to={ROUTES.BROWSE.CONTEST}>Cari Contest</Link>
-                        </li>
+                        </li>}
+                        {props.user?.type == 'client' && <li class="nav-item">
+                            <Link class="nav-link" to={ROUTES.BROWSE.PROJECT}>Pembayaran</Link>
+                        </li>}
+                        {props.user?.type == 'client' && <li class="nav-item">
+                            <Link class="nav-link" to={ROUTES.BROWSE.CONTEST}>Konsultasi Desain</Link>
+                        </li>}
                     </ul>
                     <ul class="navbar-nav ml-auto font-weight-bold">
                         <li class="nav-item">
