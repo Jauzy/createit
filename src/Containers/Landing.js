@@ -6,7 +6,7 @@ import { Footer } from '../Components/Index'
 const ROUTES = require('../Constants/Routes')
 
 const Landing = (props) => {
-    
+
     var settings = {
         slidesToShow: 1,
         arrows: false,
@@ -39,7 +39,7 @@ const Landing = (props) => {
                             </div>
                         </div>
                         <div>
-                            <div className='row'>                                
+                            <div className='row'>
                                 <div className='col-md text-white d-flex'>
                                     <div className='m-auto'>
                                         <h1 className='font-weight-bold'>Sekarang Jamane Remote Working!</h1>
@@ -72,7 +72,7 @@ const Landing = (props) => {
             <div className='container-fluid bg-light'>
                 <div className='bg-light'>
                     <div className='text-center mx-auto d-flex flex-column'>
-                         <div className='text-center mx-auto my-5 d-flex flex-column'>
+                        <div className='text-center mx-auto my-5 d-flex flex-column'>
                             <h4 className='font-weight-bold mx-auto' style={{ maxWidth: '700px' }}>Butuh desain logo ? Atau butuh desain aplikasi ?<br />Atau mungkin desain aplikasi lainnya ? Di CreateIt kamu bisa :</h4>
                         </div>
                         <div className='row justify-content-md-center'>

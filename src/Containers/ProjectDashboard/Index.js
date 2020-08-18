@@ -19,7 +19,7 @@ const ProjectDashboard = props => {
     const { project, user } = props
     const { projectID } = props.match.params
     const [state, setState] = useState({
-        activeSection: 'File', dateDiffInMillis: 0
+        activeSection: 'Brief', dateDiffInMillis: 0
     })
 
     const sections = ['Chatroom', 'File', 'Tagihan']

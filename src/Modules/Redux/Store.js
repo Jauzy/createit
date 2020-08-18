@@ -11,6 +11,7 @@ import participationReducer from './Reducers/Participation'
 import paymentReducer from './Reducers/Payment'
 import projectReducer from './Reducers/Project'
 import utilsReducer from './Reducers/Utils'
+import projectPayment from './Reducers/ProjectPayment'
 
 const reducer = combineReducers({
     utils: utilsReducer,
@@ -18,7 +19,8 @@ const reducer = combineReducers({
     project: projectReducer,
     payment: paymentReducer,
     contest: contestReducer,
-    participation : participationReducer
+    participation: participationReducer,
+    projectPayment
 })
 
 export default function configureStore(initialState) {

@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import {
   Landing, Page404, Homepage, DesignCategory, Pricing,
-  BriefContest, BriefProject, ContestReview, ProjectReview, Payment, ClientProfile, ContestList, ProjectList, CreatorProfile, ClientContestDashboard,
+  BriefContest, BriefProject, ContestReview, ProjectReview, Payment, ClientProfile, ContestList, ProjectList, CreatorProfile, ProjectPayment,
   BrowseContest, BrowseProject, CreatorPortofolio, CreatorContestList, ProjectDashboard, ContestDashboard, VerifyEmail, ForgotPassword
 } from './Containers/Index'
 import { Navbar, Footer } from './Components/Index'
@@ -47,6 +47,7 @@ const Router = (props) => {
                 <Route exact path={ROUTES.CREATORPORTOFOLIO} component={CreatorPortofolio} />
                 <Route exact path={ROUTES.CREATOR.CONTESTLIST} component={CreatorContestList} />
                 <Route exact path={ROUTES.PROJECTDASHBOARD} component={ProjectDashboard} />
+                <Route exact path={ROUTES.PROJECTPAYMENT} component={ProjectPayment} />
 
                 <Route path={ROUTES.FORGOTPASSWORD} component={ForgotPassword} />
                 <Route path={ROUTES.VERIFYEMAIl} component={VerifyEmail} />

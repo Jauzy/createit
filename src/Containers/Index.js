@@ -9,6 +9,8 @@ import ContestDashboard from './ContestDashboard/Index'
 import VerifyEmail from './VerifyEmail'
 import ForgotPassword from './ForgotPassword'
 
+import ProjectPayment from './ProjectPayment'
+
 import {
     CreatorProfile, CreatorContestList, CreatorContestDashboard, CreatorPortofolio
 } from './Creator/Index'
@@ -19,6 +21,7 @@ import {
 } from './Client/Index'
 
 export {
+    ProjectPayment,
     ForgotPassword,
     VerifyEmail,
     ContestDashboard,

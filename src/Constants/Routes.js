@@ -31,6 +31,7 @@ export const CONTESTDASHBOARD = '/contest/dashboard/:contestID'
 export const BRIEFPROJECT = '/brief/project/:projectID'
 export const BRIEFPROJECTREVIEW = '/brief/project/:projectID/review'
 export const PROJECTDASHBOARD = '/project/dashboard/:projectID'
+export const PROJECTPAYMENT = '/project/dashboard/:projectID/payment/:paymentID'
 
 export const CONTESTDASHBOARDCREATOR = '/contest/dashboard/creator/:contestID'
 

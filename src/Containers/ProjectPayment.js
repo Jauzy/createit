@@ -3,17 +3,17 @@ import $ from 'jquery'
 import NumberFormat from 'react-number-format'
 import LoadingOverlay from 'react-loading-overlay'
 import { connect } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
-import contestAction from '../../Modules/Redux/Actions/Contest'
-import paymentAction from '../../Modules/Redux/Actions/Payment'
-import { Navbar, Subfooter } from '../../Components/Index'
+import { withRouter } from 'react-router-dom'
+import projectAction from '../Modules/Redux/Actions/Project'
+import projectPayment from '../Modules/Redux/Actions/ProjectPayment'
+import { Subfooter } from '../Components/Index'
 import swal from 'sweetalert'
 
 const Payment = props => {
-    const { contestID } = props.match.params
-    const { contest, user, payment } = props
+    const { projectID, paymentID } = props.match.params
+    const { project, user, payment } = props
     const [state, setState] = useState({
-        bank: null, idx: null, account_no: null, amount: 0
+        sender_bank: null, idx: null, sender_account_no: null, amount: 0
     })
 
     const paymentMethods = [
@@ -56,11 +56,11 @@ const Payment = props => {
     }
 
     const onUpdate = () => {
-        props.updatePaymentContest(contestID, state)
+        props.clientUpdate(paymentID, state)
     }
 
-    const setPaymentMethod = (bank, idx) => {
-        setState({ ...state, bank, idx })
+    const setPaymentMethod = (sender_bank, idx) => {
+        setState({ ...state, sender_bank, idx })
     }
 
     function importData() {
@@ -73,7 +73,7 @@ const Payment = props => {
             if (file?.type.substring(0, 5) == "image") {
                 const payload = new FormData()
                 payload.append('image', file)
-                props.uploadContestPaymentProof(contestID, payload)
+                props.uploadProjectPaymentProof(paymentID, payload)
             } else {
                 swal({
                     title: "Error!",
@@ -87,50 +87,42 @@ const Payment = props => {
     }
 
     useEffect(() => {
-        if (contest) {
-            let price = contest.contestType == 'Free' ? 0 : contest.contestType == 'Stealth' ? 100000 : 200000
-            setState({
-                ...state,
-                amount: price
-            })
+        if (payment) {
+            if (user._id != payment.user._id) props.history.push(`/project/dashboard/${projectID}`)
+            setState({ ...payment, idx: payment.sender_bank ? paymentMethods.findIndex(item => item.name == payment.sender_bank) : null })
         }
-    }, [contest])
-
-    useEffect(() => {
-        if (payment) setState({ ...payment, idx: paymentMethods.findIndex(item => item.name == payment.bank) })
         else setState(payment)
     }, [payment])
 
     useEffect(() => {
-        setState({ ...state, overflowHeight: $(".tl li").length, bank: paymentMethods[0].name, idx: 0 })
+        setState({ ...state, overflowHeight: $(".tl li").length, sender_bank: paymentMethods[0].name, idx: 0 })
         document.getElementById('overflow-div').style.height = `${($(".tl li").length - 1) * 100}px`;
-        props.getContestById(contestID, props.history)
-        props.getContestPayment(contestID)
+        props.getProjectById(projectID, props.history)
+        props.getProjectPayment(paymentID)
     }, [])
 
     return (
         <LoadingOverlay active={props.loading} spinner text='Loading please wait...'>
-            <Navbar />
             <div className='bg-light'>
                 <div className='container py-5'>
                     <div className='row'>
                         <div className='col-md d-flex'>
                             <div className='m-auto' style={{ width: '100%' }}>
-                                <img src={require('../../Modules/images/logo.png')} width='200px' />
-                                <h6 className='mt-4 text-secondary'>{contest?.name} / Brief / Pricing / Review / <strong>Pembayaran</strong></h6>
+                                <img src={require('../Modules/images/logo.png')} width='200px' />
+                                <h6 className='mt-4 text-secondary'>{project?.name} / Brief / Pricing / Review / <strong>Pembayaran</strong></h6>
                                 <h3 className='font-weight-bold text-main mb-0'>Pembayaran</h3>
-                                <h1 className='text-main font-weight-bold'>Create Contest</h1>
+                                <h1 className='text-main font-weight-bold'>Tagihan Designer</h1>
                                 <div className='d-flex align-items-center mt-3 flex-wrap'>
-                                    <h4 className='my-auto'>{contest?.name}</h4>
-                                    <h6 className='ml-2 my-auto font-weight-bold' style={{ maxWidth: '200px' }}>oleh {user?.name}</h6>
-                                    <div className={` btn btn-outline-${contest?.status == 'Belum Dibayar' ? 'danger' : 'success'} my-auto ml-auto`}>
-                                        {contest?.status}
+                                    <h4 className='my-auto'>Untuk </h4>
+                                    <h6 className='ml-2 my-auto font-weight-bold' style={{ maxWidth: '200px' }}>oleh {payment?.for?.name}</h6>
+                                    <div className={` btn btn-outline-${payment?.status == 'Belum Dibayar' ? 'danger' : 'success'} my-auto ml-auto`}>
+                                        {payment?.status}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className='col-md d-flex'>
-                            <img src={require('../../Modules/images/brief-mascot.png')} width='60%' className='m-auto' />
+                            <img src={require('../Modules/images/brief-mascot.png')} width='60%' className='m-auto' />
                         </div>
                     </div>
                 </div>
@@ -150,7 +142,7 @@ const Payment = props => {
                                 <h6 className='text-secondary'>Pilih Metode Pembayaran</h6>
                                 <div className='bg-white rounded-lg border mt-3' id='overflow-div' style={{ overflow: 'auto' }}>
                                     {paymentMethods.map((item, idx) => (
-                                        <div className={'d-flex border px-4 py-3 payment-method ' + (state?.bank == item.name ? 'bg-light' : '')}
+                                        <div className={'d-flex border px-4 py-3 payment-method ' + (state?.sender_bank == item.name ? 'bg-light' : '')}
                                             style={{ width: '100%' }} onClick={() => setPaymentMethod(item.name, idx)}>
                                             <img src={item.img} width='100px' />
                                             <h6 className='ml-4 my-auto font-weight-bold'>{item.name}</h6>
@@ -159,7 +151,7 @@ const Payment = props => {
                                 </div>
                                 <div class="form-group mt-3">
                                     <label className='font-weight-bold text-dark'>Nomor Rekening*</label>
-                                    <input type="number" class={"form-control " + (!state.account_no ? 'is-invalid' : '')} id='account_no' value={state.account_no} onChange={onChange} />
+                                    <input type="number" class={"form-control " + (!state.sender_account_no ? 'is-invalid' : '')} id='sender_account_no' value={state.sender_account_no} onChange={onChange} />
                                     <small class="form-text text-muted">Masukan nomor rekeningmu untuk verifikasi.</small>
                                     <div class="invalid-feedback">
                                         *Harus diisi.
@@ -198,7 +190,7 @@ const Payment = props => {
                             </tr>
                             <tr>
                                 <td>
-                                    <h6><strong>Contest :</strong> {contest?.name}</h6>
+                                    <h6>Tagihan Designer</h6>
                                 </td>
                                 <td className='text-right'>
                                     <h6 className='font-weight-bold'><NumberFormat value={state.amount} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /></h6>
@@ -224,12 +216,12 @@ const Payment = props => {
                     </div>
                 </div>
                 <div className='d-flex flex-wrap align-items-center'>
-                    <button className='btn btn-main m-2 px-4 py-3' disabled={payment?.approved} onClick={importData}>Upload Bukti Pembayaran</button>
+                    <button className='btn btn-main m-2 px-4 py-3' disabled={payment?.approved || !payment?.sender_account_no} onClick={importData}>Upload Bukti Pembayaran</button>
                     {payment?.proofOfPayment && <button className='btn btn-main m-2 px-4 py-3' data-toggle='modal' data-target='#proofOfPaymentModal'>Lihat Bukti Pembayaran</button>}
-                    <button className='btn btn-secondary m-2 px-4 py-3' disabled={payment?.approved} onClick={onUpdate}>Update Payment Info</button>
+                    <button className='btn btn-secondary m-2 px-4 py-3' disabled={payment?.approved || state.idx == null || !state.sender_account_no} onClick={onUpdate}>Update Payment Info</button>
                 </div>
                 <h6 className='text-secondary mt-3' style={{ maxWidth: '800px' }}>
-                <strong className='text-danger'>*Note: Bukti Pembayaran tidak Bisa di Upload Ulang!</strong>. Payment akan divalidasi setelah bukti pembayaran diupload.
+                    <strong className='text-danger'>*Note: Bukti Pembayaran tidak Bisa di Upload Ulang!</strong>. Payment akan divalidasi setelah bukti pembayaran diupload.
                     {payment?.proofOfPayment && <div className='font-weight-bold text-dark mt-3'>* Kamu sudah mengupload bukti pembayaran, mohon tunggu konfirmasi pembayaran. Kontes akan segera dimulai sesaat setelah payment dikonfirmasi.</div>}
                 </h6>
             </div>
@@ -263,20 +255,19 @@ const Payment = props => {
 const mapStateToProps = state => {
     return {
         user: state.user.user,
-        contest: state.contest.contest,
-        payment: state.payment.payment,
-        loading: state.payment.loading,
-        error: state.contest.error,
+        project: state.project.project,
+        payment: state.projectPayment.payment,
+        loading: state.projectPayment.loading,
+        error: state.project.error,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getContestById: (contestID, history) => dispatch(contestAction.getContestById(contestID, history)),
-        updateContest: (contestID, payload) => dispatch(contestAction.updateContest(contestID, payload)),
-        getContestPayment: (contestID) => dispatch(paymentAction.getContestPayment(contestID)),
-        updatePaymentContest: (contestID, payload) => dispatch(paymentAction.updatePaymentContest(contestID, payload)),
-        uploadContestPaymentProof: (contestID, payload) => dispatch(paymentAction.uploadContestPaymentProof(contestID, payload))
+        getProjectById: (projectID, history) => dispatch(projectAction.getProjectById(projectID, history)),
+        getProjectPayment: (paymentID, history) => dispatch(projectPayment.getPaymentByID(paymentID)),
+        clientUpdate: (paymentID, payload) => dispatch(projectPayment.clientUpdate(paymentID, payload)),
+        uploadProjectPaymentProof: (paymentID, payload) => dispatch(projectPayment.uploadProofOfPayment(paymentID, payload))
     }
 }
 
