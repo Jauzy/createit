@@ -34,8 +34,8 @@ const SignIn = props => {
             </div>
             <div className='col-md d-flex'>
                 <div className='m-auto'>
-                    <h1 className='text-main'>You Are Almost There!</h1>
-                    <h6>Please login with your valid credentials.</h6>
+                    <h1 className='text-main'>Selamat Datang Kembali!</h1>
+                    <h6>Lakukan log in terlebih dahulu sebelum melanjutkan.</h6>
                     <ul class="nav nav-pills nav-fill my-3">
                         <li class="nav-item">
                             <Link class={"nav-link " + (state.type == 'client' ? 'active' : '')} onClick={() => selectType('client')} to="#">Login as Client</Link>

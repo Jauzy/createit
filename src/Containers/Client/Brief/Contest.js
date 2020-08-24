@@ -58,6 +58,8 @@ const Contest = (props) => {
         props.getContestById(contestID, props.history)
     }, [])
 
+    const JENIS = require('../../../Constants/JenisIndustri').IndustryList
+
     return (
         <LoadingOverlay className='' active={props.loading} spinner text='Loading please wait...'>
             <Navbar />
@@ -148,7 +150,6 @@ const Contest = (props) => {
                         </div>
                     </div>
                     }
-                    <hr />
 
                     <div className='row pt-3'>
                         <div className='col-md'>
@@ -169,19 +170,21 @@ const Contest = (props) => {
                         <div className='col-md'>
                             <div class="form-group">
                                 <label className='font-weight-bold text-dark'>Jenis Industri Perusahaanmu*</label>
-                                <Select
-                                    className="basic-single"
-                                    classNamePrefix="select"
-                                    defaultValue={{ value: null, label: 'Pilih industri' }}
-                                    isLoading={false}
-                                    isClearable={false}
-                                    isRtl={false}
-                                    isSearchable={false}
-                                    name="industryType"
-                                    onChange={(item) => setState({ ...state, industryType: item.value })}
-                                    value={{ value: state.industryType, label: state.industryType }}
-                                    options={[{ value: 'Industri Kreatif', label: 'Industri Kreatif' }]}
-                                />
+                                {JENIS.map(item => (
+                                    <Select
+                                        className="basic-single"
+                                        classNamePrefix="select"
+                                        defaultValue={{ value: null, label: 'Pilih industri' }}
+                                        isLoading={false}
+                                        isClearable={false}
+                                        isRtl={false}
+                                        isSearchable={false}
+                                        name="industryType"
+                                        onChange={(item) => setState({ ...state, industryType: item.value })}
+                                        value={{ value: state.industryType, label: state.industryType }}
+                                        options={item}
+                                    />
+                                ))}
                             </div>
                         </div>
                         <div className='col-md'></div>

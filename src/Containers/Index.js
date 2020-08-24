@@ -4,6 +4,7 @@ import Homepage from './Homepage'
 import DesignCategory from './DesignCategory/Index'
 import BrowseContest from './Browse/Contest'
 import BrowseProject from './Browse/Project'
+import BrowseCreator from './Browse/Creator'
 import ProjectDashboard from './ProjectDashboard/Index'
 import ContestDashboard from './ContestDashboard/Index'
 import VerifyEmail from './VerifyEmail'
@@ -30,6 +31,7 @@ export {
     CreatorPortofolio,
     BrowseProject,
     BrowseContest,
+    BrowseCreator,
     Homepage,
     ContestReview,
     ContestList,

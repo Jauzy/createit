@@ -44,8 +44,8 @@ const SignUp = props => {
             </div>
             <div className='col-md d-flex'>
                 <div className='m-auto'>
-                    <h1 className='text-main'>Are you new to Create It?!</h1>
-                    <h6>Fill form below with your valid information to continue.</h6>
+                    <h1 className='text-main'>Yuk Daftar Dulu!</h1>
+                    <h6>Daftarkan dirimu sebelum menggunakan jasa Create It.</h6>
                     <ul class="nav nav-pills nav-fill my-3">
                         <li class="nav-item">
                             <Link class={"nav-link " + (state.type == 'client' ? 'active' : '')} onClick={() => selectType('client')} to="#">Sign Up as Client</Link>

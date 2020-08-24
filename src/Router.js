@@ -4,7 +4,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import {
   Landing, Page404, Homepage, DesignCategory, Pricing,
   BriefContest, BriefProject, ContestReview, ProjectReview, Payment, ClientProfile, ContestList, ProjectList, CreatorProfile, ProjectPayment,
-  BrowseContest, BrowseProject, CreatorPortofolio, CreatorContestList, ProjectDashboard, ContestDashboard, VerifyEmail, ForgotPassword
+  BrowseContest, BrowseProject, BrowseCreator, CreatorPortofolio, CreatorContestList, ProjectDashboard, ContestDashboard, VerifyEmail, ForgotPassword
 } from './Containers/Index'
 import { Navbar, Footer } from './Components/Index'
 
@@ -31,12 +31,6 @@ const Router = (props) => {
               <Switch>
                 <Route exact path={ROUTES.HOME} component={Homepage} />
                 <Route exact path={ROUTES.DESIGNCATEGORY} component={DesignCategory} />
-                {/* <Route exact path={ROUTES.BRIEFCONTEST} component={BriefContest} />
-                <Route exact path={ROUTES.BRIEFCONTESTREVIEW} component={ContestReview} />
-                <Route exact path={ROUTES.BRIEFPROJECT} component={BriefProject} />
-                <Route exact path={ROUTES.BRIEFPROJECTREVIEW} component={ProjectReview} />
-                <Route exact path={ROUTES.PRICING} component={Pricing} />
-                <Route exact path={ROUTES.PAYMENT} component={Payment} /> */}
                 <Route exact path={ROUTES.CLIENT.DASHBOARD} component={ClientProfile} />
                 <Route exact path={ROUTES.CLIENT.CONTESTLIST} component={ContestList} />
                 <Route exact path={ROUTES.CLIENT.PROJECTLIST} component={ProjectList} />
@@ -44,6 +38,7 @@ const Router = (props) => {
                 <Route exact path={ROUTES.CONTESTDASHBOARD} component={ContestDashboard} />
                 <Route exact path={ROUTES.BROWSE.CONTEST} component={BrowseContest} />
                 <Route exact path={ROUTES.BROWSE.PROJECT} component={BrowseProject} />
+                <Route exact path={ROUTES.BROWSE.CREATOR} component={BrowseCreator} />
                 <Route exact path={ROUTES.CREATORPORTOFOLIO} component={CreatorPortofolio} />
                 <Route exact path={ROUTES.CREATOR.CONTESTLIST} component={CreatorContestList} />
                 <Route exact path={ROUTES.PROJECTDASHBOARD} component={ProjectDashboard} />
