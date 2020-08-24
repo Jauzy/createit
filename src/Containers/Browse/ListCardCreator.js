@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 const ListCardParticipation = props => {
     const { item } = props
     return (
-        <Link className='text-decoration-none text-dark' to={`/project/dashboard/${item._id}`}>
+        <Link className='text-decoration-none text-dark' to={`/creator/${item.user._id}`}>
             <div className='row contest-card rounded-lg'>
                 <div className='col-md-auto'>
                     <img width='100%' className='rounded-lg bg-light' src={require('../../Modules/images/brief-mascot.png')} style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
