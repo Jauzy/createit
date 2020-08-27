@@ -1,3 +1,6 @@
+export const ENDPOINTS = 'https://server.createit.id'
+// export const ENDPOINTS = 'http://localhost:5000'
+
 export const LANDING = '/'
 export const HOME = '/home'
 export const LOGIN = '/login'

@@ -114,7 +114,7 @@ const Payment = props => {
                                 <h1 className='text-main font-weight-bold'>Tagihan Designer</h1>
                                 <div className='d-flex align-items-center mt-3 flex-wrap'>
                                     <h4 className='my-auto'>Untuk </h4>
-                                    <h6 className='ml-2 my-auto font-weight-bold' style={{ maxWidth: '200px' }}>oleh {payment?.for?.name}</h6>
+                                    <h6 className='ml-2 my-auto font-weight-bold' style={{ maxWidth: '200px' }}> {payment?.for?.name}</h6>
                                     <div className={` btn btn-outline-${payment?.status == 'Belum Dibayar' ? 'danger' : 'success'} my-auto ml-auto`}>
                                         {payment?.status}
                                     </div>

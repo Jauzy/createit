@@ -41,6 +41,34 @@ const getPaymentByID = (paymentID) => {
     }
 }
 
+const creatorUpdate = (projectID, payload, room) => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: "FIND_PROJECTPAYMENT_LOADING" })
+            const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
+            const payment = await baseUrl.post(`/payment-project/${projectID}`, payload, config)
+            swal({
+                title: "Issue Success!",
+                icon: "success",
+                button: "Nice!",
+            })
+            console.log(payment)
+            const user = getState().user.user
+            getState().utils.socket.emit('chatMessage', ({ uid: user._id, utype: user.type, msg: 'Issue Payment.', room, payment: payment.data.paymentID }))
+            const { data } = await baseUrl.get(`/payment-project/${projectID}`, config)
+            dispatch({ type: "FIND_PROJECTPAYMENT_SUCCESS", data: { payments: data.payment } })
+        } catch (error) {
+            swal({
+                title: "Error!",
+                text: error.response.data.message,
+                icon: "error",
+                button: "Okay!",
+            })
+            dispatch({ type: "FIND_PROJECTPAYMENT_ERROR", data: { error: error.response } })
+        }
+    }
+}
+
 const clientUpdate = (paymentID, payload) => {
     return async (dispatch) => {
         try {
@@ -92,5 +120,5 @@ const uploadProofOfPayment = (paymentID, payload) => {
 }
 
 export default {
-    getPayments, getPaymentByID, clientUpdate, uploadProofOfPayment
+    getPayments, getPaymentByID, clientUpdate, uploadProofOfPayment, creatorUpdate
 }

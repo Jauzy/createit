@@ -22,7 +22,7 @@ const ProjectDashboard = props => {
         activeSection: 'Brief', dateDiffInMillis: 0
     })
 
-    const sections = ['Chatroom', 'File', 'Tagihan']
+    const sections = ['File', 'Tagihan']
 
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
         if (project?.start_date) {
@@ -96,6 +96,14 @@ const ProjectDashboard = props => {
                         <li class="nav-item" onClick={() => setState({ ...state, activeSection: 'Brief' })}>
                             <span class={"nav-link " + (state.activeSection == 'Brief' ? 'active' : '')}>Brief</span>
                         </li>
+                        {user?._id == project?.user._id && project?.approvedDesigner.map(item => (
+                            checkPermission() && <li class="nav-item" onClick={() => setState({ ...state, activeSection: 'Chat-' + item._id })}>
+                                <span class={"nav-link " + (state.activeSection == 'Chat-'+item ? 'active' : '')}>Chatroom - {item.name}</span>
+                            </li>
+                        ))}
+                        {user?._id != project?.user._id && <li class="nav-item" onClick={() => setState({ ...state, activeSection: 'Chat-' + user._id })}>
+                            <span class={"nav-link " + (state.activeSection == 'Chat-'+user._id ? 'active' : '')}>Chatroom - {user.name}</span>
+                        </li> }
                         {sections.map(item => (
                             checkPermission() && <li class="nav-item" onClick={() => setState({ ...state, activeSection: item })}>
                                 <span class={"nav-link " + (state.activeSection == item ? 'active' : '')}>{item}</span>
@@ -108,8 +116,11 @@ const ProjectDashboard = props => {
                 </div>
             </div>
 
+            {project?.approvedDesigner.map(item => (
+                state.activeSection == 'Chat-' + item._id && <Chatroom designer={item} />
+            ))}
+
             {state.activeSection == 'Brief' && <Brief project={project} />}
-            {state.activeSection == 'Chatroom' && <Chatroom />}
             {state.activeSection == 'File' && <File project={project} />}
             {state.activeSection == 'Tagihan' && <Tagihan />}
             {state.activeSection == 'Designer Approval' && <DesignerApproval projectID={projectID} />}

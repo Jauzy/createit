@@ -10,7 +10,14 @@ const toggleSignUpModal = () => {
     }
 }
 
+const setupSocket = (socket) => {
+    return async (dispatch) => {
+        dispatch({ type: "UTILS", data: { socket } })
+    }
+}
+
 export default {
     toggleSignInModal,
-    toggleSignUpModal
+    toggleSignUpModal,
+    setupSocket
 }

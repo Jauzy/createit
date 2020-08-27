@@ -1,6 +1,7 @@
 const defaultState = {
     isSignInModalOpen: false,
     isSignUpModalOpen: false,
+    socket: null
 }
 
 const utilsReducer = (state = defaultState, action) => {

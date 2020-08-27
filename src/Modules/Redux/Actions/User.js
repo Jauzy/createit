@@ -1,7 +1,9 @@
 import Cookies from 'universal-cookie'
 import swal from 'sweetalert'
 import baseUrl from '../../../Constants/BaseUrl'
+import socketIOClient from "socket.io-client";
 const cookies = new Cookies()
+const ROUTES = require('../../../Constants/Routes')
 
 const adminRegister = (userData, history) => {
     return async (dispatch) => {
@@ -80,6 +82,10 @@ const login = (userData, history) => {
             cookies.set("user", data.user, { path: '/' })
 
             dispatch({ type: "FIND_USER_SUCCESS", data: { user: data.user } })
+
+            // const socket = socketIOClient(ROUTES.ENDPOINTS)
+            // dispatch({ type: "UTILS", data: { socket } })
+
             history.push('/home')
         } catch (error) {
             swal({
@@ -98,17 +104,22 @@ const logout = (history) => {
         dispatch({ type: "LOGOUT" })
         cookies.remove('token')
         cookies.remove('user')
+        dispatch({ type: "UTILS", data: { socket: null } })
         history.push('/home')
     }
 }
 
 const getUserData = () => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
             dispatch({ type: "FIND_USER_LOADING" })
             const config = { headers: { token: `CREATEIT ${cookies.get('token')}` } }
             const { data } = await baseUrl.get(`/user`, config)
             dispatch({ type: "FIND_USER_SUCCESS", data: { user: data.user } })
+            // if (!getState().utils.socket) {
+            //     const socket = socketIOClient(ROUTES.ENDPOINTS)
+            //     dispatch({ type: "UTILS", data: { socket } })
+            // }
         } catch (error) {
             console.log(error)
             dispatch({ type: "FIND_USER_ERROR", data: { error: error.response } })
