@@ -34,7 +34,12 @@ const SignUp = props => {
     return (
         <div className='row mx-auto w-100'>
             <div className='col-md'>
-                <img src={require('../Modules/images/waving.png')} width='100%' style={{ marginBottom: '-200px' }} />
+                <div className={'d-none' + (state.type == 'client' ? 'active' : '')}>
+                    <img src={require('../Modules/images/waving.png')} width='100%' style={{ marginBottom: '-200px' }} />
+                </div>
+                <div className={'d-none' + (state.type == 'creator' ? 'active' : '')}>
+                    <img src={require('../Modules/images/waving-1.png')} width='100%' style={{ marginBottom: '-200px' }} />
+                </div>
                 <div className='d-flex justify-content-center'>
                     <img src={require('../Modules/images/logo.png')} width='200px' />
                 </div>

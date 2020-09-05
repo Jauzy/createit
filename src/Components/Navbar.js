@@ -68,7 +68,7 @@ const Navbar = (props) => {
                                     <a class="nav-link dropdown-toggle my-auto" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <img src={props.user?.profile_pict} width="40" height="40" class="rounded-circle" />
                                     </a>
-                                    <div class="dropdown-menu py-0" style={{ maxWidth: '400px'}} aria-labelledby="navbarDropdownMenuLink">
+                                    <div class="dropdown-menu dropdown-menu-right py-0" style={{ maxWidth: '400px'}} aria-labelledby="navbarDropdownMenuLink">
                                         <a class="dropdown-item d-flex px-5 py-4" href="#">
                                             <img src={props.user?.profile_pict} width="60" height="60" class="my-auto rounded-circle" />
                                             <div className='my-auto ml-4'>
@@ -109,7 +109,7 @@ const Navbar = (props) => {
                                     <a class="nav-link dropdown-toggle my-auto" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <img src={props.user?.profile_pict} width="40" height="40" class="rounded-circle" />
                                     </a>
-                                    <div class="dropdown-menu py-0" style={{ maxWidth: '400px'}} aria-labelledby="navbarDropdownMenuLink">
+                                    <div class="dropdown-menu dropdown-menu-right py-0" style={{ maxWidth: '400px'}} aria-labelledby="navbarDropdownMenuLink">
                                         <a class="dropdown-item d-flex px-5 py-4" href="#">
                                             <img src={props.user?.profile_pict} width="60" height="60" class="my-auto rounded-circle" />
                                             <div className='my-auto ml-4'>

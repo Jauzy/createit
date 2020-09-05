@@ -29,8 +29,11 @@ const SignIn = props => {
 
     return (
         <div className='row m-auto w-100'>
-            <div className='col-md'>
+            <div className={'col-md d-none' + (state.type == 'client' ? 'active' : '')}>
                 <img src={require('../Modules/images/running.png')} width='100%' />
+            </div>
+            <div className={'col-md d-none' + (state.type == 'creator' ? 'active' : '')}>
+                <img src={require('../Modules/images/running-1.png')} width='100%' />
             </div>
             <div className='col-md d-flex'>
                 <div className='m-auto'>
