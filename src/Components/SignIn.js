@@ -67,8 +67,12 @@ const SignIn = props => {
                     </div>
                     <div className='d-flex mt-3'>
                         <Link className='ml-auto text-main' onClick={() => {
-                            props.toggleSignInModal()
-                            props.history.push(ROUTES.FORGOTPASSWORD)
+                            if( props.location.pathname == '/login') {
+                                props.history.push(ROUTES.FORGOTPASSWORD)    
+                            } else {
+                                props.toggleSignInModal()
+                                props.history.push(ROUTES.FORGOTPASSWORD)
+                            }
                         }}>Forgot Your Password?</Link>
                     </div>
                     <div className='row mt-4 m-auto'>
@@ -82,8 +86,12 @@ const SignIn = props => {
                         </div>
                         <div className='col-md d-flex' data-dismiss='modal'>
                             <Link className='btn- btn m-auto py-3 text-secondary' onClick={() => {
-                                props.toggleSignInModal()
-                                props.toggleSignUpModal()
+                                if( props.location.pathname == '/login') {
+                                    props.history.push(ROUTES.REGISTER)
+                                } else {
+                                    props.toggleSignInModal()
+                                    props.toggleSignUpModal()
+                                }   
                             }} >Belum punya akun ? <strong>Daftar</strong></Link>
                         </div>
                     </div>

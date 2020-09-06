@@ -4,6 +4,8 @@ import { withRouter, Link } from 'react-router-dom'
 import userAction from '../Modules/Redux/Actions/User'
 import utilsAction from '../Modules/Redux/Actions/Utils'
 
+const ROUTES = require('../Constants/Routes')
+
 const SignUp = props => {
     const { loading, handleModal } = props
     const [state, setState] = useState({
@@ -87,7 +89,14 @@ const SignUp = props => {
                         </div>
                     </div>
                     <div className='d-flex mt-3'>
-                        <Link className='ml-auto text-main'>Forgot Your Password?</Link>
+                        <Link className='ml-auto text-main' onClick={() => {
+                            if( props.location.pathname == '/register') {
+                                props.history.push(ROUTES.FORGOTPASSWORD)    
+                            } else {
+                                props.toggleSignUpModal()
+                                props.history.push(ROUTES.FORGOTPASSWORD)
+                            }
+                        }}>Forgot Your Password?</Link>
                     </div>
                     <div className='row mt-4'>
                         <div className='col-md d-flex'>
@@ -100,8 +109,12 @@ const SignUp = props => {
                         </div>
                         <div className='col-md d-flex' data-dismiss='modal'>
                             <Link className='btn- btn m-auto px-4 py-3 text-secondary' onClick={() => {
-                                props.toggleSignUpModal()
-                                props.toggleSignInModal()
+                                if( props.location.pathname == '/register') {
+                                    props.history.push(ROUTES.LOGIN)
+                                } else {
+                                    props.toggleSignUpModal()
+                                    props.toggleSignInModal()
+                                }
                             }}>Sudah punya akun ? <strong>Masuk</strong></Link>
                         </div>
                     </div>

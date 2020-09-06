@@ -1,6 +1,11 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Slider from 'react-slick'
-import { Link } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
+
+import LoadingOverlay from 'react-loading-overlay'
+import { connect } from 'react-redux'
+import projectAction from '../Modules/Redux/Actions/Project'
+import contestAction from '../Modules/Redux/Actions/Contest'
 
 const ROUTES = require('../Constants/Routes')
 
@@ -169,6 +174,43 @@ const Homepage = (props) => {
         }
     ]
 
+    const [fullList, setFullList] = useState(props.projects)
+    const [projects, setProjects] = useState(props.projects)
+    const [maxSearch] = useState(3)
+    const [contests, setContests] = useState(props.contests)
+    
+    useEffect(() => {
+        props.getProjects()
+    }, [])
+
+    useEffect(() => {
+        if (fullList)
+            setProjects(fullList?.slice(0, maxSearch))
+    }, [maxSearch])
+
+    useEffect(() => {
+        if (props.projects) {
+            setFullList(props.projects)
+            setProjects(props.projects.slice(0, maxSearch))
+        }
+    }, [props.projects])
+
+    useEffect(() => {
+        props.getContests()
+    }, [])
+
+    useEffect(() => {
+        if (fullList)
+            setContests(fullList?.slice(0, maxSearch))
+    }, [maxSearch])
+
+    useEffect(() => {
+        if (props.contests) {
+            setFullList(props.contests)
+            setContests(props.contests.slice(0, maxSearch))
+        }
+    }, [props.contests])
+
     return (
         <div>
 
@@ -196,18 +238,33 @@ const Homepage = (props) => {
                     <div className='container-fluid m-auto py-5' style={{ paddingLeft: '10%', paddingRight: '10%' }}>
                         <h2>Cari Kontes & Projek</h2>
                         <Slider {...settings2}>
-                            {[1, 2, 3, 4, 5].map((item, idx) => (
-                                <div className='p-3'>
-                                    <div class="card shadow">
-                                        {/* <img class="card-img-top" src="..." alt="Card image cap" /> */}
-                                        <img style={{ width: '100%' }} src={"https://www.24local.com.my/wp-content/uploads/2019/03/1-780x405.jpg"} />
-                                        <div class="card-body">
-                                            <h5 class="card-title mb-0">Company Logo</h5>
-                                            <h6 className='text-secondary'>Logo & Branding / <strong>Logo</strong></h6>
-                                            <p class="card-text">Desain logo perusahaan.</p>
+                            {projects?.map(item => (
+                                <Link className='text-decoration-none text-dark' to={`/project/dashboard/${item._id}`}>
+                                    <div className='p-3'>
+                                        <div class="card shadow">
+                                            <img style={{ width: '100%' }} src={"https://www.24local.com.my/wp-content/uploads/2019/03/1-780x405.jpg"} />
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-0">{item?.name}</h5>
+                                                <h6 className='text-secondary'>{item?.category} / <strong>{item?.subCategory}</strong></h6>
+                                                <p class="card-text">{item?.desc}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
+                            ))}
+                            {contests?.map(item => (
+                                <Link className='text-decoration-none text-dark' to={`/project/dashboard/${item._id}`}>
+                                    <div className='p-3'>
+                                        <div class="card shadow">
+                                            <img style={{ width: '100%' }} src={"https://www.24local.com.my/wp-content/uploads/2019/03/1-780x405.jpg"} />
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-0">{item?.name}</h5>
+                                                <h6 className='text-secondary'>{item?.category} / <strong>{item?.subCategory}</strong></h6>
+                                                <p class="card-text">{item?.desc}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Link>
                             ))}
                         </Slider>
                     </div>
@@ -354,4 +411,22 @@ const Homepage = (props) => {
     )
 }
 
-export default Homepage
+// export default Homepage
+const mapStateToProps = state => {
+    return {
+        user: state.user.user,
+        projects: state.project.projects,
+        contests: state.contest.contests,
+        loading: state.project.loading,
+        error: state.project.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getProjects: () => dispatch(projectAction.getProjects()),
+        getContests: () => dispatch(contestAction.getContests()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Homepage))

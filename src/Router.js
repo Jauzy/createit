@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import {
-  Landing, Page404, Homepage, DesignCategory, Pricing,
+  Landing, Page404, Homepage, DesignCategory, Pricing, Login, Register,
   BriefContest, BriefProject, ContestReview, ProjectReview, Payment, ClientProfile, ContestList, ProjectList, CreatorProfile, ProjectPayment,
   BrowseContest, BrowseProject, BrowseCreator, CreatorPortofolio, CreatorContestList, ProjectDashboard, ContestDashboard, VerifyEmail, ForgotPassword
 } from './Containers/Index'
@@ -30,6 +30,8 @@ const Router = (props) => {
               <Navbar />
               <Switch>
                 <Route exact path={ROUTES.HOME} component={Homepage} />
+                <Route exact path={ROUTES.LOGIN} component={Login} />
+                <Route exact path={ROUTES.REGISTER} component={Register} />
                 <Route exact path={ROUTES.DESIGNCATEGORY} component={DesignCategory} />
                 <Route exact path={ROUTES.CLIENT.DASHBOARD} component={ClientProfile} />
                 <Route exact path={ROUTES.CLIENT.CONTESTLIST} component={ContestList} />

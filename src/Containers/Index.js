@@ -11,6 +11,8 @@ import VerifyEmail from './VerifyEmail'
 import ForgotPassword from './ForgotPassword'
 
 import ProjectPayment from './ProjectPayment'
+import Login from '../Components/SignIn'
+import Register from '../Components/SignUp'
 
 import {
     CreatorProfile, CreatorContestList, CreatorContestDashboard, CreatorPortofolio
@@ -45,5 +47,7 @@ export {
     Landing,
     Payment,
     DesignCategory,
-    ClientProfile
+    ClientProfile,
+    Login,
+    Register
 }
