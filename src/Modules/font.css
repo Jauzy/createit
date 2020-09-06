@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 .font-roboto {
     font-family: 'Roboto', sans-serif;
 }
@@ -10,4 +11,8 @@
 
 h1, h2, h3, h4, h5 {
     font-weight: bold;
+}
+
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif;
 }

@@ -5,6 +5,8 @@ import utilsAction from '../Modules/Redux/Actions/Utils'
 import { connect } from 'react-redux'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { SignIn, SignUp } from './Index'
+import contestAction from '../Modules/Redux/Actions/Contest'
+import projectAction from '../Modules/Redux/Actions/Project'
 
 import Cookies from 'universal-cookie'
 const cookies = new Cookies()
@@ -17,6 +19,14 @@ const Navbar = (props) => {
         if (cookies.get('token'))
             props.getUserData()
     }, [])
+
+    const onCreateContest = () => {
+        props.createContest('Logo & Branding Kit', 'Logo', props.history)
+    }
+
+    const onCreateProject = () => {
+        props.createProject('Logo & Branding Kit', 'Logo', props.history)
+    }
 
     return (
         <nav class="navbar navbar-expand-xl navbar-light bg-light" id='navbarContainer'>
@@ -44,15 +54,23 @@ const Navbar = (props) => {
                             <Link class="nav-link" to={ROUTES.BROWSE.CONTEST}>Cari Contest</Link>
                         </li>}
                         {props.user?.type == 'client' && <li class="nav-item">
-                            <Link class="nav-link" to={ROUTES.BROWSE.PROJECT}>Pembayaran</Link>
+                            {/* <Link class="nav-link" to={ROUTES.BROWSE.PROJECT}>Pembayaran</Link> kalo halaman sudah jadi */}
+                            <Link class="nav-link" to={ROUTES.BROWSE.PROJECT}>Cari Projek</Link>
                         </li>}
                         {props.user?.type == 'client' && <li class="nav-item">
-                            <Link class="nav-link" to={ROUTES.BROWSE.CONTEST}>Konsultasi Desain</Link>
+                            {/* <Link class="nav-link" to={ROUTES.BROWSE.CONTEST}>Konsultasi Desain</Link> kalo halaman sudah jadi */}
+                            <Link class="nav-link" to={ROUTES.BROWSE.CONTEST}>Cari Contest</Link>
                         </li>}
                     </ul>
                     <ul class="navbar-nav ml-auto font-weight-bold">
-                        <li class="nav-item">
+                        {/* <li class="nav-item">
                             <Link class="nav-link" to={'#'}><button className='btn btn-outline-main'>Pesan Desain</button></Link>
+                        </li> */}
+                        <li className='nav-tem font-weight-lighter my-auto'>
+                            <button className='btn rounded-pill btn-main' style={{border: '1px solid'}} onClick={onCreateProject}>Create<span className='font-montserrat'>Project</span></button>
+                        </li>
+                        <li className='nav-tem font-weight-lighter my-auto mx-1'>
+                            <button className='btn rounded-pill btn-outline-main' style={{border: '1px solid'}} onClick={onCreateContest}>Create<span className='font-montserrat'>Contest</span></button>
                         </li>
                         {(!props.user && !cookies.get('user')) && <li class="nav-item my-auto">
                             <a class="nav-link" href='#' onClick={toggleSignInModal}>Sign In</a>
@@ -176,7 +194,9 @@ const mapDispatchToProps = dispatch => {
         getUserData: () => dispatch(userAction.getUserData()),
         logout: (history) => dispatch(userAction.logout(history)),
         toggleSignInModal: () => dispatch(utilsAction.toggleSignInModal()),
-        toggleSignUpModal: () => dispatch(utilsAction.toggleSignUpModal())
+        toggleSignUpModal: () => dispatch(utilsAction.toggleSignUpModal()),
+        createContest: (category, subCategory, history) => dispatch(contestAction.createContest(category, subCategory, history)),
+        createProject: (category, subCategory, history) => dispatch(projectAction.createProject(category, subCategory, history)),
     }
 }
 
