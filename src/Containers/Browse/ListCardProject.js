@@ -8,7 +8,7 @@ const ListCard = props => {
         <Link className='text-decoration-none text-dark' to={`/project/dashboard/${item._id}`}>
             <div className='row contest-card rounded-lg'>
                 <div className='col-md-auto'>
-                    <img width='100%' className='rounded-lg bg-light' src={require('../../Modules/images/brief-mascot.png')} style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
+                    <img width='100%' className='rounded-lg bg-light' src={require('../../Modules/images/18784.jpg')} style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
                     <h6 className='text-white bg-main py-2 px-3 position-absolute rounded-lg' style={{ top: '0' }}>
                         {/* <NumberFormat value={item?.price || '0'} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} /> */}
                     </h6>

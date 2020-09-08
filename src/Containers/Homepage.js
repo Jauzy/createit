@@ -242,7 +242,7 @@ const Homepage = (props) => {
                                 <Link className='text-decoration-none text-dark' to={`/project/dashboard/${item._id}`}>
                                     <div className='p-3'>
                                         <div class="card shadow">
-                                            <img style={{ width: '100%' }} src={"https://www.24local.com.my/wp-content/uploads/2019/03/1-780x405.jpg"} />
+                                            <img style={{ width: '100%' }} src={require("../Modules/images/6308.jpg")} />
                                             <div class="card-body">
                                                 <h5 class="card-title mb-0">{item?.name}</h5>
                                                 <h6 className='text-secondary'>{item?.category} / <strong>{item?.subCategory}</strong></h6>
@@ -256,7 +256,7 @@ const Homepage = (props) => {
                                 <Link className='text-decoration-none text-dark' to={`/project/dashboard/${item._id}`}>
                                     <div className='p-3'>
                                         <div class="card shadow">
-                                            <img style={{ width: '100%' }} src={"https://www.24local.com.my/wp-content/uploads/2019/03/1-780x405.jpg"} />
+                                            <img style={{ width: '100%' }} src={require("../Modules/images/6297.jpg")} />
                                             <div class="card-body">
                                                 <h5 class="card-title mb-0">{item?.name}</h5>
                                                 <h6 className='text-secondary'>{item?.category} / <strong>{item?.subCategory}</strong></h6>
