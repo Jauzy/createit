@@ -16,8 +16,15 @@ const setupSocket = (socket) => {
     }
 }
 
+const toggleTiketModal = () => {
+    return async (dispatch, getState) => {
+        dispatch({ type: "UTILS", data: { isTiketModalOpen: !getState().utils.isTiketModalOpen } })
+    }
+}
+
 export default {
     toggleSignInModal,
     toggleSignUpModal,
-    setupSocket
+    setupSocket,
+    toggleTiketModal
 }

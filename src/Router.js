@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import {
-  Landing, Page404, Homepage, DesignCategory, Pricing, Login, Register,
+  Landing, Page404, Homepage, DesignCategory, Pricing, Login, Register, Event,
   BriefContest, BriefProject, ContestReview, ProjectReview, Payment, ClientProfile, ContestList, ProjectList, CreatorProfile, ProjectPayment,
   BrowseContest, BrowseProject, BrowseCreator, CreatorPortofolio, CreatorContestList, ProjectDashboard, ContestDashboard, VerifyEmail, ForgotPassword
 } from './Containers/Index'
@@ -48,6 +48,8 @@ const Router = (props) => {
 
                 <Route path={ROUTES.FORGOTPASSWORD} component={ForgotPassword} />
                 <Route path={ROUTES.VERIFYEMAIl} component={VerifyEmail} />
+
+                <Route path={ROUTES.EVENT} component={Event} />
 
                 <Route component={Page404} />
               </Switch>

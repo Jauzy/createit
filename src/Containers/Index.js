@@ -23,6 +23,8 @@ import {
     Payment, Pricing, ProjectList, ContestList, ClientProfile,
 } from './Client/Index'
 
+import Event from './ProgramsEvents/Events'
+
 export {
     ProjectPayment,
     ForgotPassword,
@@ -49,5 +51,6 @@ export {
     DesignCategory,
     ClientProfile,
     Login,
-    Register
+    Register,
+    Event
 }

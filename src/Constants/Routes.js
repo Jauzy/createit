@@ -47,3 +47,5 @@ export const BROWSE = {
 export const CREATORPORTOFOLIO = '/creator/:creatorID'
 export const VERIFYEMAIl = '/email'
 export const FORGOTPASSWORD = '/forgot-password'
+
+export const EVENT = '/event'
