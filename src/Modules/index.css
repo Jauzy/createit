@@ -168,3 +168,20 @@
 .contest-card:hover {
     background-color: #F8F9FA;
 }
+
+.tiket-btn {
+    background-color: transparent;
+    color: #6C757D;
+}
+
+.tiket-btn:hover {
+    background-color: #F6F6F6;
+    color: #6C757D;
+    cursor: pointer;
+}
+
+.tiket-btn-active {
+    cursor: pointer;
+    background-color: #2386C7;
+    color: white;
+}
