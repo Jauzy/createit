@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import {
-  Landing, Page404, Homepage, DesignCategory, Pricing, TentangKami, Login, Register, Event, Program,
+  Landing, Page404, Homepage, DesignCategory, Pricing, TentangKami, Login, Register, MainEvent, Event, Program,
   BriefContest, BriefProject, ContestReview, ProjectReview, Payment, ClientProfile, ContestList, ProjectList, CreatorProfile, ProjectPayment,
   BrowseContest, BrowseProject, BrowseCreator, CreatorPortofolio, CreatorContestList, ProjectDashboard, ContestDashboard, VerifyEmail, ForgotPassword,
   BuatContest, BuatProject
@@ -54,6 +54,7 @@ const Router = (props) => {
 
                 <Route exact path={ROUTES.TENTANGKAMI} component={TentangKami} />
 
+                <Route exact path={ROUTES.MAINEVENT} component={MainEvent} />
                 <Route exact path={ROUTES.EVENT} component={Event} />
                 <Route exact path={ROUTES.PROGRAM} component={Program} />
 

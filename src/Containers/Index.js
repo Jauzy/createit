@@ -25,6 +25,7 @@ import {
 
 import TentangKami from './SeputarCreateit/TentangKami'
 
+import MainEvent from './ProgramsEvents/MainEvent'
 import Event from './ProgramsEvents/Events'
 import Program from './ProgramsEvents/Programs'
 
@@ -59,6 +60,7 @@ export {
     Login,
     Register,
     TentangKami,
+    MainEvent,
     Event,
     Program,
     BuatContest,

@@ -50,8 +50,9 @@ export const FORGOTPASSWORD = '/forgot-password'
 
 export const TENTANGKAMI = '/seputar-createit/tentang-kami'
 
-export const EVENT = '/event'
-export const PROGRAM = '/program'
+export const MAINEVENT = '/event'
+export const EVENT = '/event/:eventID'
+export const PROGRAM = '/program/:programID'
 
 export const BUATCONTEST = '/layanan-kami/contest'
 export const BUATPROJECT = '/layanan-kami/project'

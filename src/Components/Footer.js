@@ -23,7 +23,7 @@ const Footer = (props) => {
                             <Link className=' text-white' to='#'><h6 className='my-3'>Tim Create It</h6></Link>
                             <Link className=' text-white' to='#'><h6 className='my-3'>Bergabung Menjadi Creator</h6></Link>
                             <h5 className='mt-3'>Seputar CreateIt</h5>
-                            <Link className=' text-white' to='#'><h6 className='my-3'>Events</h6></Link>
+                            <Link className=' text-white' to='/event'><h6 className='my-3'>Events</h6></Link>
                             <Link className=' text-white' to='#'><h6 className='my-3'>Program</h6></Link>
                             <Link className=' text-white' to='#'><h6 className='my-3'>Artikel/Blog</h6></Link>
                         </div>
