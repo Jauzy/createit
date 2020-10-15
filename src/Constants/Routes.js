@@ -48,4 +48,12 @@ export const CREATORPORTOFOLIO = '/creator/:creatorID'
 export const VERIFYEMAIl = '/email'
 export const FORGOTPASSWORD = '/forgot-password'
 
+export const TENTANGKAMI = '/seputar-createit/tentang-kami'
+
 export const EVENT = '/event'
+export const PROGRAM = '/program'
+
+export const BUATCONTEST = '/layanan-kami/contest'
+export const BUATPROJECT = '/layanan-kami/project'
+
+export const PROJECT = '/project'

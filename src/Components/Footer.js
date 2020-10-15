@@ -19,7 +19,7 @@ const Footer = (props) => {
                     <div className='col-md d-flex'>
                         <div className='mx-auto'>
                             <h5>Seputar CreateIt</h5>
-                            <Link className=' text-white' to='#'><h6 className='my-3'>Tentang Kami</h6></Link>
+                            <Link className=' text-white' to='/seputar-createit/tentang-kami'><h6 className='my-3'>Tentang Kami</h6></Link>
                             <Link className=' text-white' to='#'><h6 className='my-3'>Tim Create It</h6></Link>
                             <Link className=' text-white' to='#'><h6 className='my-3'>Bergabung Menjadi Creator</h6></Link>
                             <h5 className='mt-3'>Seputar CreateIt</h5>
@@ -31,8 +31,8 @@ const Footer = (props) => {
                     <div className='col-md d-flex'>
                         <div className='mx-auto'>
                             <h5>Layanan Kami</h5>
-                            <Link className=' text-white' to='#'><h6 className='my-3'>Mulai Projek dengan Creator</h6></Link>
-                            <Link className=' text-white' to='#'><h6 className='my-3'>Kontes Desain</h6></Link>
+                            <Link className=' text-white' to='/layanan-kami/project'><h6 className='my-3'>Mulai Projek dengan Creator</h6></Link>
+                            <Link className=' text-white' to='/layanan-kami/contest'><h6 className='my-3'>Kontes Desain</h6></Link>
                             <Link className=' text-white' to='#'><h6 className='my-3'>Logo & Branding Identify</h6></Link>
                             <Link className=' text-white' to='#'><h6 className='my-3'>Marketing & Social Media</h6></Link>
                             <Link className=' text-white' to='#'><h6 className='my-3'>Packaging & Label</h6></Link>

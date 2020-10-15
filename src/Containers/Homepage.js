@@ -7,6 +7,10 @@ import { connect } from 'react-redux'
 import projectAction from '../Modules/Redux/Actions/Project'
 import contestAction from '../Modules/Redux/Actions/Contest'
 
+import { SignIn, SignUp } from '../Components/Index'
+import utilsAction from '../Modules/Redux/Actions/Utils'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 const ROUTES = require('../Constants/Routes')
 
 var settings = {
@@ -98,6 +102,7 @@ const Card2 = (props) => {
 const CATEGORIES = require('../Constants/Categories').CategoryList
 
 const Homepage = (props) => {
+    const { isSignInModalOpen, isSignUpModalOpen, toggleSignUpModal, toggleSignInModal } = props
     const partner = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
     const ref = useRef(null)
     const porto = [
@@ -379,7 +384,7 @@ const Homepage = (props) => {
                             <h6 className='text-secondary my-2'>
                                 Perluas portfolio kamu dan kembangkan industri ekonomi kreatif bersama-sama di Create it!
                             </h6>
-                            <Link className='btn btn-primary px-5 py-3' to={ROUTES.REGISTER}>Yuk jadi Creator di CreateIt!</Link>
+                            <Link className='btn btn-primary px-5 py-3' onClick={toggleSignUpModal}>Yuk jadi Creator di CreateIt!</Link>
                         </div>
                     </div>
                 </div>
@@ -407,6 +412,20 @@ const Homepage = (props) => {
                 </div>
             </div>
 
+            <Modal isOpen={isSignInModalOpen} toggle={toggleSignInModal} size='xl' centered={true}>
+                <ModalHeader toggle={toggleSignInModal}></ModalHeader>
+                <ModalBody className='d-flex justify-content-center'>
+                    <SignIn />
+                </ModalBody>
+            </Modal>
+
+            <Modal isOpen={isSignUpModalOpen} toggle={toggleSignUpModal} size='xl' centered={true}>
+                <ModalHeader toggle={toggleSignUpModal}></ModalHeader>
+                <ModalBody className='d-flex justify-content-center'>
+                    <SignUp />
+                </ModalBody>
+            </Modal>
+
         </div>
     )
 }
@@ -419,6 +438,8 @@ const mapStateToProps = state => {
         contests: state.contest.contests,
         loading: state.project.loading,
         error: state.project.error,
+        isSignUpModalOpen: state.utils.isSignUpModalOpen,
+        isSignInModalOpen: state.utils.isSignInModalOpen,
     }
 }
 
@@ -426,6 +447,8 @@ const mapDispatchToProps = dispatch => {
     return {
         getProjects: () => dispatch(projectAction.getProjects()),
         getContests: () => dispatch(contestAction.getContests()),
+        toggleSignInModal: () => dispatch(utilsAction.toggleSignInModal()),
+        toggleSignUpModal: () => dispatch(utilsAction.toggleSignUpModal()),
     }
 }
 

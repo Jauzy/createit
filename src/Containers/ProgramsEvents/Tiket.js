@@ -40,7 +40,7 @@ const Tiket = (props) => {
                             </div>
                         ))}
                     </div>
-                    <div className='pt-5'>
+                    <div className='pt-4'>
                         <Link className='btn btn-danger px-5 py-3'>Beli Tiket</Link>
                     </div>
                 </div>

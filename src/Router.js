@@ -2,9 +2,10 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 
 import {
-  Landing, Page404, Homepage, DesignCategory, Pricing, Login, Register, Event,
+  Landing, Page404, Homepage, DesignCategory, Pricing, TentangKami, Login, Register, Event, Program,
   BriefContest, BriefProject, ContestReview, ProjectReview, Payment, ClientProfile, ContestList, ProjectList, CreatorProfile, ProjectPayment,
-  BrowseContest, BrowseProject, BrowseCreator, CreatorPortofolio, CreatorContestList, ProjectDashboard, ContestDashboard, VerifyEmail, ForgotPassword
+  BrowseContest, BrowseProject, BrowseCreator, CreatorPortofolio, CreatorContestList, ProjectDashboard, ContestDashboard, VerifyEmail, ForgotPassword,
+  BuatContest, BuatProject
 } from './Containers/Index'
 import { Navbar, Footer } from './Components/Index'
 
@@ -26,6 +27,8 @@ const Router = (props) => {
             <Route exact path={ROUTES.BRIEFPROJECTREVIEW} component={ProjectReview} />
             <Route exact path={ROUTES.PRICING} component={Pricing} />
             <Route exact path={ROUTES.PAYMENT} component={Payment} />
+
+            <Route exact path={ROUTES.PROJECT} component={BrowseProject} />
             <div>
               <Navbar />
               <Switch>
@@ -49,7 +52,13 @@ const Router = (props) => {
                 <Route path={ROUTES.FORGOTPASSWORD} component={ForgotPassword} />
                 <Route path={ROUTES.VERIFYEMAIl} component={VerifyEmail} />
 
-                <Route path={ROUTES.EVENT} component={Event} />
+                <Route exact path={ROUTES.TENTANGKAMI} component={TentangKami} />
+
+                <Route exact path={ROUTES.EVENT} component={Event} />
+                <Route exact path={ROUTES.PROGRAM} component={Program} />
+
+                <Route exact path={ROUTES.BUATCONTEST} component={BuatContest} />
+                <Route exact path={ROUTES.BUATPROJECT} component={BuatProject} />
 
                 <Route component={Page404} />
               </Switch>

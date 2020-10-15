@@ -29,7 +29,7 @@ const Navbar = (props) => {
     }
 
     return (
-        <nav class="navbar navbar-expand-xl navbar-light bg-light" id='navbarContainer'>
+        <nav class="navbar navbar-expand-xl navbar-light bg-light sticky-top" id='navbarContainer'>
             <div className='container-xl'>
                 <Link class="navbar-brand" to={ROUTES.HOME}><img src={require('../Modules/images/logo.png')} width='100px' /></Link>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -11,6 +11,8 @@ const createContest = (category, subCategory, history) => {
                     title: "Login required!",
                     icon: "error",
                     button: "Okay!",
+                }).then(() => {
+                    history.replace('/login')
                 })
             } else {
                 dispatch({ type: "FIND_CONTEST_LOADING" })

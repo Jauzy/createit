@@ -23,7 +23,13 @@ import {
     Payment, Pricing, ProjectList, ContestList, ClientProfile,
 } from './Client/Index'
 
+import TentangKami from './SeputarCreateit/TentangKami'
+
 import Event from './ProgramsEvents/Events'
+import Program from './ProgramsEvents/Programs'
+
+import BuatContest from './Layanan/BuatContest'
+import BuatProject from './Layanan/BuatProject'
 
 export {
     ProjectPayment,
@@ -52,5 +58,9 @@ export {
     ClientProfile,
     Login,
     Register,
-    Event
+    TentangKami,
+    Event,
+    Program,
+    BuatContest,
+    BuatProject
 }
